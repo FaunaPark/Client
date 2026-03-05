@@ -1,0 +1,13 @@
+{
+  "name": "fauna-park",
+  "version": "1.0.0",
+  "scripts": {
+    "dev": "npx tailwindcss -i ./frontend/src/styles/tailwind.css -o ./frontend/src/styles/output.css --watch",
+    "build": "npx tailwindcss -i ./frontend/src/styles/tailwind.css -o ./frontend/src/styles/output.css --minify"
+  },
+  "devDependencies": {
+    "tailwindcss": "^3.4.0",
+    "autoprefixer": "^10.4.16",
+    "postcss": "^8.4.32"
+  }
+}
