@@ -1,3 +1,4 @@
 node_modules/
 package-lock.json
 frontend/src/styles/output.css
+.vscode/
