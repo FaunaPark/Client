@@ -38,3 +38,142 @@ body {
   display:grid;
   grid-template-rows: 13vh 1fr 13vh;
 }
+
+/* Estilos para las tarjetas con efecto de giro */
+.tarjeta-giratoria {
+  perspective: 1000px;
+  height: 420px;
+  cursor: pointer;
+}
+
+.tarjeta-interna {
+  position: relative;
+  width: 100%;
+  height: 100%;
+  transition: transform 0.7s ease-in-out;
+  transform-style: preserve-3d;
+}
+
+.tarjeta-giratoria:hover .tarjeta-interna {
+  transform: rotateY(180deg);
+}
+
+/* Caras de la tarjeta */
+.tarjeta-frente, .tarjeta-reverso {
+  position: absolute;
+  width: 100%;
+  height: 100%;
+  backface-visibility: hidden;
+  border-radius: 16px;
+  overflow: hidden;
+  box-shadow: 0 8px 32px rgba(0, 0, 0, 0.25);
+}
+
+.tarjeta-frente {
+  display: flex;
+  flex-direction: column;
+}
+
+.tarjeta-reverso {
+  background-color:#5b7942 ;
+  transform: rotateY(180deg);
+  padding: 2rem;
+  color: white;
+  overflow-y: auto;
+}
+
+/* Cara frontal */
+.tarjeta-contenedor-imagen {
+  width: 100%;
+  height: 240px;
+}
+
+.tarjeta-imagen {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  transition: transform 0.3s;
+}
+
+.tarjeta-contenido {
+  padding: 1.5rem;
+  background-color: rgb(255, 255, 255, 0.95);
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+}
+
+.tarjeta-titulo {
+  font-size: 1.4rem;
+  font-weight: bold;
+  margin-bottom: 0.5rem;
+}
+
+.tarjeta-subtitulo {
+  font-size: 1rem;
+  margin-bottom: 1rem;
+  font-weight: 500;
+}
+
+.tarjeta-categoria {
+  padding: 0.4rem 1rem;
+  background: linear-gradient(to right, #5b7942, #7a9d54);
+  color: white;
+  border-radius: 20px;
+  font-size: 0.85rem;
+  font-weight: 600;
+  text-transform: uppercase;
+  letter-spacing: 0.5px;
+}
+
+/* Cara trasera */
+.tarjeta-reverso-cabecera {
+  text-align: center;
+  margin-bottom: 1.5rem;
+  padding-bottom: 1rem;
+  border-bottom: 2px solid rgba(255, 255, 255, 0.3);
+}
+
+.tarjeta-reverso-titulo {
+  font-size: 1.6rem;
+  font-weight: bold;
+  margin-bottom: 0.5rem;
+}
+
+.tarjeta-detalle {
+  display: flex;
+  padding: 0.5rem 0;
+  margin-bottom: 1rem;
+  border-bottom: 1px solid rgba(255, 255, 255, 0.15);
+}
+
+.tarjeta-detalle-etiqueta {
+  font-weight: 700;
+  color: #ffd700;
+  min-width: 140px;
+  font-size: 0.9rem;
+}
+
+.tarjeta-detalle-valor {
+  font-size: 0.95rem;
+  flex: 1;
+}
+
+.tarjeta-estado {
+  display: inline-block;
+  padding: 0.3rem 0.8rem;
+  border-radius: 12px;
+  font-size: 0.85rem;
+  font-weight: 600;
+}
+
+.estado-saludable {
+  background: #27ae60;
+  color: white;
+}
+
+.estado-atencion {
+  background: #e67e22;
+  color: white;
+}
