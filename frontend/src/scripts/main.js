@@ -2,6 +2,7 @@ document.addEventListener('DOMContentLoaded', async () => {
 
     console.log("¡JS conectado correctamente!");
 
+    //Traer datos de la API y psarlos a json
     const urlHabitats = 'http://localhost:8080/habitats';
     const resultHabitats = await fetch(urlHabitats)
     const dataHabitats = await resultHabitats.json();
@@ -10,6 +11,7 @@ document.addEventListener('DOMContentLoaded', async () => {
     const resultAnimales = await fetch(urlAnimales)
     const dataAnimales = await resultAnimales.json();
 
+    //Logica y uso de datos para el carrusel del la pagina index
     const leftImg = document.getElementById("leftImage");
     const rightImg = document.getElementById("rightImage");
    
@@ -44,20 +46,21 @@ document.addEventListener('DOMContentLoaded', async () => {
     }, 500);
     }, 3000);
 
-document.getElementById("btnHabitats").addEventListener("click", () => {
-    window.location.href = "./habitats.html";
-});
+    //Botones para cambiar de pagina desde la pagina index
+    document.getElementById("btnHabitats").addEventListener("click", () => {
+        window.location.href = "./habitats.html";
+    });
 
-document.getElementById("btnAnimales").addEventListener("click", () => {
-    window.location.href = "./animales.html";
-});
+    document.getElementById("btnAnimales").addEventListener("click", () => {
+        window.location.href = "./animales.html";
+    });
 
-leftImg.addEventListener("click", () => {
-    window.location.href = "./habitats.html";
-});
+    leftImg.addEventListener("click", () => {
+        window.location.href = "./habitats.html";
+    });
 
-rightImg.addEventListener("click", () => {
-    window.location.href = "./animales.html";
-});
+    rightImg.addEventListener("click", () => {
+        window.location.href = "./animales.html";
+    });
 
 });
