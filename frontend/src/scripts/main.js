@@ -44,4 +44,20 @@ document.addEventListener('DOMContentLoaded', async () => {
     }, 500);
     }, 3000);
 
+document.getElementById("btnHabitats").addEventListener("click", () => {
+    window.location.href = "./habitats.html";
+});
+
+document.getElementById("btnAnimales").addEventListener("click", () => {
+    window.location.href = "./animales.html";
+});
+
+leftImg.addEventListener("click", () => {
+    window.location.href = "./habitats.html";
+});
+
+rightImg.addEventListener("click", () => {
+    window.location.href = "./animales.html";
+});
+
 });
