@@ -4,21 +4,30 @@ body {
     font-family: Arial, sans-serif;
 }
 
+.index{
+  height:100vh;
+  display:grid;
+  grid-template-rows: 13vh 1fr 13vh;
+}
+
 .header{
     display: flex;
     align-items: center;
     background-color: rgba(0, 0, 0, 0.623);
     justify-content: space-around;
-    padding: 0 60px;
-
 }
 
-.left {
+.header .left {
     display: flex;
     align-items: center;
 }
-.right {
+.header .right {
     display: flex;
     align-items: center;
     gap: 15px;
+}
+
+
+.footer{
+    background-color: rgba(0, 0, 0, 0.623);
 }
