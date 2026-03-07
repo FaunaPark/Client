@@ -25,6 +25,10 @@ document.addEventListener('DOMContentLoaded', async () => {
     
     // Elementos del formulario para EDITAR hábitat
     const btnEditar = document.getElementById("btnEditar");
+    const formularioEditar = document.getElementById("formularioEditar");
+    const btnCerrarFormularioEditar = document.getElementById("btnCerrarFormularioEditar");
+    const btnCancelarEditar = document.getElementById("btnCancelarEditar");
+    const formEditarHabitat = document.getElementById("formEditarHabitat");
     const bannerEdicion = document.getElementById("bannerEdicion");
     const btnCancelarModoEdicion = document.getElementById("btnCancelarModoEdicion");
     
@@ -149,6 +153,83 @@ document.addEventListener('DOMContentLoaded', async () => {
         document.querySelectorAll('.tarjeta-giratoria').forEach(card => {
             card.classList.remove('modo-eliminacion');
         });
+    });
+
+    // Función que carga los datos de un hábitat en el formulario de edición
+    function cargarDatosHabitatEditar(habitat) {
+        document.getElementById("editar_id").value = habitat.id;
+        document.getElementById("editar_nombre").value = habitat.nombre;
+        document.getElementById("editar_clima").value = habitat.clima;
+        document.getElementById("editar_imagen_url").value = habitat.imagen_url;
+        document.getElementById("editar_descripcion").value = habitat.descripcion;
+    }
+
+    // Función para cerrar/ocultar el formulario de editar
+    function cerrarFormularioEditar() {
+        formularioEditar.classList.add("hidden");
+    }
+
+    btnCerrarFormularioEditar.addEventListener("click", cerrarFormularioEditar);
+    btnCancelarEditar.addEventListener("click", cerrarFormularioEditar);
+
+    formEditarHabitat.addEventListener("submit", async (e) => {
+        e.preventDefault();
+
+        const habitatId = document.getElementById("editar_id").value;
+
+        const habitatActualizado = {
+            nombre: document.getElementById("editar_nombre").value,
+            clima: document.getElementById("editar_clima").value,
+            imagen_url: document.getElementById("editar_imagen_url").value,
+            descripcion: document.getElementById("editar_descripcion").value
+        };
+
+        try {
+            const response = await fetch(`http://localhost:8080/habitats/${habitatId}`, {
+                method: 'PUT',
+                headers: {
+                    'Content-Type': 'application/json'
+                },
+                body: JSON.stringify(habitatActualizado)
+            });
+
+            if (response.ok) {
+                const respuestaHabitats = await fetch('http://localhost:8080/habitats');
+                const dataActualizados = await respuestaHabitats.json();
+                
+                dataHabitats.length = 0;
+                dataHabitats.push(...dataActualizados);
+                
+                cerrarFormularioEditar();
+                
+                modoEdicionActivo = false;
+                bannerEdicion.classList.add("hidden");
+                document.querySelectorAll('.tarjeta-giratoria').forEach(card => {
+                    card.classList.remove('modo-edicion');
+                });
+                
+                Swal.fire({
+                    icon: 'success',
+                    title: '¡Éxito!',
+                    text: 'Hábitat actualizado correctamente',
+                    timer: 3000,
+                    showConfirmButton: false
+                });
+            } else {
+                Swal.fire({
+                    icon: 'error',
+                    title: 'Error',
+                    text: 'Error al actualizar el hábitat. Intenta de nuevo.'
+                });
+            }
+        } catch (error) {
+            console.error('Error:', error);
+            Swal.fire({
+                icon: 'error',
+                title: 'Error de conexión',
+                text: 'No se pudo conectar con el servidor.'
+            });
+        }
     });
 
     // Mostrar spinner inicialmente
