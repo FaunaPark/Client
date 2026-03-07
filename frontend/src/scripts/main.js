@@ -83,6 +83,19 @@ document.addEventListener('DOMContentLoaded', async () => {
         const selectHabitat = document.getElementById("habitat_id");
         const formAñadirAnimal = document.getElementById("formAñadirAnimal");
         
+        // Elementos para edición
+        const btnEditar = document.getElementById("btnEditar");
+        const formularioEditar = document.getElementById("formularioEditar");
+        const btnCerrarFormularioEditar = document.getElementById("btnCerrarFormularioEditar");
+        const btnCancelarEditar = document.getElementById("btnCancelarEditar");
+        const formEditarAnimal = document.getElementById("formEditarAnimal");
+        const selectHabitatEditar = document.getElementById("editar_habitat_id");
+        const bannerEdicion = document.getElementById("bannerEdicion");
+        const btnCancelarModoEdicion = document.getElementById("btnCancelarModoEdicion");
+        
+        // Variable para controlar modo edición
+        let modoEdicionActivo = false;
+        
         //Volver al menu principal clicando en el icono
         inicio.addEventListener("click", () => {
             window.location.href = "./index.html";
@@ -100,8 +113,20 @@ document.addEventListener('DOMContentLoaded', async () => {
             });
         }
 
+        // Cargar hábitats en el formulario de edición
+        function cargarHabitatsEditar() {
+            selectHabitatEditar.innerHTML = '<option value="">Selecciona un hábitat</option>';
+            dataHabitats.forEach(habitat => {
+                const option = document.createElement("option");
+                option.value = habitat.id;
+                option.textContent = habitat.nombre;
+                selectHabitatEditar.appendChild(option);
+            });
+        }
+
         // Cargar hábitats al iniciar
         cargarHabitats();
+        cargarHabitatsEditar();
 
         // Mostrar formulario al hacer clic en Añadir
         btnAñadir.addEventListener("click", () => {
@@ -172,6 +197,49 @@ document.addEventListener('DOMContentLoaded', async () => {
             }
         });
 
+        // Activar modo edición
+        btnEditar.addEventListener("click", () => {
+            modoEdicionActivo = true;
+            bannerEdicion.classList.remove("hidden");
+            // Actualizar tarjetas con estilo de modo edición
+            document.querySelectorAll('.tarjeta-giratoria').forEach(card => {
+                card.classList.add('modo-edicion');
+            });
+        });
+
+        // Cancelar modo edición
+        btnCancelarModoEdicion.addEventListener("click", () => {
+            modoEdicionActivo = false;
+            bannerEdicion.classList.add("hidden");
+            document.querySelectorAll('.tarjeta-giratoria').forEach(card => {
+                card.classList.remove('modo-edicion');
+            });
+        });
+
+        // Función para cargar datos del animal en el formulario de edición
+        function cargarDatosAnimalEditar(animal) {
+            document.getElementById("editar_id").value = animal.id;
+            document.getElementById("editar_nombre").value = animal.nombre;
+            document.getElementById("editar_especie").value = animal.especie;
+            document.getElementById("editar_categoria").value = animal.categoria;
+            document.getElementById("editar_edad").value = animal.edad;
+            document.getElementById("editar_estado_salud").value = animal.estado_salud;
+            document.getElementById("editar_habitat_id").value = animal.habitat_id;
+            document.getElementById("editar_imagen_url").value = animal.imagen_url;
+            document.getElementById("editar_descripcion").value = animal.descripcion;
+        }
+
+        // Función para cerrar el formulario de edición
+        function cerrarFormularioEditar() {
+            formularioEditar.classList.add("hidden");
+        }
+
+        // Cerrar formulario de edición con botón X
+        btnCerrarFormularioEditar.addEventListener("click", cerrarFormularioEditar);
+
+        // Cerrar formulario de edición con botón Cancelar
+        btnCancelarEditar.addEventListener("click", cerrarFormularioEditar);
+
         // Función para mostrar animales en tarjetas:
         function mostrarAnimales(animalesParaMostrar) {
             animalList.innerHTML = "";
@@ -182,9 +250,21 @@ document.addEventListener('DOMContentLoaded', async () => {
 
                 const card = document.createElement("div");
                 card.className = "tarjeta-giratoria";
+                
+                // Si está en modo edición, añadir clase
+                if (modoEdicionActivo) {
+                    card.classList.add('modo-edicion');
+                }
 
                 card.addEventListener("click", () => {
-                    window.location.href = 'animalDetalle.html?id=${animal.id}';
+                    // Si el modo edición está activo, cargar en formulario de edición
+                    if (modoEdicionActivo) {
+                        cargarDatosAnimalEditar(animal);
+                        formularioEditar.classList.remove("hidden");
+                    } else {
+                        // Comportamiento normal: ir a detalle
+                        window.location.href = 'animalDetalle.html?id=${animal.id}';
+                    }
                 });
 
                 card.innerHTML = `
