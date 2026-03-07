@@ -35,6 +35,34 @@
         </div>
     </div>
 
+    <div class="main px-10 py-6">
+        <h1 class="text-7xl text-center font-serif mt-6 text-gray-100">HÁBITATS DEL PARQUE</h1><BR>
+
+        <!-- Banner modo edición -->
+        <div id="bannerEdicion" class="banner-edicion hidden">
+            <p class="text-xl font-semibold"><i class="fa-solid fa-pen-to-square"></i> Modo Edición Activado - Haz clic
+                en un hábitat para editarlo</p>
+            <button id="btnCancelarModoEdicion" class="btn-cancelar-modo">Cancelar Modo Edición</button>
+        </div>
+
+        <!-- Banner modo eliminación -->
+        <div id="bannerEliminacion" class="banner-edicion hidden"
+            style="background: linear-gradient(to right, #dc2626, #f97316);">
+            <p class="text-xl font-semibold"><i class="fa-solid fa-trash-can"></i> Modo Eliminación Activado - Haz clic
+                en un hábitat para eliminarlo</p>
+            <button id="btnCancelarModoEliminacion" class="btn-cancelar-modo">Cancelar Modo Eliminación</button>
+        </div>
+
+        <!-- Spinner de carga inicial -->
+        <div id="loadingSpinner" class="loading-spinner hidden">
+            <div class="spinner"></div>
+            <p class="loading-text">Cargando hábitats...</p>
+        </div>
+
+        <div id="habitatList" class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6 mt-6">
+        </div>
+
+    </div>
 
     <div class="footer mt-16">
         <footer class="text-white">
