@@ -72,16 +72,53 @@ document.addEventListener('DOMContentLoaded', async () => {
         });
     }
 
-    // Función para mostrar animales en tarjetas
     if (bodyClass.includes("animales")) {
         const inicio = document.getElementById("logo")
         const animalList = document.getElementById("animalList");
         const searchInput = document.getElementById("searchAnimal");
-
+        const btnAñadir = document.getElementById("btnAñadir");
+        const formularioAñadir = document.getElementById("formularioAñadir");
+        const btnCerrarFormulario = document.getElementById("btnCerrarFormulario");
+        const btnCancelar = document.getElementById("btnCancelar");
+        const selectHabitat = document.getElementById("habitat_id");
+        
+        //Volver al menu principal clicando en el icono
         inicio.addEventListener("click", () => {
             window.location.href = "./index.html";
         });
 
+        //Formulario crear animal:
+        // Cargar hábitats dinámicamente en el select
+        function cargarHabitats() {
+            selectHabitat.innerHTML = '<option value="">Selecciona un hábitat</option>';
+            dataHabitats.forEach(habitat => {
+                const option = document.createElement("option");
+                option.value = habitat.id;
+                option.textContent = habitat.nombre;
+                selectHabitat.appendChild(option);
+            });
+        }
+
+        // Cargar hábitats al iniciar
+        cargarHabitats();
+
+        // Mostrar formulario al hacer clic en Añadir
+        btnAñadir.addEventListener("click", () => {
+            formularioAñadir.classList.remove("hidden");
+        });
+
+        // Función para cerrar el formulario
+        function cerrarFormulario() {
+            formularioAñadir.classList.add("hidden");
+        }
+
+        // Cerrar formulario con el botón X
+        btnCerrarFormulario.addEventListener("click", cerrarFormulario);
+
+        // Cerrar formulario con el botón Cancelar
+        btnCancelar.addEventListener("click", cerrarFormulario);
+
+        // Función para mostrar animales en tarjetas:
         function mostrarAnimales(animalesParaMostrar) {
             animalList.innerHTML = "";
             animalesParaMostrar.forEach(animal => {
