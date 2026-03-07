@@ -329,3 +329,16 @@ body {
   outline-color: #f97316;
   transform: scale(1.02);
 }
+
+/* Tarjetas en modo eliminación */
+.tarjeta-giratoria.modo-eliminacion {
+  outline: 3px solid #dc2626;
+  outline-offset: 3px;
+  border-radius: 16px;
+}
+
+.tarjeta-giratoria.modo-eliminacion:hover {
+  outline-color: #ef4444;
+  transform: scale(1.02);
+  cursor: pointer;
+}

@@ -102,7 +102,13 @@ document.addEventListener('DOMContentLoaded', async () => {
         const bannerEdicion = document.getElementById("bannerEdicion");
         const btnCancelarModoEdicion = document.getElementById("btnCancelarModoEdicion");
         
+        // Elementos para el modo ELIMINAR
+        const btnEliminar = document.getElementById("btnEliminar");
+        const bannerEliminacion = document.getElementById("bannerEliminacion");
+        const btnCancelarModoEliminacion = document.getElementById("btnCancelarModoEliminacion");
+        
         let modoEdicionActivo = false;
+        let modoEliminacionActivo = false;
         
         inicio.addEventListener("click", () => {
             window.location.href = "./index.html";
@@ -215,6 +221,24 @@ document.addEventListener('DOMContentLoaded', async () => {
             bannerEdicion.classList.add("hidden");
             document.querySelectorAll('.tarjeta-giratoria').forEach(card => {
                 card.classList.remove('modo-edicion');
+            });
+        });
+
+        // Activar/desactivar modo eliminación
+        btnEliminar.addEventListener("click", () => {
+            modoEliminacionActivo = true;
+            bannerEliminacion.classList.remove("hidden");
+            // Actualizar tarjetas con estilo de modo eliminación
+            document.querySelectorAll('.tarjeta-giratoria').forEach(card => {
+                card.classList.add('modo-eliminacion');
+            });
+        });
+
+        btnCancelarModoEliminacion.addEventListener("click", () => {
+            modoEliminacionActivo = false;
+            bannerEliminacion.classList.add("hidden");
+            document.querySelectorAll('.tarjeta-giratoria').forEach(card => {
+                card.classList.remove('modo-eliminacion');
             });
         });
 
