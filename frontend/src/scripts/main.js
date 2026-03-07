@@ -71,6 +71,7 @@ document.addEventListener('DOMContentLoaded', async () => {
     // Función para mostrar animales en tarjetas
     if (bodyClass.includes("animales")) {
         const animalList = document.getElementById("animalList");
+        const searchInput = document.getElementById("searchAnimal");
 
         function mostrarAnimales(animalesParaMostrar) {
             animalList.innerHTML = "";
@@ -121,11 +122,19 @@ document.addEventListener('DOMContentLoaded', async () => {
                                 <span class="tarjeta-detalle-valor">${animal.descripcion}</span>
                             </div>
                         </div>
-                    </div>`;
+                    </div>
+                `;
                 animalList.appendChild(card);
             });
         }
         // Mostrar todos al cargar
         mostrarAnimales(dataAnimales);
+
+        // Filtrar por especie mientras escribes
+        searchInput.addEventListener("input", () => {
+            const search = searchInput.value.toLowerCase();
+            const filtrados = dataAnimales.filter(a => a.especie.toLowerCase().startsWith(search));
+            mostrarAnimales(filtrados);
+        });
     }
 });
