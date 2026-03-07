@@ -1,8 +1,10 @@
+//Espera a que se cargue todo el HTML antes de ejecutar el código
 document.addEventListener('DOMContentLoaded', async () => {
 
     console.log("¡JS conectado correctamente!");
 
-    // Detecta que pagina es segun la clase del body para que no de error al intentar ejecutar funciones de una pagina en todas
+    // Detecta en qué página estamos según la clase del body
+    // Esto evita errores al intentar ejecutar código de una página en otra
     const bodyClass = document.body.className;
 
     //Traer datos de la API y psarlos a json
@@ -14,18 +16,22 @@ document.addEventListener('DOMContentLoaded', async () => {
     const resultAnimales = await fetch(urlAnimales)
     const dataAnimales = await resultAnimales.json();
 
-    //Logica y uso de datos para el carrusel del la pagina index
+    // CÓDIGO PARA LA PÁGINA INDEX (página principal)
     if (bodyClass.includes("index")) {
 
+        // Obtener referencias a las imágenes del carrusel
         const leftImg = document.getElementById("leftImage");
         const rightImg = document.getElementById("rightImage");
 
+        // Controla qué animal se está mostrando en el carrusel
         let idCarrusel = 0;
 
-        // Función para actualizar imágenes del carrusel
+        // Función que actualiza las imágenes del carrusel
+        // Muestra el hábitat del animal a la izquierda y el animal a la derecha
         function actualizarCarrusel() {
             if (dataAnimales.length > 0 && dataHabitats.length > 0) {
                 const animalActual = dataAnimales[idCarrusel];
+                // Buscar el hábitat al que pertenece este animal
                 const habitatDelAnimal = dataHabitats.find(h => h.id === animalActual.habitat_id);
 
                 if (habitatDelAnimal) {
@@ -35,10 +41,10 @@ document.addEventListener('DOMContentLoaded', async () => {
             }
         }
 
-        // Inicializar carrusel
+        // Mostrar la primera imagen al cargar la página
         actualizarCarrusel();
 
-        // Cambiar imágenes cada 3 segundos
+        // Cambiar imágenes automáticamente cada 3 segundos
         setInterval(() => {
             leftImg.classList.add("opacity-0");
             rightImg.classList.add("opacity-0");
@@ -54,7 +60,7 @@ document.addEventListener('DOMContentLoaded', async () => {
             }, 500);
         }, 3000);
 
-        //Botones para cambiar de pagina desde la pagina index
+        //Botones para cambiar de pagina
         document.getElementById("btnHabitats").addEventListener("click", () => {
             window.location.href = "./habitats.html";
         });
@@ -71,11 +77,14 @@ document.addEventListener('DOMContentLoaded', async () => {
             window.location.href = "./animales.html";
         });
     }
-
+    
+    // CÓDIGO PARA LA PÁGINA DE ANIMALES
     if (bodyClass.includes("animales")) {
         const inicio = document.getElementById("logo")
         const animalList = document.getElementById("animalList");
         const searchInput = document.getElementById("searchAnimal");
+        
+        // Elementos del formulario para AÑADIR animal
         const btnAñadir = document.getElementById("btnAñadir");
         const formularioAñadir = document.getElementById("formularioAñadir");
         const btnCerrarFormulario = document.getElementById("btnCerrarFormulario");
@@ -83,7 +92,7 @@ document.addEventListener('DOMContentLoaded', async () => {
         const selectHabitat = document.getElementById("habitat_id");
         const formAñadirAnimal = document.getElementById("formAñadirAnimal");
         
-        // Elementos para edición
+        // Elementos del formulario para EDITAR animal
         const btnEditar = document.getElementById("btnEditar");
         const formularioEditar = document.getElementById("formularioEditar");
         const btnCerrarFormularioEditar = document.getElementById("btnCerrarFormularioEditar");
@@ -93,16 +102,14 @@ document.addEventListener('DOMContentLoaded', async () => {
         const bannerEdicion = document.getElementById("bannerEdicion");
         const btnCancelarModoEdicion = document.getElementById("btnCancelarModoEdicion");
         
-        // Variable para controlar modo edición
         let modoEdicionActivo = false;
         
-        //Volver al menu principal clicando en el icono
         inicio.addEventListener("click", () => {
             window.location.href = "./index.html";
         });
 
-        //Formulario crear animal:
-        // Cargar hábitats dinámicamente en el select
+        // CARGAR HÁBITATS EN LOS SELECT (desplegables)
+        // Función que llena el select de hábitats en el formulario de AÑADIR
         function cargarHabitats() {
             selectHabitat.innerHTML = '<option value="">Selecciona un hábitat</option>';
             dataHabitats.forEach(habitat => {
@@ -113,7 +120,7 @@ document.addEventListener('DOMContentLoaded', async () => {
             });
         }
 
-        // Cargar hábitats en el formulario de edición
+        // Función que llena el select de hábitats en el formulario de EDITAR
         function cargarHabitatsEditar() {
             selectHabitatEditar.innerHTML = '<option value="">Selecciona un hábitat</option>';
             dataHabitats.forEach(habitat => {
@@ -124,31 +131,28 @@ document.addEventListener('DOMContentLoaded', async () => {
             });
         }
 
-        // Cargar hábitats al iniciar
+        // Ejecutar las funciones para cargar los hábitats al iniciar
         cargarHabitats();
         cargarHabitatsEditar();
 
-        // Mostrar formulario al hacer clic en Añadir
+        // Mostrar/ocultar formulario al hacer clic en Añadir
         btnAñadir.addEventListener("click", () => {
             formularioAñadir.classList.remove("hidden");
         });
 
-        // Función para cerrar el formulario
         function cerrarFormulario() {
             formularioAñadir.classList.add("hidden");
         }
 
-        // Cerrar formulario con el botón X
         btnCerrarFormulario.addEventListener("click", cerrarFormulario);
 
-        // Cerrar formulario con el botón Cancelar
         btnCancelar.addEventListener("click", cerrarFormulario);
 
         // Añadir animal del formulario con POST
         formAñadirAnimal.addEventListener("submit", async (e) => {
             e.preventDefault(); // Prevenir recarga de la página
 
-            // Recopilar datos del formulario
+            // Recopilar todos los datos del formulario en un objeto
             const nuevoAnimal = {
                 nombre: document.getElementById("nombre").value,
                 especie: document.getElementById("especie").value,
@@ -161,7 +165,7 @@ document.addEventListener('DOMContentLoaded', async () => {
             };
 
             try {
-                // Enviar POST al backend
+                // Enviar petición POST al servidor para crear el animal
                 const response = await fetch('http://localhost:8080/animales', {
                     method: 'POST',
                     headers: {
@@ -171,20 +175,19 @@ document.addEventListener('DOMContentLoaded', async () => {
                 });
 
                 if (response.ok) {
-                    const animalCreado = await response.json();
+                    // Recargar todos los animales desde la API para tener datos actualizados
+                    const respuestaAnimales = await fetch('http://localhost:8080/animales');
+                    const dataActualizados = await respuestaAnimales.json();
                     
-                    // Obtener el nombre del hábitat para el animal creado
-                    const habitat = dataHabitats.find(h => h.id === animalCreado.habitat_id);
-                    animalCreado.habitat_nombre = habitat ? habitat.nombre : 'No asignado';
+                    // Vaciar el array actual y llenarlo con los datos actualizados
+                    dataAnimales.length = 0;
+                    dataAnimales.push(...dataActualizados);
                     
-                    // Actualizar el array local
-                    dataAnimales.push(animalCreado);
-                    
-                    // Actualizar la vista
+                    // Actualizar la vista para mostrar el nuevo animal
                     mostrarAnimales(dataAnimales);
                     
-                    // Cerrar formulario y limpiar
                     cerrarFormulario();
+                    // Limpiar todos los campos del formulario
                     formAñadirAnimal.reset();
                     
                     alert('¡Animal añadido correctamente!');
@@ -197,7 +200,7 @@ document.addEventListener('DOMContentLoaded', async () => {
             }
         });
 
-        // Activar modo edición
+        // Activar/desactivar modo edición
         btnEditar.addEventListener("click", () => {
             modoEdicionActivo = true;
             bannerEdicion.classList.remove("hidden");
@@ -207,7 +210,6 @@ document.addEventListener('DOMContentLoaded', async () => {
             });
         });
 
-        // Cancelar modo edición
         btnCancelarModoEdicion.addEventListener("click", () => {
             modoEdicionActivo = false;
             bannerEdicion.classList.add("hidden");
@@ -216,7 +218,7 @@ document.addEventListener('DOMContentLoaded', async () => {
             });
         });
 
-        // Función para cargar datos del animal en el formulario de edición
+        // Función que carga los datos de un animal en el formulario de edición
         function cargarDatosAnimalEditar(animal) {
             document.getElementById("editar_id").value = animal.id;
             document.getElementById("editar_nombre").value = animal.nombre;
@@ -229,20 +231,75 @@ document.addEventListener('DOMContentLoaded', async () => {
             document.getElementById("editar_descripcion").value = animal.descripcion;
         }
 
-        // Función para cerrar el formulario de edición
+        // Función para cerrar/ocultar el formulario de editar
         function cerrarFormularioEditar() {
             formularioEditar.classList.add("hidden");
         }
 
-        // Cerrar formulario de edición con botón X
         btnCerrarFormularioEditar.addEventListener("click", cerrarFormularioEditar);
 
-        // Cerrar formulario de edición con botón Cancelar
         btnCancelarEditar.addEventListener("click", cerrarFormularioEditar);
 
-        // Función para mostrar animales en tarjetas:
+
+        formEditarAnimal.addEventListener("submit", async (e) => {
+            e.preventDefault(); // Prevenir recarga de la página
+
+            // Obtener el ID del animal a editar
+            const animalId = document.getElementById("editar_id").value;
+
+            // Recopilar todos los datos actualizados del formulario
+            const animalActualizado = {
+                nombre: document.getElementById("editar_nombre").value,
+                especie: document.getElementById("editar_especie").value,
+                categoria: document.getElementById("editar_categoria").value,
+                edad: parseInt(document.getElementById("editar_edad").value),
+                estado_salud: document.getElementById("editar_estado_salud").value,
+                habitat_id: parseInt(document.getElementById("editar_habitat_id").value),
+                imagen_url: document.getElementById("editar_imagen_url").value,
+                descripcion: document.getElementById("editar_descripcion").value
+            };
+
+            try {
+                const response = await fetch(`http://localhost:8080/animales/${animalId}`, {
+                    method: 'PUT',
+                    headers: {
+                        'Content-Type': 'application/json'
+                    },
+                    body: JSON.stringify(animalActualizado)
+                });
+
+                if (response.ok) {
+                    const respuestaAnimales = await fetch('http://localhost:8080/animales');
+                    const dataActualizados = await respuestaAnimales.json();
+                    
+                    // Vaciar el array actual y llenarlo con los datos actualizados
+                    dataAnimales.length = 0;
+                    dataAnimales.push(...dataActualizados);
+                    
+                    // Actualizar para mostrar los cambios
+                    mostrarAnimales(dataAnimales);
+                    
+                    cerrarFormularioEditar();
+                    
+                    modoEdicionActivo = false;
+                    bannerEdicion.classList.add("hidden");
+                    
+                    alert('¡Animal actualizado correctamente!');
+                } else {
+                    alert('Error al actualizar el animal. Intenta de nuevo.');
+                }
+            } catch (error) {
+                console.error('Error:', error);
+                alert('Error de conexión.');
+            }
+        });
+
+        // Función que crea y muestra las tarjetas de animales
         function mostrarAnimales(animalesParaMostrar) {
+            // Eliminar todas las tarjetas
             animalList.innerHTML = "";
+            
+            // Recorrer cada animal y crear una tarjeta para él
             animalesParaMostrar.forEach(animal => {
                 const estadoSalud = animal.estado_salud;
                 const esAtencion = estadoSalud.toLowerCase().includes('atención');
@@ -251,22 +308,24 @@ document.addEventListener('DOMContentLoaded', async () => {
                 const card = document.createElement("div");
                 card.className = "tarjeta-giratoria";
                 
-                // Si está en modo edición, añadir clase
+                // Si el modo edición está activo, añadir clase especial
                 if (modoEdicionActivo) {
                     card.classList.add('modo-edicion');
                 }
 
+                // Definir qué pasa cuando se hace click en la tarjeta
                 card.addEventListener("click", () => {
-                    // Si el modo edición está activo, cargar en formulario de edición
                     if (modoEdicionActivo) {
+                        // Cargar los datos del animal en el formulario y abrirlo
                         cargarDatosAnimalEditar(animal);
                         formularioEditar.classList.remove("hidden");
                     } else {
-                        // Comportamiento normal: ir a detalle
+                        // Si no ir a la página de detalle del animal
                         window.location.href = 'animalDetalle.html?id=${animal.id}';
                     }
                 });
 
+                // Crear el HTML de la tarjeta con todos los datos del animal
                 card.innerHTML = `
                     <div class="tarjeta-interna">
                         <div class="tarjeta-frente">
@@ -316,7 +375,8 @@ document.addEventListener('DOMContentLoaded', async () => {
                 animalList.appendChild(card);
             });
         }
-        // Mostrar todos al cargar
+        
+        // Mostrar todos los animales al cargar la página
         mostrarAnimales(dataAnimales);
 
         // Filtrar por especie mientras escribes
