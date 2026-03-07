@@ -285,3 +285,47 @@ body {
 .btn-secundario:hover {
   background: #4b5563;
 }
+
+/* Banner modo edición */
+.banner-edicion {
+  background: linear-gradient(to right, #f59e0b, #f97316);
+  color: white;
+  padding: 1rem 2rem;
+  border-radius: 12px;
+  margin-bottom: 1.5rem;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  box-shadow: 0 4px 12px rgba(245, 158, 11, 0.3);
+}
+
+.banner-edicion.hidden {
+  display: none;
+}
+
+.btn-cancelar-modo {
+  padding: 0.5rem 1rem;
+  background: white;
+  color: #f97316;
+  font-weight: 600;
+  border: none;
+  border-radius: 8px;
+  cursor: pointer;
+  transition: all 0.3s;
+}
+
+.btn-cancelar-modo:hover {
+  background: #fef3c7;
+}
+
+/* Tarjetas en modo edición */
+.tarjeta-giratoria.modo-edicion {
+  outline: 3px solid #f59e0b;
+  outline-offset: 3px;
+  border-radius: 16px;
+}
+
+.tarjeta-giratoria.modo-edicion:hover {
+  outline-color: #f97316;
+  transform: scale(1.02);
+}

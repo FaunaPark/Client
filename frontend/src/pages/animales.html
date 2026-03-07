@@ -32,6 +32,12 @@
     <div class="main px-10 py-6">
         <h1 class="text-7xl text-center font-serif mt-6 text-gray-100">ANIMALES DEL PARQUE</h1><BR>
 
+        <!-- Banner modo edición -->
+        <div id="bannerEdicion" class="banner-edicion hidden">
+            <p class="text-xl font-semibold">🔧 Modo Edición Activado - Haz clic en un animal para editarlo</p>
+            <button id="btnCancelarModoEdicion" class="btn-cancelar-modo">Cancelar Modo Edición</button>
+        </div>
+
         <div class="mb-6 flex justify-center">
             <div class="relative w-full max-w-md">
                 <span class="absolute inset-y-0 left-3 flex items-center text-gray-400"><i
@@ -112,6 +118,79 @@
                 <div class="formulario-pie">
                     <button type="button" id="btnCancelar" class="btn-secundario">Cancelar</button>
                     <button type="submit" class="btn-primario">Guardar Animal</button>
+                </div>
+            </form>
+        </div>
+    </div>
+
+    <!-- Formulario para editar animal -->
+    <div id="formularioEditar" class="formulario-overlay hidden">
+        <div class="formulario-contenido">
+            <div class="formulario-cabecera">
+                <h2 class="text-3xl font-bold text-gray-800">Editar Animal</h2>
+                <button id="btnCerrarFormularioEditar" class="text-gray-500 hover:text-gray-800 text-3xl"><i class="fa-solid fa-xmark"></i></button>
+            </div>
+            
+            <form id="formEditarAnimal" class="formulario-cuerpo">
+                <input type="hidden" id="editar_id">
+                
+                <div class="form-grupo">
+                    <label for="editar_nombre">Nombre</label>
+                    <input type="text" id="editar_nombre" name="nombre" required>
+                </div>
+
+                <div class="form-grupo">
+                    <label for="editar_especie">Especie</label>
+                    <input type="text" id="editar_especie" name="especie" required>
+                </div>
+
+                <div class="form-grupo">
+                    <label for="editar_categoria">Categoría</label>
+                    <select id="editar_categoria" name="categoria" required>
+                        <option value="">Selecciona una categoría</option>
+                        <option value="Mamífero">Mamífero</option>
+                        <option value="Ave">Ave</option>
+                        <option value="Reptil">Reptil</option>
+                        <option value="Anfibio">Anfibio</option>
+                        <option value="Pez">Pez</option>
+                    </select>
+                </div>
+
+                <div class="form-grupo">
+                    <label for="editar_edad">Edad (años)</label>
+                    <input type="number" id="editar_edad" name="edad" min="0" required>
+                </div>
+
+                <div class="form-grupo">
+                    <label for="editar_estado_salud">Estado de Salud</label>
+                    <select id="editar_estado_salud" name="estado_salud" required>
+                        <option value="">Selecciona un estado</option>
+                        <option value="Saludable">Saludable</option>
+                        <option value="Requiere atención">Requiere Atención</option>
+                    </select>
+                </div>
+
+                <div class="form-grupo">
+                    <label for="editar_habitat_id">Hábitat</label>
+                    <select id="editar_habitat_id" name="habitat_id" required>
+                        <option value="">Selecciona un hábitat</option>
+                        <!-- Se cargará dinámicamente desde la API -->
+                    </select>
+                </div>
+
+                <div class="form-grupo">
+                    <label for="editar_imagen_url">URL de Imagen</label>
+                    <input type="url" id="editar_imagen_url" name="imagen_url" placeholder="https://ejemplo.com/imagen.jpg" required>
+                </div>
+
+                <div class="form-grupo">
+                    <label for="editar_descripcion">Descripción</label>
+                    <textarea id="editar_descripcion" name="descripcion" rows="3" required></textarea>
+                </div>
+
+                <div class="formulario-pie">
+                    <button type="button" id="btnCancelarEditar" class="btn-secundario">Cancelar</button>
+                    <button type="submit" class="btn-primario">Actualizar Animal</button>
                 </div>
             </form>
         </div>
