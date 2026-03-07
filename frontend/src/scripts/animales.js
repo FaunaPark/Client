@@ -1,405 +1,416 @@
 //Espera a que se cargue todo el HTML antes de ejecutar el código
-document.addEventListener('DOMContentLoaded', async () => {
+document.addEventListener("DOMContentLoaded", async () => {
+  console.log("¡JS de animales conectado correctamente!");
 
-    console.log("¡JS de animales conectado correctamente!");
+  //Traer datos de la API de hábitats y animales
+  const urlHabitats = "http://localhost:8080/habitats";
+  const resultHabitats = await fetch(urlHabitats);
+  const dataHabitats = await resultHabitats.json();
 
-    //Traer datos de la API de hábitats y animales
-    const urlHabitats = 'http://localhost:8080/habitats';
-    const resultHabitats = await fetch(urlHabitats)
-    const dataHabitats = await resultHabitats.json();
+  const urlAnimales = "http://localhost:8080/animales";
+  const resultAnimales = await fetch(urlAnimales);
+  const dataAnimales = await resultAnimales.json();
 
-    const urlAnimales = 'http://localhost:8080/animales';
-    const resultAnimales = await fetch(urlAnimales)
-    const dataAnimales = await resultAnimales.json();
+  const inicio = document.getElementById("logo");
+  const animalList = document.getElementById("animalList");
+  const searchInput = document.getElementById("searchAnimal");
+  const loadingSpinner = document.getElementById("loadingSpinner");
 
-    const inicio = document.getElementById("logo")
-    const animalList = document.getElementById("animalList");
-    const searchInput = document.getElementById("searchAnimal");
-    const loadingSpinner = document.getElementById("loadingSpinner");
-    
-    // Elementos del formulario para AÑADIR animal
-    const btnAñadir = document.getElementById("btnAñadir");
-    const formularioAñadir = document.getElementById("formularioAñadir");
-    const btnCerrarFormulario = document.getElementById("btnCerrarFormulario");
-    const btnCancelar = document.getElementById("btnCancelar");
-    const selectHabitat = document.getElementById("habitat_id");
-    const formAñadirAnimal = document.getElementById("formAñadirAnimal");
-    
-    // Elementos del formulario para EDITAR animal
-    const btnEditar = document.getElementById("btnEditar");
-    const formularioEditar = document.getElementById("formularioEditar");
-    const btnCerrarFormularioEditar = document.getElementById("btnCerrarFormularioEditar");
-    const btnCancelarEditar = document.getElementById("btnCancelarEditar");
-    const formEditarAnimal = document.getElementById("formEditarAnimal");
-    const selectHabitatEditar = document.getElementById("editar_habitat_id");
-    const bannerEdicion = document.getElementById("bannerEdicion");
-    const btnCancelarModoEdicion = document.getElementById("btnCancelarModoEdicion");
-    
-    // Elementos para el modo ELIMINAR
-    const btnEliminar = document.getElementById("btnEliminar");
-    const bannerEliminacion = document.getElementById("bannerEliminacion");
-    const btnCancelarModoEliminacion = document.getElementById("btnCancelarModoEliminacion");
-    
-    let modoEdicionActivo = false;
-    let modoEliminacionActivo = false;
-    
-    inicio.addEventListener("click", () => {
-        window.location.href = "./index.html";
+  // Elementos del formulario para AÑADIR animal
+  const btnAñadir = document.getElementById("btnAñadir");
+  const formularioAñadir = document.getElementById("formularioAñadir");
+  const btnCerrarFormulario = document.getElementById("btnCerrarFormulario");
+  const btnCancelar = document.getElementById("btnCancelar");
+  const selectHabitat = document.getElementById("habitat_id");
+  const formAñadirAnimal = document.getElementById("formAñadirAnimal");
+
+  // Elementos del formulario para EDITAR animal
+  const btnEditar = document.getElementById("btnEditar");
+  const formularioEditar = document.getElementById("formularioEditar");
+  const btnCerrarFormularioEditar = document.getElementById(
+    "btnCerrarFormularioEditar",
+  );
+  const btnCancelarEditar = document.getElementById("btnCancelarEditar");
+  const formEditarAnimal = document.getElementById("formEditarAnimal");
+  const selectHabitatEditar = document.getElementById("editar_habitat_id");
+  const bannerEdicion = document.getElementById("bannerEdicion");
+  const btnCancelarModoEdicion = document.getElementById(
+    "btnCancelarModoEdicion",
+  );
+
+  // Elementos para el modo ELIMINAR
+  const btnEliminar = document.getElementById("btnEliminar");
+  const bannerEliminacion = document.getElementById("bannerEliminacion");
+  const btnCancelarModoEliminacion = document.getElementById(
+    "btnCancelarModoEliminacion",
+  );
+
+  let modoEdicionActivo = false;
+  let modoEliminacionActivo = false;
+
+  inicio.addEventListener("click", () => {
+    window.location.href = "./index.html";
+  });
+
+  // Funciones para controlar el spinner de carga
+  function mostrarLoading() {
+    loadingSpinner.classList.remove("hidden");
+    animalList.classList.add("hidden");
+  }
+
+  function ocultarLoading() {
+    loadingSpinner.classList.add("hidden");
+    animalList.classList.remove("hidden");
+  }
+
+  // CARGAR HÁBITATS EN LOS SELECT (desplegables)
+  // Función que llena el select de hábitats en el formulario de AÑADIR
+  function cargarHabitats() {
+    selectHabitat.innerHTML = '<option value="">Selecciona un hábitat</option>';
+    dataHabitats.forEach((habitat) => {
+      const option = document.createElement("option");
+      option.value = habitat.id;
+      option.textContent = habitat.nombre;
+      selectHabitat.appendChild(option);
     });
+  }
 
-    // Funciones para controlar el spinner de carga
-    function mostrarLoading() {
-        loadingSpinner.classList.remove("hidden");
-        animalList.classList.add("hidden");
-    }
+  // Función que llena el select de hábitats en el formulario de EDITAR
+  function cargarHabitatsEditar() {
+    selectHabitatEditar.innerHTML =
+      '<option value="">Selecciona un hábitat</option>';
+    dataHabitats.forEach((habitat) => {
+      const option = document.createElement("option");
+      option.value = habitat.id;
+      option.textContent = habitat.nombre;
+      selectHabitatEditar.appendChild(option);
+    });
+  }
 
-    function ocultarLoading() {
-        loadingSpinner.classList.add("hidden");
-        animalList.classList.remove("hidden");
-    }
+  // Ejecutar las funciones para cargar los hábitats al iniciar
+  cargarHabitats();
+  cargarHabitatsEditar();
 
-    // CARGAR HÁBITATS EN LOS SELECT (desplegables)
-    // Función que llena el select de hábitats en el formulario de AÑADIR
-    function cargarHabitats() {
-        selectHabitat.innerHTML = '<option value="">Selecciona un hábitat</option>';
-        dataHabitats.forEach(habitat => {
-            const option = document.createElement("option");
-            option.value = habitat.id;
-            option.textContent = habitat.nombre;
-            selectHabitat.appendChild(option);
+  // Mostrar/ocultar formulario al hacer clic en Añadir
+  btnAñadir.addEventListener("click", () => {
+    formularioAñadir.classList.remove("hidden");
+  });
+
+  function cerrarFormulario() {
+    formularioAñadir.classList.add("hidden");
+  }
+
+  btnCerrarFormulario.addEventListener("click", cerrarFormulario);
+
+  btnCancelar.addEventListener("click", cerrarFormulario);
+
+  // Añadir animal del formulario con POST
+  formAñadirAnimal.addEventListener("submit", async (e) => {
+    e.preventDefault(); // Prevenir recarga de la página
+
+    // Recopilar todos los datos del formulario en un objeto
+    const nuevoAnimal = {
+      nombre: document.getElementById("nombre").value,
+      especie: document.getElementById("especie").value,
+      categoria: document.getElementById("categoria").value,
+      edad: parseInt(document.getElementById("edad").value),
+      estado_salud: document.getElementById("estado_salud").value,
+      habitat_id: parseInt(document.getElementById("habitat_id").value),
+      imagen_url: document.getElementById("imagen_url").value,
+      descripcion: document.getElementById("descripcion").value,
+    };
+
+    try {
+      // Enviar petición POST al servidor para crear el animal
+      const response = await fetch("http://localhost:8080/animales", {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify(nuevoAnimal),
+      });
+
+      if (response.ok) {
+        // Recargar todos los animales desde la API para tener datos actualizados
+        const respuestaAnimales = await fetch("http://localhost:8080/animales");
+        const dataActualizados = await respuestaAnimales.json();
+
+        // Vaciar el array actual y llenarlo con los datos actualizados
+        dataAnimales.length = 0;
+        dataAnimales.push(...dataActualizados);
+
+        // Actualizar la vista para mostrar el nuevo animal
+        mostrarAnimales(dataAnimales);
+
+        cerrarFormulario();
+        // Limpiar todos los campos del formulario
+        formAñadirAnimal.reset();
+
+        Swal.fire({
+          icon: "success",
+          title: "¡Éxito!",
+          text: "Animal añadido correctamente",
+          timer: 3000,
+          showConfirmButton: false,
         });
-    }
-
-    // Función que llena el select de hábitats en el formulario de EDITAR
-    function cargarHabitatsEditar() {
-        selectHabitatEditar.innerHTML = '<option value="">Selecciona un hábitat</option>';
-        dataHabitats.forEach(habitat => {
-            const option = document.createElement("option");
-            option.value = habitat.id;
-            option.textContent = habitat.nombre;
-            selectHabitatEditar.appendChild(option);
+      } else {
+        Swal.fire({
+          icon: "error",
+          title: "Error",
+          text: "Error al añadir el animal. Intenta de nuevo.",
         });
+      }
+    } catch (error) {
+      console.error("Error:", error);
+      Swal.fire({
+        icon: "error",
+        title: "Error de conexión",
+        text: "Verifica que el servidor esté activo.",
+      });
     }
+  });
 
-    // Ejecutar las funciones para cargar los hábitats al iniciar
-    cargarHabitats();
-    cargarHabitatsEditar();
-
-    // Mostrar/ocultar formulario al hacer clic en Añadir
-    btnAñadir.addEventListener("click", () => {
-        formularioAñadir.classList.remove("hidden");
+  // Activar/desactivar modo edición
+  btnEditar.addEventListener("click", () => {
+    modoEdicionActivo = true;
+    bannerEdicion.classList.remove("hidden");
+    // Actualizar tarjetas con estilo de modo edición
+    document.querySelectorAll(".tarjeta-giratoria").forEach((card) => {
+      card.classList.add("modo-edicion");
     });
+  });
 
-    function cerrarFormulario() {
-        formularioAñadir.classList.add("hidden");
-    }
-
-    btnCerrarFormulario.addEventListener("click", cerrarFormulario);
-
-    btnCancelar.addEventListener("click", cerrarFormulario);
-
-    // Añadir animal del formulario con POST
-    formAñadirAnimal.addEventListener("submit", async (e) => {
-        e.preventDefault(); // Prevenir recarga de la página
-
-        // Recopilar todos los datos del formulario en un objeto
-        const nuevoAnimal = {
-            nombre: document.getElementById("nombre").value,
-            especie: document.getElementById("especie").value,
-            categoria: document.getElementById("categoria").value,
-            edad: parseInt(document.getElementById("edad").value),
-            estado_salud: document.getElementById("estado_salud").value,
-            habitat_id: parseInt(document.getElementById("habitat_id").value),
-            imagen_url: document.getElementById("imagen_url").value,
-            descripcion: document.getElementById("descripcion").value
-        };
-
-        try {
-            // Enviar petición POST al servidor para crear el animal
-            const response = await fetch('http://localhost:8080/animales', {
-                method: 'POST',
-                headers: {
-                    'Content-Type': 'application/json'
-                },
-                body: JSON.stringify(nuevoAnimal)
-            });
-
-            if (response.ok) {
-                // Recargar todos los animales desde la API para tener datos actualizados
-                const respuestaAnimales = await fetch('http://localhost:8080/animales');
-                const dataActualizados = await respuestaAnimales.json();
-                
-                // Vaciar el array actual y llenarlo con los datos actualizados
-                dataAnimales.length = 0;
-                dataAnimales.push(...dataActualizados);
-                
-                // Actualizar la vista para mostrar el nuevo animal
-                mostrarAnimales(dataAnimales);
-                
-                cerrarFormulario();
-                // Limpiar todos los campos del formulario
-                formAñadirAnimal.reset();
-                
-                Swal.fire({
-                    icon: 'success',
-                    title: '¡Éxito!',
-                    text: 'Animal añadido correctamente',
-                    timer: 3000,
-                    showConfirmButton: false
-                });
-            } else {
-                Swal.fire({
-                    icon: 'error',
-                    title: 'Error',
-                    text: 'Error al añadir el animal. Intenta de nuevo.'
-                });
-            }
-        } catch (error) {
-            console.error('Error:', error);
-            Swal.fire({
-                icon: 'error',
-                title: 'Error de conexión',
-                text: 'Verifica que el servidor esté activo.'
-            });
-        }
+  btnCancelarModoEdicion.addEventListener("click", () => {
+    modoEdicionActivo = false;
+    bannerEdicion.classList.add("hidden");
+    document.querySelectorAll(".tarjeta-giratoria").forEach((card) => {
+      card.classList.remove("modo-edicion");
     });
+  });
 
-    // Activar/desactivar modo edición
-    btnEditar.addEventListener("click", () => {
-        modoEdicionActivo = true;
-        bannerEdicion.classList.remove("hidden");
-        // Actualizar tarjetas con estilo de modo edición
-        document.querySelectorAll('.tarjeta-giratoria').forEach(card => {
-            card.classList.add('modo-edicion');
-        });
+  // Activar/desactivar modo eliminación
+  btnEliminar.addEventListener("click", () => {
+    modoEliminacionActivo = true;
+    bannerEliminacion.classList.remove("hidden");
+    // Actualizar tarjetas con estilo de modo eliminación
+    document.querySelectorAll(".tarjeta-giratoria").forEach((card) => {
+      card.classList.add("modo-eliminacion");
     });
+  });
 
-    btnCancelarModoEdicion.addEventListener("click", () => {
+  btnCancelarModoEliminacion.addEventListener("click", () => {
+    modoEliminacionActivo = false;
+    bannerEliminacion.classList.add("hidden");
+    document.querySelectorAll(".tarjeta-giratoria").forEach((card) => {
+      card.classList.remove("modo-eliminacion");
+    });
+  });
+
+  // Función que carga los datos de un animal en el formulario de edición
+  function cargarDatosAnimalEditar(animal) {
+    document.getElementById("editar_id").value = animal.id;
+    document.getElementById("editar_nombre").value = animal.nombre;
+    document.getElementById("editar_especie").value = animal.especie;
+    document.getElementById("editar_categoria").value = animal.categoria;
+    document.getElementById("editar_edad").value = animal.edad;
+    document.getElementById("editar_estado_salud").value = animal.estado_salud;
+    document.getElementById("editar_habitat_id").value = animal.habitat_id;
+    document.getElementById("editar_imagen_url").value = animal.imagen_url;
+    document.getElementById("editar_descripcion").value = animal.descripcion;
+  }
+
+  // Función para cerrar/ocultar el formulario de editar
+  function cerrarFormularioEditar() {
+    formularioEditar.classList.add("hidden");
+  }
+
+  btnCerrarFormularioEditar.addEventListener("click", cerrarFormularioEditar);
+
+  btnCancelarEditar.addEventListener("click", cerrarFormularioEditar);
+
+  formEditarAnimal.addEventListener("submit", async (e) => {
+    e.preventDefault(); // Prevenir recarga de la página
+
+    // Obtener el ID del animal a editar
+    const animalId = document.getElementById("editar_id").value;
+
+    // Recopilar todos los datos actualizados del formulario
+    const animalActualizado = {
+      nombre: document.getElementById("editar_nombre").value,
+      especie: document.getElementById("editar_especie").value,
+      categoria: document.getElementById("editar_categoria").value,
+      edad: parseInt(document.getElementById("editar_edad").value),
+      estado_salud: document.getElementById("editar_estado_salud").value,
+      habitat_id: parseInt(document.getElementById("editar_habitat_id").value),
+      imagen_url: document.getElementById("editar_imagen_url").value,
+      descripcion: document.getElementById("editar_descripcion").value,
+    };
+
+    try {
+      const response = await fetch(
+        `http://localhost:8080/animales/${animalId}`,
+        {
+          method: "PUT",
+          headers: {
+            "Content-Type": "application/json",
+          },
+          body: JSON.stringify(animalActualizado),
+        },
+      );
+
+      if (response.ok) {
+        const respuestaAnimales = await fetch("http://localhost:8080/animales");
+        const dataActualizados = await respuestaAnimales.json();
+
+        // Vaciar el array actual y llenarlo con los datos actualizados
+        dataAnimales.length = 0;
+        dataAnimales.push(...dataActualizados);
+
+        // Actualizar para mostrar los cambios
+        mostrarAnimales(dataAnimales);
+
+        cerrarFormularioEditar();
+
         modoEdicionActivo = false;
         bannerEdicion.classList.add("hidden");
-        document.querySelectorAll('.tarjeta-giratoria').forEach(card => {
-            card.classList.remove('modo-edicion');
+        document.querySelectorAll(".tarjeta-giratoria").forEach((card) => {
+          card.classList.remove("modo-edicion");
         });
+
+        Swal.fire({
+          icon: "success",
+          title: "¡Éxito!",
+          text: "Animal actualizado correctamente",
+          timer: 3000,
+          showConfirmButton: false,
+        });
+      } else {
+        Swal.fire({
+          icon: "error",
+          title: "Error",
+          text: "Error al actualizar el animal. Intenta de nuevo.",
+        });
+      }
+    } catch (error) {
+      console.error("Error:", error);
+      Swal.fire({
+        icon: "error",
+        title: "Error de conexión",
+        text: "No se pudo conectar con el servidor.",
+      });
+    }
+  });
+
+  // Función para confirmar y eliminar un animal
+  async function confirmarYEliminarAnimal(animal) {
+    // Mostrar diálogo de confirmación con SweetAlert2
+    const result = await Swal.fire({
+      icon: "warning",
+      title: "¿Estás seguro?",
+      html: `Vas a eliminar a <b>"${animal.nombre}"</b> (${animal.especie})<br><br>Esta acción no se puede deshacer.`,
+      showCancelButton: true,
+      confirmButtonColor: "#dc2626",
+      cancelButtonColor: "#6b7280",
+      confirmButtonText: "Sí, eliminar",
+      cancelButtonText: "Cancelar",
     });
 
-    // Activar/desactivar modo eliminación
-    btnEliminar.addEventListener("click", () => {
-        modoEliminacionActivo = true;
-        bannerEliminacion.classList.remove("hidden");
-        // Actualizar tarjetas con estilo de modo eliminación
-        document.querySelectorAll('.tarjeta-giratoria').forEach(card => {
-            card.classList.add('modo-eliminacion');
-        });
-    });
+    if (!result.isConfirmed) {
+      return; // Si el usuario cancela, no hacer nada
+    }
 
-    btnCancelarModoEliminacion.addEventListener("click", () => {
+    try {
+      const response = await fetch(
+        `http://localhost:8080/animales/${animal.id}`,
+        {
+          method: "DELETE",
+        },
+      );
+
+      if (response.ok) {
+        // Recargar todos los animales desde la API para tener datos actualizados
+        const respuestaAnimales = await fetch("http://localhost:8080/animales");
+        const dataActualizados = await respuestaAnimales.json();
+
+        // Vaciar el array actual y llenarlo con los datos actualizados
+        dataAnimales.length = 0;
+        dataAnimales.push(...dataActualizados);
+
+        // Actualizar la vista para eliminar la tarjeta
+        mostrarAnimales(dataAnimales);
+
+        // Desactivar el modo eliminación después de eliminar
         modoEliminacionActivo = false;
         bannerEliminacion.classList.add("hidden");
-        document.querySelectorAll('.tarjeta-giratoria').forEach(card => {
-            card.classList.remove('modo-eliminacion');
+        document.querySelectorAll(".tarjeta-giratoria").forEach((card) => {
+          card.classList.remove("modo-eliminacion");
         });
-    });
 
-    // Función que carga los datos de un animal en el formulario de edición
-    function cargarDatosAnimalEditar(animal) {
-        document.getElementById("editar_id").value = animal.id;
-        document.getElementById("editar_nombre").value = animal.nombre;
-        document.getElementById("editar_especie").value = animal.especie;
-        document.getElementById("editar_categoria").value = animal.categoria;
-        document.getElementById("editar_edad").value = animal.edad;
-        document.getElementById("editar_estado_salud").value = animal.estado_salud;
-        document.getElementById("editar_habitat_id").value = animal.habitat_id;
-        document.getElementById("editar_imagen_url").value = animal.imagen_url;
-        document.getElementById("editar_descripcion").value = animal.descripcion;
-    }
-
-    // Función para cerrar/ocultar el formulario de editar
-    function cerrarFormularioEditar() {
-        formularioEditar.classList.add("hidden");
-    }
-
-    btnCerrarFormularioEditar.addEventListener("click", cerrarFormularioEditar);
-
-    btnCancelarEditar.addEventListener("click", cerrarFormularioEditar);
-
-
-    formEditarAnimal.addEventListener("submit", async (e) => {
-        e.preventDefault(); // Prevenir recarga de la página
-
-        // Obtener el ID del animal a editar
-        const animalId = document.getElementById("editar_id").value;
-
-        // Recopilar todos los datos actualizados del formulario
-        const animalActualizado = {
-            nombre: document.getElementById("editar_nombre").value,
-            especie: document.getElementById("editar_especie").value,
-            categoria: document.getElementById("editar_categoria").value,
-            edad: parseInt(document.getElementById("editar_edad").value),
-            estado_salud: document.getElementById("editar_estado_salud").value,
-            habitat_id: parseInt(document.getElementById("editar_habitat_id").value),
-            imagen_url: document.getElementById("editar_imagen_url").value,
-            descripcion: document.getElementById("editar_descripcion").value
-        };
-
-        try {
-            const response = await fetch(`http://localhost:8080/animales/${animalId}`, {
-                method: 'PUT',
-                headers: {
-                    'Content-Type': 'application/json'
-                },
-                body: JSON.stringify(animalActualizado)
-            });
-
-            if (response.ok) {
-                const respuestaAnimales = await fetch('http://localhost:8080/animales');
-                const dataActualizados = await respuestaAnimales.json();
-                
-                // Vaciar el array actual y llenarlo con los datos actualizados
-                dataAnimales.length = 0;
-                dataAnimales.push(...dataActualizados);
-                
-                // Actualizar para mostrar los cambios
-                mostrarAnimales(dataAnimales);
-                
-                cerrarFormularioEditar();
-                
-                modoEdicionActivo = false;
-                bannerEdicion.classList.add("hidden");
-                document.querySelectorAll('.tarjeta-giratoria').forEach(card => {
-                    card.classList.remove('modo-edicion');
-                });
-                
-                Swal.fire({
-                    icon: 'success',
-                    title: '¡Éxito!',
-                    text: 'Animal actualizado correctamente',
-                    timer: 3000,
-                    showConfirmButton: false
-                });
-            } else {
-                Swal.fire({
-                    icon: 'error',
-                    title: 'Error',
-                    text: 'Error al actualizar el animal. Intenta de nuevo.'
-                });
-            }
-        } catch (error) {
-            console.error('Error:', error);
-            Swal.fire({
-                icon: 'error',
-                title: 'Error de conexión',
-                text: 'No se pudo conectar con el servidor.'
-            });
-        }
-    });
-
-    // Función para confirmar y eliminar un animal
-    async function confirmarYEliminarAnimal(animal) {
-        // Mostrar diálogo de confirmación con SweetAlert2
-        const result = await Swal.fire({
-            icon: 'warning',
-            title: '¿Estás seguro?',
-            html: `Vas a eliminar a <b>"${animal.nombre}"</b> (${animal.especie})<br><br>Esta acción no se puede deshacer.`,
-            showCancelButton: true,
-            confirmButtonColor: '#dc2626',
-            cancelButtonColor: '#6b7280',
-            confirmButtonText: 'Sí, eliminar',
-            cancelButtonText: 'Cancelar'
+        Swal.fire({
+          icon: "success",
+          title: "¡Eliminado!",
+          text: "Animal eliminado correctamente",
+          timer: 3000,
+          showConfirmButton: false,
         });
-        
-        if (!result.isConfirmed) {
-            return; // Si el usuario cancela, no hacer nada
-        }
-
-        try {
-            const response = await fetch(`http://localhost:8080/animales/${animal.id}`, {
-                method: 'DELETE'
-            });
-
-            if (response.ok) {
-                // Recargar todos los animales desde la API para tener datos actualizados
-                const respuestaAnimales = await fetch('http://localhost:8080/animales');
-                const dataActualizados = await respuestaAnimales.json();
-                
-                // Vaciar el array actual y llenarlo con los datos actualizados
-                dataAnimales.length = 0;
-                dataAnimales.push(...dataActualizados);
-                
-                // Actualizar la vista para eliminar la tarjeta
-                mostrarAnimales(dataAnimales);
-                
-                // Desactivar el modo eliminación después de eliminar
-                modoEliminacionActivo = false;
-                bannerEliminacion.classList.add("hidden");
-                document.querySelectorAll('.tarjeta-giratoria').forEach(card => {
-                    card.classList.remove('modo-eliminacion');
-                });
-                
-                Swal.fire({
-                    icon: 'success',
-                    title: '¡Eliminado!',
-                    text: 'Animal eliminado correctamente',
-                    timer: 3000,
-                    showConfirmButton: false
-                });
-            } else {
-                Swal.fire({
-                    icon: 'error',
-                    title: 'Error',
-                    text: 'No se pudo eliminar el animal.'
-                });
-            }
-        } catch (error) {
-            console.error('Error:', error);
-            Swal.fire({
-                icon: 'error',
-                title: 'Error de conexión',
-                text: 'No se pudo conectar con el servidor.'
-            });
-        }
+      } else {
+        Swal.fire({
+          icon: "error",
+          title: "Error",
+          text: "No se pudo eliminar el animal.",
+        });
+      }
+    } catch (error) {
+      console.error("Error:", error);
+      Swal.fire({
+        icon: "error",
+        title: "Error de conexión",
+        text: "No se pudo conectar con el servidor.",
+      });
     }
+  }
 
-    // Función que crea y muestra las tarjetas de animales
-    function mostrarAnimales(animalesParaMostrar) {
-        // Eliminar todas las tarjetas
-        animalList.innerHTML = "";
-        
-        // Recorrer cada animal y crear una tarjeta para él
-        animalesParaMostrar.forEach(animal => {
-            const estadoSalud = animal.estado_salud;
-            const esAtencion = estadoSalud.toLowerCase().includes('atención');
-            const claseEstado = esAtencion ? 'estado-atencion' : 'estado-saludable';
+  // Función que crea y muestra las tarjetas de animales
+  function mostrarAnimales(animalesParaMostrar) {
+    // Eliminar todas las tarjetas
+    animalList.innerHTML = "";
 
-            const card = document.createElement("div");
-            card.className = "tarjeta-giratoria";
-            
-            // Si el modo edición está activo, añadir clase especial
-            if (modoEdicionActivo) {
-                card.classList.add('modo-edicion');
-            }
+    // Recorrer cada animal y crear una tarjeta para él
+    animalesParaMostrar.forEach((animal) => {
+      const estadoSalud = animal.estado_salud;
+      const esAtencion = estadoSalud.toLowerCase().includes("atención");
+      const claseEstado = esAtencion ? "estado-atencion" : "estado-saludable";
 
-            // Si el modo eliminación está activo, añadir clase especial
-            if (modoEliminacionActivo) {
-                card.classList.add('modo-eliminacion');
-            }
+      const card = document.createElement("div");
+      card.className = "tarjeta-giratoria";
 
-            // Definir qué pasa cuando se hace click en la tarjeta
-            card.addEventListener("click", () => {
-                if (modoEdicionActivo) {
-                    // Cargar los datos del animal en el formulario y abrirlo
-                    cargarDatosAnimalEditar(animal);
-                    formularioEditar.classList.remove("hidden");
-                } else if (modoEliminacionActivo) {
-                    // Si está en modo eliminación, confirmar y eliminar
-                    confirmarYEliminarAnimal(animal);
-                } else {
-                    // Si no ir a la página de detalle del animal
-                    window.location.href = 'animalDetalle.html?id=${animal.id}';
-                }
-            });
+      // Si el modo edición está activo, añadir clase especial
+      if (modoEdicionActivo) {
+        card.classList.add("modo-edicion");
+      }
 
-            // Crear el HTML de la tarjeta con todos los datos del animal
-            card.innerHTML = `
+      // Si el modo eliminación está activo, añadir clase especial
+      if (modoEliminacionActivo) {
+        card.classList.add("modo-eliminacion");
+      }
+
+      // Definir qué pasa cuando se hace click en la tarjeta
+      card.addEventListener("click", () => {
+        if (modoEdicionActivo) {
+          // Cargar los datos del animal en el formulario y abrirlo
+          cargarDatosAnimalEditar(animal);
+          formularioEditar.classList.remove("hidden");
+        } else if (modoEliminacionActivo) {
+          // Si está en modo eliminación, confirmar y eliminar
+          confirmarYEliminarAnimal(animal);
+        } else {
+          // Si no ir a la página de detalle del animal
+          window.location.href = "animalDetalle.html?id=${animal.id}";
+        }
+      });
+
+      // Crear el HTML de la tarjeta con todos los datos del animal
+      card.innerHTML = `
                 <div class="tarjeta-interna">
                     <div class="tarjeta-frente">
                         <div class="tarjeta-contenedor-imagen">
@@ -445,21 +456,23 @@ document.addEventListener('DOMContentLoaded', async () => {
                     </div>
                 </div>
             `;
-            animalList.appendChild(card);
-        });
-    }
-    
-    // Mostrar spinner y luego los animales
-    mostrarLoading();
-    setTimeout(() => {
-        mostrarAnimales(dataAnimales);
-        ocultarLoading();
-    }, 500);
-
-    // Filtrar por especie mientras escribes
-    searchInput.addEventListener("input", () => {
-        const search = searchInput.value.toLowerCase();
-        const filtrados = dataAnimales.filter(a => a.especie.toLowerCase().startsWith(search));
-        mostrarAnimales(filtrados);
+      animalList.appendChild(card);
     });
+  }
+
+  // Mostrar spinner y luego los animales
+  mostrarLoading();
+  setTimeout(() => {
+    mostrarAnimales(dataAnimales);
+    ocultarLoading();
+  }, 500);
+
+  // Filtrar por especie mientras escribes
+  searchInput.addEventListener("input", () => {
+    const search = searchInput.value.toLowerCase();
+    const filtrados = dataAnimales.filter((a) =>
+      a.especie.toLowerCase().startsWith(search),
+    );
+    mostrarAnimales(filtrados);
+  });
 });
