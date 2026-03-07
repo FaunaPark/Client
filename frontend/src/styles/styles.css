@@ -342,11 +342,6 @@ body {
   cursor: pointer;
 }
 
-/* Footer*/
-.footer {
-  background-color: rgb(34, 51, 34);
-}
-
 /* Spinner de carga */
 .loading-spinner {
   display: flex;
