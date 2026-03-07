@@ -15,35 +15,38 @@ document.addEventListener('DOMContentLoaded', async () => {
     const leftImg = document.getElementById("leftImage");
     const rightImg = document.getElementById("rightImage");
    
-    let carruselAnimales = [];
-    carruselAnimales = dataAnimales;
-
-    let carruselHabitats = [];
-    carruselHabitats = dataHabitats;
-
     let idCarrusel = 0;
 
-    if (carruselHabitats.length > 0 && carruselAnimales.length > 0) {
-        leftImg.src = carruselHabitats[0].imagen_url;
-        rightImg.src = carruselAnimales[0].imagen_url;
-
+    // Función para actualizar imágenes del carrusel
+    function actualizarCarrusel() {
+        if (dataAnimales.length > 0 && dataHabitats.length > 0) {
+            const animalActual = dataAnimales[idCarrusel];
+            const habitatDelAnimal = dataHabitats.find(h => h.id === animalActual.habitat_id);
+            
+            if (habitatDelAnimal) {
+                leftImg.src = habitatDelAnimal.imagen_url;
+            }
+            rightImg.src = animalActual.imagen_url;
+        }
     }
+
+    // Inicializar carrusel
+    actualizarCarrusel();
+
+    // Cambiar imágenes cada 3 segundos
     setInterval(() => {
         leftImg.classList.add("opacity-0");
         rightImg.classList.add("opacity-0");
 
-            setTimeout(() => {
-
-        idCarrusel++;
-
-        if (idCarrusel >= carruselHabitats.length  || idCarrusel >= carruselAnimales.length) {
-            idCarrusel = 0;
-        }
-        leftImg.src = carruselHabitats[idCarrusel].imagen_url;
-                leftImg.classList.remove("opacity-0");
-        rightImg.src = carruselAnimales[idCarrusel].imagen_url;
-                rightImg.classList.remove("opacity-0");
-    }, 500);
+        setTimeout(() => {
+            idCarrusel++;
+            if (idCarrusel >= dataAnimales.length) {
+                idCarrusel = 0;
+            }
+            actualizarCarrusel();
+            leftImg.classList.remove("opacity-0");
+            rightImg.classList.remove("opacity-0");
+        }, 500);
     }, 3000);
 
     //Botones para cambiar de pagina desde la pagina index
