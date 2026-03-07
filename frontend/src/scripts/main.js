@@ -16,36 +16,40 @@ document.addEventListener('DOMContentLoaded', async () => {
 
     //Logica y uso de datos para el carrusel del la pagina index
     if (bodyClass.includes("index")) {
+
         const leftImg = document.getElementById("leftImage");
         const rightImg = document.getElementById("rightImage");
 
-        let carruselAnimales = [];
-        carruselAnimales = dataAnimales;
-
-        let carruselHabitats = [];
-        carruselHabitats = dataHabitats;
-
         let idCarrusel = 0;
 
-        if (carruselHabitats.length > 0 && carruselAnimales.length > 0) {
-            leftImg.src = carruselHabitats[0].imagen_url;
-            rightImg.src = carruselAnimales[0].imagen_url;
+        // Función para actualizar imágenes del carrusel
+        function actualizarCarrusel() {
+            if (dataAnimales.length > 0 && dataHabitats.length > 0) {
+                const animalActual = dataAnimales[idCarrusel];
+                const habitatDelAnimal = dataHabitats.find(h => h.id === animalActual.habitat_id);
 
+                if (habitatDelAnimal) {
+                    leftImg.src = habitatDelAnimal.imagen_url;
+                }
+                rightImg.src = animalActual.imagen_url;
+            }
         }
+
+        // Inicializar carrusel
+        actualizarCarrusel();
+
+        // Cambiar imágenes cada 3 segundos
         setInterval(() => {
             leftImg.classList.add("opacity-0");
             rightImg.classList.add("opacity-0");
 
             setTimeout(() => {
-
                 idCarrusel++;
-
-                if (idCarrusel >= carruselHabitats.length || idCarrusel >= carruselAnimales.length) {
+                if (idCarrusel >= dataAnimales.length) {
                     idCarrusel = 0;
                 }
-                leftImg.src = carruselHabitats[idCarrusel].imagen_url;
+                actualizarCarrusel();
                 leftImg.classList.remove("opacity-0");
-                rightImg.src = carruselAnimales[idCarrusel].imagen_url;
                 rightImg.classList.remove("opacity-0");
             }, 500);
         }, 3000);
@@ -70,8 +74,13 @@ document.addEventListener('DOMContentLoaded', async () => {
 
     // Función para mostrar animales en tarjetas
     if (bodyClass.includes("animales")) {
+        const inicio = document.getElementById("logo")
         const animalList = document.getElementById("animalList");
         const searchInput = document.getElementById("searchAnimal");
+
+        inicio.addEventListener("click", () => {
+            window.location.href = "./index.html";
+        });
 
         function mostrarAnimales(animalesParaMostrar) {
             animalList.innerHTML = "";
@@ -82,6 +91,11 @@ document.addEventListener('DOMContentLoaded', async () => {
 
                 const card = document.createElement("div");
                 card.className = "tarjeta-giratoria";
+
+                card.addEventListener("click", () => {
+                    window.location.href = 'animalDetalle.html?id=${animal.id}';
+                });
+
                 card.innerHTML = `
                     <div class="tarjeta-interna">
                         <div class="tarjeta-frente">
@@ -100,6 +114,10 @@ document.addEventListener('DOMContentLoaded', async () => {
                             <div class="tarjeta-reverso-cabecera">
                                 <h3 class="tarjeta-reverso-titulo">${animal.especie}</h3>
                                 <span class="tarjeta-categoria">${animal.categoria}</span>
+                            </div>
+                            <div class="tarjeta-detalle">
+                                <span class="tarjeta-detalle-etiqueta">🆔​ ID</span>
+                                <span class="tarjeta-detalle-valor">#${animal.id}</span>
                             </div>
                             <div class="tarjeta-detalle">
                                 <span class="tarjeta-detalle-etiqueta">🐾 Nombre</span>
