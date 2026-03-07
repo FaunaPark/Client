@@ -46,6 +46,77 @@
 
     </div>
 
+    <!-- Formulario para añadir animal -->
+    <div id="formularioAñadir" class="formulario-overlay hidden">
+        <div class="formulario-contenido">
+            <div class="formulario-cabecera">
+                <h2 class="text-3xl font-bold text-gray-800">Añadir Nuevo Animal</h2>
+                <button id="btnCerrarFormulario" class="text-gray-500 hover:text-gray-800 text-3xl"><i class="fa-solid fa-xmark"></i></button>
+            </div>
+            
+            <form id="formAñadirAnimal" class="formulario-cuerpo">
+                <div class="form-grupo">
+                    <label for="nombre">Nombre</label>
+                    <input type="text" id="nombre" name="nombre" required>
+                </div>
+
+                <div class="form-grupo">
+                    <label for="especie">Especie</label>
+                    <input type="text" id="especie" name="especie" required>
+                </div>
+
+                <div class="form-grupo">
+                    <label for="categoria">Categoría</label>
+                    <select id="categoria" name="categoria" required>
+                        <option value="">Selecciona una categoría</option>
+                        <option value="Mamífero">Mamífero</option>
+                        <option value="Ave">Ave</option>
+                        <option value="Reptil">Reptil</option>
+                        <option value="Anfibio">Anfibio</option>
+                        <option value="Pez">Pez</option>
+                    </select>
+                </div>
+
+                <div class="form-grupo">
+                    <label for="edad">Edad (años)</label>
+                    <input type="number" id="edad" name="edad" min="0" required>
+                </div>
+
+                <div class="form-grupo">
+                    <label for="estado_salud">Estado de Salud</label>
+                    <select id="estado_salud" name="estado_salud" required>
+                        <option value="">Selecciona un estado</option>
+                        <option value="Saludable">Saludable</option>
+                        <option value="Requiere atención">Requiere Atención</option>
+                    </select>
+                </div>
+
+                <div class="form-grupo">
+                    <label for="habitat_id">Hábitat</label>
+                    <select id="habitat_id" name="habitat_id" required>
+                        <option value="">Selecciona un hábitat</option>
+                        <!-- Se cargará dinámicamente desde la API -->
+                    </select>
+                </div>
+
+                <div class="form-grupo">
+                    <label for="imagen_url">URL de Imagen</label>
+                    <input type="url" id="imagen_url" name="imagen_url" placeholder="https://ejemplo.com/imagen.jpg" required>
+                </div>
+
+                <div class="form-grupo">
+                    <label for="descripcion">Descripción</label>
+                    <textarea id="descripcion" name="descripcion" rows="3" required></textarea>
+                </div>
+
+                <div class="formulario-pie">
+                    <button type="button" id="btnCancelar" class="btn-secundario">Cancelar</button>
+                    <button type="submit" class="btn-primario">Guardar Animal</button>
+                </div>
+            </form>
+        </div>
+    </div>
+
     <div class="footer">
         <h1 class="text-7xl text-center my-8">Footer</h1>
     </div>
