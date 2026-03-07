@@ -318,6 +318,49 @@ document.addEventListener('DOMContentLoaded', async () => {
             }
         });
 
+        // Función para confirmar y eliminar un animal
+        async function confirmarYEliminarAnimal(animal) {
+            // Mostrar diálogo de confirmación
+            const confirmar = confirm(`¿Estás seguro de que quieres eliminar a "${animal.nombre}" (${animal.especie})?\n\nEsta acción no se puede deshacer.`);
+            
+            if (!confirmar) {
+                return; // Si el usuario cancela, no hacer nada
+            }
+
+            try {
+                const response = await fetch(`http://localhost:8080/animales/${animal.id}`, {
+                    method: 'DELETE'
+                });
+
+                if (response.ok) {
+                    // Recargar todos los animales desde la API para tener datos actualizados
+                    const respuestaAnimales = await fetch('http://localhost:8080/animales');
+                    const dataActualizados = await respuestaAnimales.json();
+                    
+                    // Vaciar el array actual y llenarlo con los datos actualizados
+                    dataAnimales.length = 0;
+                    dataAnimales.push(...dataActualizados);
+                    
+                    // Actualizar la vista para eliminar la tarjeta
+                    mostrarAnimales(dataAnimales);
+                    
+                    // Desactivar el modo eliminación después de eliminar
+                    modoEliminacionActivo = false;
+                    bannerEliminacion.classList.add("hidden");
+                    document.querySelectorAll('.tarjeta-giratoria').forEach(card => {
+                        card.classList.remove('modo-eliminacion');
+                    });
+                    
+                    alert('Animal eliminado correctamente');
+                } else {
+                    alert('Error al eliminar el animal.');
+                }
+            } catch (error) {
+                console.error('Error:', error);
+                alert('Error de conexión.');
+            }
+        }
+
         // Función que crea y muestra las tarjetas de animales
         function mostrarAnimales(animalesParaMostrar) {
             // Eliminar todas las tarjetas
@@ -337,12 +380,20 @@ document.addEventListener('DOMContentLoaded', async () => {
                     card.classList.add('modo-edicion');
                 }
 
+                // Si el modo eliminación está activo, añadir clase especial
+                if (modoEliminacionActivo) {
+                    card.classList.add('modo-eliminacion');
+                }
+
                 // Definir qué pasa cuando se hace click en la tarjeta
                 card.addEventListener("click", () => {
                     if (modoEdicionActivo) {
                         // Cargar los datos del animal en el formulario y abrirlo
                         cargarDatosAnimalEditar(animal);
                         formularioEditar.classList.remove("hidden");
+                    } else if (modoEliminacionActivo) {
+                        // Si está en modo eliminación, confirmar y eliminar
+                        confirmarYEliminarAnimal(animal);
                     } else {
                         // Si no ir a la página de detalle del animal
                         window.location.href = 'animalDetalle.html?id=${animal.id}';
