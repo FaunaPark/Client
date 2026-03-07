@@ -7,7 +7,7 @@ body {
 .index{
   height:100vh;
   display:grid;
-  grid-template-rows: 13vh 1fr 13vh;
+  grid-template-rows: 13vh 1fr 1fr
 }
 
 .header{
@@ -27,7 +27,6 @@ body {
     gap: 15px;
 }
 
-
 .footer{
-    background-color: rgba(0, 0, 0, 0.623);
+    background-color: rgb(34, 51, 34);
 }
