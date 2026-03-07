@@ -1,5 +1,6 @@
 <!DOCTYPE html>
 <html lang="es">
+
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -14,7 +15,8 @@
 <body class="animales">
     <div class="header">
         <div class="left">
-            <img id="logo" class=" h-36 hover:scale-105 active:scale-95 transition-all duration-300 " src="../../assets/logoHorizontal.png">
+            <img id="logo" class=" h-36 hover:scale-105 active:scale-95 transition-all duration-300 "
+                src="../../assets/logoHorizontal.png">
             <span
                 class="text-7xl  font-serif bg-clip-text text-transparent bg-gradient-to-r from-green-800 to-orange-500">Fauna
                 Park</span>
@@ -26,6 +28,9 @@
             <button id="btnEditar"
                 class="px-6 py-4 rounded-xl bg-gradient-to-r from-green-800 to-orange-500 text-white font-semibold shadow-lg hover:scale-105 hover:shadow-xl active:scale-95 transition-all duration-300">
                 <i class="fa-solid fa-pen-to-square"></i> Editar</button>
+            <button id="btnEliminar"
+                class="px-6 py-4 rounded-xl bg-gradient-to-r from-green-800 to-orange-500 text-white font-semibold shadow-lg hover:scale-105 hover:shadow-xl active:scale-95 transition-all duration-300">
+                <i class="fa-solid fa-trash-can"></i> Eliminar</button>
         </div>
     </div>
 
@@ -57,9 +62,10 @@
         <div class="formulario-contenido">
             <div class="formulario-cabecera">
                 <h2 class="text-3xl font-bold text-gray-800">Añadir Nuevo Animal</h2>
-                <button id="btnCerrarFormulario" class="text-gray-500 hover:text-gray-800 text-3xl"><i class="fa-solid fa-xmark"></i></button>
+                <button id="btnCerrarFormulario" class="text-gray-500 hover:text-gray-800 text-3xl"><i
+                        class="fa-solid fa-xmark"></i></button>
             </div>
-            
+
             <form id="formAñadirAnimal" class="formulario-cuerpo">
                 <div class="form-grupo">
                     <label for="nombre">Nombre</label>
@@ -107,7 +113,8 @@
 
                 <div class="form-grupo">
                     <label for="imagen_url">URL de Imagen</label>
-                    <input type="url" id="imagen_url" name="imagen_url" placeholder="https://ejemplo.com/imagen.jpg" required>
+                    <input type="url" id="imagen_url" name="imagen_url" placeholder="https://ejemplo.com/imagen.jpg"
+                        required>
                 </div>
 
                 <div class="form-grupo">
@@ -128,12 +135,13 @@
         <div class="formulario-contenido">
             <div class="formulario-cabecera">
                 <h2 class="text-3xl font-bold text-gray-800">Editar Animal</h2>
-                <button id="btnCerrarFormularioEditar" class="text-gray-500 hover:text-gray-800 text-3xl"><i class="fa-solid fa-xmark"></i></button>
+                <button id="btnCerrarFormularioEditar" class="text-gray-500 hover:text-gray-800 text-3xl"><i
+                        class="fa-solid fa-xmark"></i></button>
             </div>
-            
+
             <form id="formEditarAnimal" class="formulario-cuerpo">
                 <input type="hidden" id="editar_id">
-                
+
                 <div class="form-grupo">
                     <label for="editar_nombre">Nombre</label>
                     <input type="text" id="editar_nombre" name="nombre" required>
@@ -180,7 +188,8 @@
 
                 <div class="form-grupo">
                     <label for="editar_imagen_url">URL de Imagen</label>
-                    <input type="url" id="editar_imagen_url" name="imagen_url" placeholder="https://ejemplo.com/imagen.jpg" required>
+                    <input type="url" id="editar_imagen_url" name="imagen_url"
+                        placeholder="https://ejemplo.com/imagen.jpg" required>
                 </div>
 
                 <div class="form-grupo">
