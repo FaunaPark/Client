@@ -333,6 +333,9 @@ document.addEventListener('DOMContentLoaded', async () => {
                     
                     modoEdicionActivo = false;
                     bannerEdicion.classList.add("hidden");
+                    document.querySelectorAll('.tarjeta-giratoria').forEach(card => {
+                        card.classList.remove('modo-edicion');
+                    });
                     
                     Swal.fire({
                         icon: 'success',
