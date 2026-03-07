@@ -342,3 +342,37 @@ body {
   transform: scale(1.02);
   cursor: pointer;
 }
+
+/* Spinner de carga */
+.loading-spinner {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  padding: 60px 20px;
+  gap: 20px;
+}
+
+.loading-spinner.hidden {
+  display: none;
+}
+
+.spinner {
+  width: 60px;
+  height: 60px;
+  border: 6px solid #e5e7eb;
+  border-top: 6px solid #f97316;
+  border-radius: 50%;
+  animation: spin 1s linear infinite;
+}
+
+@keyframes spin {
+  0% { transform: rotate(0deg); }
+  100% { transform: rotate(360deg); }
+}
+
+.loading-text {
+  color: #ffffff;
+  font-size: 1.125rem;
+  font-weight: 500;
+}

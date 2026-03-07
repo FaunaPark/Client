@@ -83,6 +83,7 @@ document.addEventListener('DOMContentLoaded', async () => {
         const inicio = document.getElementById("logo")
         const animalList = document.getElementById("animalList");
         const searchInput = document.getElementById("searchAnimal");
+        const loadingSpinner = document.getElementById("loadingSpinner");
         
         // Elementos del formulario para AÑADIR animal
         const btnAñadir = document.getElementById("btnAñadir");
@@ -113,6 +114,17 @@ document.addEventListener('DOMContentLoaded', async () => {
         inicio.addEventListener("click", () => {
             window.location.href = "./index.html";
         });
+
+        // Funciones para controlar el spinner de carga
+        function mostrarLoading() {
+            loadingSpinner.classList.remove("hidden");
+            animalList.classList.add("hidden");
+        }
+
+        function ocultarLoading() {
+            loadingSpinner.classList.add("hidden");
+            animalList.classList.remove("hidden");
+        }
 
         // CARGAR HÁBITATS EN LOS SELECT (desplegables)
         // Función que llena el select de hábitats en el formulario de AÑADIR
@@ -502,8 +514,12 @@ document.addEventListener('DOMContentLoaded', async () => {
             });
         }
         
-        // Mostrar todos los animales al cargar la página
-        mostrarAnimales(dataAnimales);
+        // Mostrar spinner y luego los animales
+        mostrarLoading();
+        setTimeout(() => {
+            mostrarAnimales(dataAnimales);
+            ocultarLoading();
+        }, 500);
 
         // Filtrar por especie mientras escribes
         searchInput.addEventListener("input", () => {
