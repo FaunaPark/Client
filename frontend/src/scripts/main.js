@@ -81,6 +81,7 @@ document.addEventListener('DOMContentLoaded', async () => {
         const btnCerrarFormulario = document.getElementById("btnCerrarFormulario");
         const btnCancelar = document.getElementById("btnCancelar");
         const selectHabitat = document.getElementById("habitat_id");
+        const formAñadirAnimal = document.getElementById("formAñadirAnimal");
         
         //Volver al menu principal clicando en el icono
         inicio.addEventListener("click", () => {
@@ -117,6 +118,59 @@ document.addEventListener('DOMContentLoaded', async () => {
 
         // Cerrar formulario con el botón Cancelar
         btnCancelar.addEventListener("click", cerrarFormulario);
+
+        // Añadir animal del formulario con POST
+        formAñadirAnimal.addEventListener("submit", async (e) => {
+            e.preventDefault(); // Prevenir recarga de la página
+
+            // Recopilar datos del formulario
+            const nuevoAnimal = {
+                nombre: document.getElementById("nombre").value,
+                especie: document.getElementById("especie").value,
+                categoria: document.getElementById("categoria").value,
+                edad: parseInt(document.getElementById("edad").value),
+                estado_salud: document.getElementById("estado_salud").value,
+                habitat_id: parseInt(document.getElementById("habitat_id").value),
+                imagen_url: document.getElementById("imagen_url").value,
+                descripcion: document.getElementById("descripcion").value
+            };
+
+            try {
+                // Enviar POST al backend
+                const response = await fetch('http://localhost:8080/animales', {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json'
+                    },
+                    body: JSON.stringify(nuevoAnimal)
+                });
+
+                if (response.ok) {
+                    const animalCreado = await response.json();
+                    
+                    // Obtener el nombre del hábitat para el animal creado
+                    const habitat = dataHabitats.find(h => h.id === animalCreado.habitat_id);
+                    animalCreado.habitat_nombre = habitat ? habitat.nombre : 'No asignado';
+                    
+                    // Actualizar el array local
+                    dataAnimales.push(animalCreado);
+                    
+                    // Actualizar la vista
+                    mostrarAnimales(dataAnimales);
+                    
+                    // Cerrar formulario y limpiar
+                    cerrarFormulario();
+                    formAñadirAnimal.reset();
+                    
+                    alert('¡Animal añadido correctamente!');
+                } else {
+                    alert('Error al añadir el animal. Intenta de nuevo.');
+                }
+            } catch (error) {
+                console.error('Error:', error);
+                alert('Error de conexión. Verifica que el servidor esté activo.');
+            }
+        });
 
         // Función para mostrar animales en tarjetas:
         function mostrarAnimales(animalesParaMostrar) {
