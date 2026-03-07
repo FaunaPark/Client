@@ -196,13 +196,27 @@ document.addEventListener('DOMContentLoaded', async () => {
                     // Limpiar todos los campos del formulario
                     formAñadirAnimal.reset();
                     
-                    alert('¡Animal añadido correctamente!');
+                    Swal.fire({
+                        icon: 'success',
+                        title: '¡Éxito!',
+                        text: 'Animal añadido correctamente',
+                        timer: 3000,
+                        showConfirmButton: false
+                    });
                 } else {
-                    alert('Error al añadir el animal. Intenta de nuevo.');
+                    Swal.fire({
+                        icon: 'error',
+                        title: 'Error',
+                        text: 'Error al añadir el animal. Intenta de nuevo.'
+                    });
                 }
             } catch (error) {
                 console.error('Error:', error);
-                alert('Error de conexión. Verifica que el servidor esté activo.');
+                Swal.fire({
+                    icon: 'error',
+                    title: 'Error de conexión',
+                    text: 'Verifica que el servidor esté activo.'
+                });
             }
         });
 
@@ -308,22 +322,45 @@ document.addEventListener('DOMContentLoaded', async () => {
                     modoEdicionActivo = false;
                     bannerEdicion.classList.add("hidden");
                     
-                    alert('¡Animal actualizado correctamente!');
+                    Swal.fire({
+                        icon: 'success',
+                        title: '¡Éxito!',
+                        text: 'Animal actualizado correctamente',
+                        timer: 3000,
+                        showConfirmButton: false
+                    });
                 } else {
-                    alert('Error al actualizar el animal. Intenta de nuevo.');
+                    Swal.fire({
+                        icon: 'error',
+                        title: 'Error',
+                        text: 'Error al actualizar el animal. Intenta de nuevo.'
+                    });
                 }
             } catch (error) {
                 console.error('Error:', error);
-                alert('Error de conexión.');
+                Swal.fire({
+                    icon: 'error',
+                    title: 'Error de conexión',
+                    text: 'No se pudo conectar con el servidor.'
+                });
             }
         });
 
         // Función para confirmar y eliminar un animal
         async function confirmarYEliminarAnimal(animal) {
-            // Mostrar diálogo de confirmación
-            const confirmar = confirm(`¿Estás seguro de que quieres eliminar a "${animal.nombre}" (${animal.especie})?\n\nEsta acción no se puede deshacer.`);
+            // Mostrar diálogo de confirmación con SweetAlert2
+            const result = await Swal.fire({
+                icon: 'warning',
+                title: '¿Estás seguro?',
+                html: `Vas a eliminar a <b>"${animal.nombre}"</b> (${animal.especie})<br><br>Esta acción no se puede deshacer.`,
+                showCancelButton: true,
+                confirmButtonColor: '#dc2626',
+                cancelButtonColor: '#6b7280',
+                confirmButtonText: 'Sí, eliminar',
+                cancelButtonText: 'Cancelar'
+            });
             
-            if (!confirmar) {
+            if (!result.isConfirmed) {
                 return; // Si el usuario cancela, no hacer nada
             }
 
@@ -351,13 +388,27 @@ document.addEventListener('DOMContentLoaded', async () => {
                         card.classList.remove('modo-eliminacion');
                     });
                     
-                    alert('Animal eliminado correctamente');
+                    Swal.fire({
+                        icon: 'success',
+                        title: '¡Eliminado!',
+                        text: 'Animal eliminado correctamente',
+                        timer: 3000,
+                        showConfirmButton: false
+                    });
                 } else {
-                    alert('Error al eliminar el animal.');
+                    Swal.fire({
+                        icon: 'error',
+                        title: 'Error',
+                        text: 'No se pudo eliminar el animal.'
+                    });
                 }
             } catch (error) {
                 console.error('Error:', error);
-                alert('Error de conexión.');
+                Swal.fire({
+                    icon: 'error',
+                    title: 'Error de conexión',
+                    text: 'No se pudo conectar con el servidor.'
+                });
             }
         }
 
