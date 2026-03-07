@@ -94,6 +94,7 @@ document.addEventListener('DOMContentLoaded', async () => {
                 dataHabitats.length = 0;
                 dataHabitats.push(...dataActualizados);
                 
+                mostrarHabitats(dataHabitats);
                 cerrarFormulario();
                 formAñadirHabitat.reset();
                 
@@ -200,6 +201,7 @@ document.addEventListener('DOMContentLoaded', async () => {
                 dataHabitats.length = 0;
                 dataHabitats.push(...dataActualizados);
                 
+                mostrarHabitats(dataHabitats);
                 cerrarFormularioEditar();
                 
                 modoEdicionActivo = false;
@@ -232,9 +234,143 @@ document.addEventListener('DOMContentLoaded', async () => {
         }
     });
 
-    // Mostrar spinner inicialmente
+    // Función para confirmar y eliminar un hábitat
+    async function confirmarYEliminarHabitat(habitat) {
+        const result = await Swal.fire({
+            icon: 'warning',
+            title: '¿Estás seguro?',
+            html: `Vas a eliminar el hábitat <b>"${habitat.nombre}"</b><br><br>Esta acción no se puede deshacer.`,
+            showCancelButton: true,
+            confirmButtonColor: '#dc2626',
+            cancelButtonColor: '#6b7280',
+            confirmButtonText: 'Sí, eliminar',
+            cancelButtonText: 'Cancelar'
+        });
+        
+        if (!result.isConfirmed) {
+            return;
+        }
+
+        try {
+            const response = await fetch(`http://localhost:8080/habitats/${habitat.id}`, {
+                method: 'DELETE'
+            });
+
+            if (response.ok) {
+                const respuestaHabitats = await fetch('http://localhost:8080/habitats');
+                const dataActualizados = await respuestaHabitats.json();
+                
+                dataHabitats.length = 0;
+                dataHabitats.push(...dataActualizados);
+                
+                mostrarHabitats(dataHabitats);
+                
+                modoEliminacionActivo = false;
+                bannerEliminacion.classList.add("hidden");
+                document.querySelectorAll('.tarjeta-giratoria').forEach(card => {
+                    card.classList.remove('modo-eliminacion');
+                });
+                
+                Swal.fire({
+                    icon: 'success',
+                    title: '¡Eliminado!',
+                    text: 'Hábitat eliminado correctamente',
+                    timer: 3000,
+                    showConfirmButton: false
+                });
+            } else {
+                // Contar animales en el hábitat
+                const animalesEnHabitat = dataAnimales.filter(a => a.habitat_id === habitat.id).length;
+                const mensaje = animalesEnHabitat > 0 
+                    ? `No se puede eliminar el hábitat porque hay ${animalesEnHabitat} ${animalesEnHabitat === 1 ? 'animal' : 'animales'} viviendo en él.`
+                    : 'No se pudo eliminar el hábitat.';
+                
+                Swal.fire({
+                    icon: 'error',
+                    title: 'Error al eliminar',
+                    text: mensaje
+                });
+            }
+        } catch (error) {
+            console.error('Error:', error);
+            Swal.fire({
+                icon: 'error',
+                title: 'Error de conexión',
+                text: 'No se pudo conectar con el servidor.'
+            });
+        }
+    }
+
+    // Función que crea y muestra las tarjetas de hábitats
+    function mostrarHabitats(habitatsParaMostrar) {
+        habitatList.innerHTML = "";
+        
+        habitatsParaMostrar.forEach(habitat => {
+            // Contar cuántos animales hay en este hábitat
+            const numAnimales = dataAnimales.filter(a => a.habitat_id === habitat.id).length;
+            
+            const card = document.createElement("div");
+            card.className = "tarjeta-giratoria";
+            
+            if (modoEdicionActivo) {
+                card.classList.add('modo-edicion');
+            }
+
+            if (modoEliminacionActivo) {
+                card.classList.add('modo-eliminacion');
+            }
+
+            card.addEventListener("click", () => {
+                if (modoEdicionActivo) {
+                    cargarDatosHabitatEditar(habitat);
+                    formularioEditar.classList.remove("hidden");
+                } else if (modoEliminacionActivo) {
+                    confirmarYEliminarHabitat(habitat);
+                }
+            });
+
+            card.innerHTML = `
+                <div class="tarjeta-interna">
+                    <div class="tarjeta-frente">
+                        <div class="tarjeta-contenedor-imagen">
+                            <img src="${habitat.imagen_url}" class="tarjeta-imagen">
+                        </div>
+                        <div class="tarjeta-contenido">
+                            <div>
+                                <div class="tarjeta-titulo">${habitat.nombre}</div>
+                                <div class="tarjeta-subtitulo">🐾 ${numAnimales} ${numAnimales === 1 ? 'animal' : 'animales'}</div>
+                            </div>
+                            <span class="tarjeta-categoria">${habitat.clima}</span>
+                        </div>
+                    </div>
+                    <div class="tarjeta-reverso">
+                        <div class="tarjeta-reverso-cabecera">
+                            <h3 class="tarjeta-reverso-titulo">${habitat.nombre}</h3>
+                            <span class="tarjeta-categoria">${habitat.clima}</span>
+                        </div>
+                        <div class="tarjeta-detalle">
+                            <span class="tarjeta-detalle-etiqueta">🆔 ID</span>
+                            <span class="tarjeta-detalle-valor">#${habitat.id}</span>
+                        </div>
+                        <div class="tarjeta-detalle">
+                            <span class="tarjeta-detalle-etiqueta">🌡️ Clima</span>
+                            <span class="tarjeta-detalle-valor">${habitat.clima}</span>
+                        </div>
+                        <div class="tarjeta-detalle">
+                            <span class="tarjeta-detalle-etiqueta">📝 Descripción</span>
+                            <span class="tarjeta-detalle-valor">${habitat.descripcion}</span>
+                        </div>
+                    </div>
+                </div>
+            `;
+            habitatList.appendChild(card);
+        });
+    }
+    
+    // Mostrar spinner y luego los hábitats
     mostrarLoading();
     setTimeout(() => {
+        mostrarHabitats(dataHabitats);
         ocultarLoading();
     }, 500);
 });
