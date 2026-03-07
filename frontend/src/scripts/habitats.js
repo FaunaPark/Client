@@ -18,6 +18,10 @@ document.addEventListener('DOMContentLoaded', async () => {
     
     // Elementos del formulario para AÑADIR hábitat
     const btnAñadir = document.getElementById("btnAñadir");
+    const formularioAñadir = document.getElementById("formularioAñadir");
+    const btnCerrarFormulario = document.getElementById("btnCerrarFormulario");
+    const btnCancelar = document.getElementById("btnCancelar");
+    const formAñadirHabitat = document.getElementById("formAñadirHabitat");
     
     // Elementos del formulario para EDITAR hábitat
     const btnEditar = document.getElementById("btnEditar");
@@ -46,6 +50,72 @@ document.addEventListener('DOMContentLoaded', async () => {
         loadingSpinner.classList.add("hidden");
         habitatList.classList.remove("hidden");
     }
+
+    // Mostrar/ocultar formulario al hacer clic en Añadir
+    btnAñadir.addEventListener("click", () => {
+        formularioAñadir.classList.remove("hidden");
+    });
+
+    function cerrarFormulario() {
+        formularioAñadir.classList.add("hidden");
+    }
+
+    btnCerrarFormulario.addEventListener("click", cerrarFormulario);
+    btnCancelar.addEventListener("click", cerrarFormulario);
+
+    // Añadir hábitat del formulario con POST
+    formAñadirHabitat.addEventListener("submit", async (e) => {
+        e.preventDefault();
+
+        const nuevoHabitat = {
+            nombre: document.getElementById("nombre").value,
+            clima: document.getElementById("clima").value,
+            imagen_url: document.getElementById("imagen_url").value,
+            descripcion: document.getElementById("descripcion").value
+        };
+
+        try {
+            const response = await fetch('http://localhost:8080/habitats', {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json'
+                },
+                body: JSON.stringify(nuevoHabitat)
+            });
+
+            if (response.ok) {
+                const respuestaHabitats = await fetch('http://localhost:8080/habitats');
+                const dataActualizados = await respuestaHabitats.json();
+                
+                dataHabitats.length = 0;
+                dataHabitats.push(...dataActualizados);
+                
+                cerrarFormulario();
+                formAñadirHabitat.reset();
+                
+                Swal.fire({
+                    icon: 'success',
+                    title: '¡Éxito!',
+                    text: 'Hábitat añadido correctamente',
+                    timer: 3000,
+                    showConfirmButton: false
+                });
+            } else {
+                Swal.fire({
+                    icon: 'error',
+                    title: 'Error',
+                    text: 'Error al añadir el hábitat. Intenta de nuevo.'
+                });
+            }
+        } catch (error) {
+            console.error('Error:', error);
+            Swal.fire({
+                icon: 'error',
+                title: 'Error de conexión',
+                text: 'Verifica que el servidor esté activo.'
+            });
+        }
+    });
 
     // Activar/desactivar modo edición
     btnEditar.addEventListener("click", () => {

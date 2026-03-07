@@ -64,6 +64,52 @@
 
     </div>
 
+    <!-- Formulario para añadir hábitat -->
+    <div id="formularioAñadir" class="formulario-overlay hidden">
+        <div class="formulario-contenido">
+            <div class="formulario-cabecera">
+                <h2 class="text-3xl font-bold text-gray-800">Añadir Nuevo Hábitat</h2>
+                <button id="btnCerrarFormulario" class="text-gray-500 hover:text-gray-800 text-3xl"><i
+                        class="fa-solid fa-xmark"></i></button>
+            </div>
+
+            <form id="formAñadirHabitat" class="formulario-cuerpo">
+                <div class="form-grupo">
+                    <label for="nombre">Nombre</label>
+                    <input type="text" id="nombre" name="nombre" required>
+                </div>
+
+                <div class="form-grupo">
+                    <label for="clima">Clima</label>
+                    <select id="clima" name="clima" required>
+                        <option value="">Selecciona un clima</option>
+                        <option value="Tropical">Tropical</option>
+                        <option value="Árido">Árido</option>
+                        <option value="Templado">Templado</option>
+                        <option value="Frío">Frío</option>
+                        <option value="Acuático">Acuático</option>
+                    </select>
+                </div>
+
+                <div class="form-grupo">
+                    <label for="imagen_url">URL de Imagen</label>
+                    <input type="url" id="imagen_url" name="imagen_url" placeholder="https://ejemplo.com/imagen.jpg"
+                        required>
+                </div>
+
+                <div class="form-grupo">
+                    <label for="descripcion">Descripción</label>
+                    <textarea id="descripcion" name="descripcion" rows="3" required></textarea>
+                </div>
+
+                <div class="formulario-pie">
+                    <button type="button" id="btnCancelar" class="btn-secundario">Cancelar</button>
+                    <button type="submit" class="btn-primario">Guardar Hábitat</button>
+                </div>
+            </form>
+        </div>
+    </div>
+
     <div class="footer mt-16">
         <footer class="text-white">
             <div class="max-w-6xl mx-auto px-8 py-10">
