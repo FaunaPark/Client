@@ -73,11 +73,84 @@ document.addEventListener("DOMContentLoaded", async () => {
       habitatDescripcion.textContent = habitat.descripcion;
     }
 
+    // Función que crea y muestra las tarjetas de animales
+    function mostrarAnimales() {
+      animalList.innerHTML = "";
+
+      if (animalesDelHabitat.length === 0) {
+        // Mostrar mensaje si no hay animales
+        mensajeSinAnimales.classList.remove("hidden");
+        return;
+      }
+
+      animalList.classList.remove("hidden");
+
+      // Recorrer cada animal y crear una tarjeta para él
+      animalesDelHabitat.forEach((animal) => {
+        const estadoSalud = animal.estado_salud;
+        const esAtencion = estadoSalud.toLowerCase().includes("atención");
+        const claseEstado = esAtencion ? "estado-atencion" : "estado-saludable";
+
+        const card = document.createElement("div");
+        card.className = "tarjeta-giratoria";
+
+        // Crear el HTML de la tarjeta con todos los datos del animal
+        card.innerHTML = `
+                <div class="tarjeta-interna">
+                    <div class="tarjeta-frente">
+                        <div class="tarjeta-contenedor-imagen">
+                            <img src="${animal.imagen_url}" class="tarjeta-imagen" alt="${animal.nombre}">
+                        </div>
+                        <div class="tarjeta-contenido">
+                            <div>
+                                <div class="tarjeta-titulo">${animal.especie}</div>
+                                <div class="tarjeta-subtitulo">🐾 ${animal.nombre}</div>
+                            </div>
+                            <span class="tarjeta-categoria">${animal.categoria}</span>
+                        </div>
+                    </div>
+                    <div class="tarjeta-reverso">
+                        <div class="tarjeta-reverso-cabecera">
+                            <h3 class="tarjeta-reverso-titulo">${animal.especie}</h3>
+                            <span class="tarjeta-categoria">${animal.categoria}</span>
+                        </div>
+                        <div class="tarjeta-detalle">
+                            <span class="tarjeta-detalle-etiqueta">🆔​ ID</span>
+                            <span class="tarjeta-detalle-valor">#${animal.id}</span>
+                        </div>
+                        <div class="tarjeta-detalle">
+                            <span class="tarjeta-detalle-etiqueta">🐾 Nombre</span>
+                            <span class="tarjeta-detalle-valor">${animal.nombre}</span>
+                        </div>
+                        <div class="tarjeta-detalle">
+                            <span class="tarjeta-detalle-etiqueta">🎂 Edad</span>
+                            <span class="tarjeta-detalle-valor">${animal.edad} años</span>
+                        </div>
+                        <div class="tarjeta-detalle">
+                            <span class="tarjeta-detalle-etiqueta">💚 Estado</span>
+                            <span class="tarjeta-detalle-valor"><span class="tarjeta-estado ${claseEstado}">${animal.estado_salud}</span></span>
+                        </div>
+                        <div class="tarjeta-detalle">
+                            <span class="tarjeta-detalle-etiqueta">🌍 Hábitat</span>
+                            <span class="tarjeta-detalle-valor">${habitat.nombre}</span>
+                        </div>
+                        <div class="tarjeta-detalle">
+                            <span class="tarjeta-detalle-etiqueta">📝 Descripción</span>
+                            <span class="tarjeta-detalle-valor">${animal.descripcion}</span>
+                        </div>
+                    </div>
+                </div>
+            `;
+        animalList.appendChild(card);
+      });
+    }
+
     // Ejecutar las funciones para mostrar la información
     mostrarInfoHabitat();
     mostrarLoading();
 
     setTimeout(() => {
+      mostrarAnimales();
       ocultarLoading();
     }, 500);
   } catch (error) {
