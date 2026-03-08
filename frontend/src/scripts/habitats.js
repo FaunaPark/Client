@@ -372,7 +372,7 @@ document.addEventListener("DOMContentLoaded", async () => {
                             <span class="tarjeta-detalle-valor">#${habitat.id}</span>
                         </div>
                         <div class="tarjeta-detalle">
-                            <span class="tarjeta-detalle-etiqueta"><i class="fa-solid fa-temperature-high"></i> Clima</span>
+                            <span class="tarjeta-detalle-etiqueta"><i class="fa-solid fa-cloud-sun"></i> Clima</span>
                             <span class="tarjeta-detalle-valor">${habitat.clima}</span>
                         </div>
                         <div class="tarjeta-detalle">
