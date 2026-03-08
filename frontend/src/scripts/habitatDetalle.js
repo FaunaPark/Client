@@ -63,20 +63,22 @@ document.addEventListener("DOMContentLoaded", async () => {
         });
 
         if (response.ok) {
-          Swal.fire({
-            icon: "success",
-            title: "Eliminado",
-            text: "El animal ha sido eliminado correctamente",
-            timer: 2000,
-            showConfirmButton: false,
-          });
           modoEliminacionActivo = false;
           bannerEliminacion.classList.add("hidden");
           document.querySelectorAll(".tarjeta-giratoria").forEach((card) => {
             card.classList.remove("modo-eliminacion");
           });
-          // Recargar la página para actualizar los datos
-          location.reload();
+          
+          Swal.fire({
+            icon: "success",
+            title: "¡Eliminado!",
+            text: "Animal eliminado correctamente",
+            timer: 3000,
+            showConfirmButton: false,
+          }).then(() => {
+            // Recargar la página para actualizar los datos después de mostrar el mensaje
+            location.reload();
+          });
         } else {
           throw new Error("Error al eliminar");
         }
