@@ -1,5 +1,5 @@
 body {
-  background-color: rgb(91, 121, 66);
+  background: linear-gradient(135deg, #1e3a2f 0%, #2c5446 25%, #3a6b5c 50%, #2c5446 75%, #1e3a2f 100%);
   font-family: Arial, sans-serif;
 }
 
@@ -12,8 +12,10 @@ body {
 .header {
   display: flex;
   align-items: center;
-  background-color: rgba(0, 0, 0, 0.623);
+  background: linear-gradient(135deg, rgba(22, 39, 33, 0.97) 0%, rgba(30, 58, 47, 0.95) 100%);
   justify-content: space-around;
+  border-bottom: 2px solid rgba(251, 146, 60, 0.35);
+  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.3);
 }
 
 .header .left {
@@ -28,7 +30,9 @@ body {
 }
 
 .footer {
-  background-color: rgba(0, 0, 0, 0.623);
+  background: linear-gradient(135deg, rgba(22, 39, 33, 0.97) 0%, rgba(30, 58, 47, 0.95) 100%);
+  border-top: 2px solid rgba(251, 146, 60, 0.35);
+  box-shadow: 0 -4px 6px rgba(0, 0, 0, 0.3);
 }
 
 .animales {
@@ -74,7 +78,7 @@ body {
 }
 
 .tarjeta-reverso {
-  background-color: #5b7942;
+  background: linear-gradient(135deg, #2a6e4e 0%, #3a8a64 50%, #2a6e4e 100%);
   transform: rotateY(180deg);
   padding: 2rem;
   color: white;
@@ -117,13 +121,14 @@ body {
 
 .tarjeta-categoria {
   padding: 0.4rem 1rem;
-  background: linear-gradient(to right, #5b7942, #7a9d54);
+  background: linear-gradient(135deg, #3a8a64, #f97316);
   color: white;
   border-radius: 20px;
   font-size: 0.85rem;
   font-weight: 600;
   text-transform: uppercase;
   letter-spacing: 0.5px;
+  box-shadow: 0 4px 12px rgba(249, 115, 22, 0.3);
 }
 
 /* Cara trasera */
@@ -149,9 +154,10 @@ body {
 
 .tarjeta-detalle-etiqueta {
   font-weight: 700;
-  color: #ffd700;
+  color: #fbbf24;
   min-width: 140px;
   font-size: 0.9rem;
+  text-shadow: 0 1px 2px rgba(0, 0, 0, 0.3);
 }
 
 .tarjeta-detalle-valor {
@@ -168,13 +174,15 @@ body {
 }
 
 .estado-saludable {
-  background: #27ae60;
+  background: linear-gradient(135deg, #10b981, #059669);
   color: white;
+  box-shadow: 0 2px 8px rgba(16, 185, 129, 0.4);
 }
 
 .estado-atencion {
-  background: #e67e22;
+  background: linear-gradient(135deg, #f97316, #ea580c);
   color: white;
+  box-shadow: 0 2px 8px rgba(249, 115, 22, 0.4);
 }
 
 /* Estilos del formulario */
@@ -256,38 +264,42 @@ body {
 
 .btn-primario {
   padding: 0.75rem 1.5rem;
-  background: linear-gradient(to right, #5b7942, #7a9d54);
+  background: linear-gradient(135deg, #3a8a64, #2a6e4e);
   color: white;
   font-weight: 600;
   border: none;
   border-radius: 8px;
   cursor: pointer;
   transition: all 0.3s;
+  box-shadow: 0 4px 12px rgba(58, 138, 100, 0.4);
 }
 
 .btn-primario:hover {
   transform: scale(1.05);
-  box-shadow: 0 6px 20px rgba(91, 121, 66, 0.4);
+  box-shadow: 0 6px 20px rgba(58, 138, 100, 0.6);
+  background: linear-gradient(135deg, #2a6e4e, #1d4534);
 }
 
 .btn-secundario {
   padding: 0.75rem 1.5rem;
-  background: #6b7280;
+  background: linear-gradient(135deg, #6b7280, #4b5563);
   color: white;
   font-weight: 600;
   border: none;
   border-radius: 8px;
   cursor: pointer;
   transition: all 0.3s;
+  box-shadow: 0 4px 12px rgba(107, 114, 128, 0.3);
 }
 
 .btn-secundario:hover {
-  background: #4b5563;
+  background: linear-gradient(135deg, #4b5563, #374151);
+  box-shadow: 0 6px 16px rgba(107, 114, 128, 0.5);
 }
 
 /* Banner modo edición */
 .banner-edicion {
-  background: linear-gradient(to right, #f59e0b, #f97316);
+  background: linear-gradient(135deg, #f59e0b, #f97316, #fb923c);
   color: white;
   padding: 1rem 2rem;
   border-radius: 12px;
@@ -295,7 +307,8 @@ body {
   display: flex;
   justify-content: space-between;
   align-items: center;
-  box-shadow: 0 4px 12px rgba(245, 158, 11, 0.3);
+  box-shadow: 0 6px 16px rgba(245, 158, 11, 0.4);
+  border: 2px solid rgba(255, 255, 255, 0.2);
 }
 
 .banner-edicion.hidden {
@@ -311,10 +324,12 @@ body {
   border-radius: 8px;
   cursor: pointer;
   transition: all 0.3s;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.2);
 }
 
 .btn-cancelar-modo:hover {
-  background: #fef3c7;
+  background: #fed7aa;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.3);
 }
 
 /* Tarjetas en modo edición */
@@ -359,10 +374,12 @@ body {
 .spinner {
   width: 60px;
   height: 60px;
-  border: 6px solid #e5e7eb;
+  border: 6px solid rgba(255, 255, 255, 0.2);
   border-top: 6px solid #f97316;
+  border-right: 6px solid #3a8a64;
   border-radius: 50%;
   animation: spin 1s linear infinite;
+  box-shadow: 0 0 20px rgba(249, 115, 22, 0.3);
 }
 
 @keyframes spin {
@@ -378,4 +395,24 @@ body {
   color: #ffffff;
   font-size: 1.125rem;
   font-weight: 500;
+}
+
+/* Scrollbar personalizado para tarjetas */
+.tarjeta-reverso::-webkit-scrollbar {
+  width: 10px;
+}
+
+.tarjeta-reverso::-webkit-scrollbar-track {
+  background: rgba(255, 255, 255, 0.1);
+  border-radius: 10px;
+}
+
+.tarjeta-reverso::-webkit-scrollbar-thumb {
+  background: linear-gradient(135deg, #34d399, #22c55e, #fb923c);
+  border-radius: 10px;
+  border: 2px solid rgba(255, 255, 255, 0.1);
+}
+
+.tarjeta-reverso::-webkit-scrollbar-thumb:hover {
+  background: linear-gradient(135deg, #10b981, #16a34a, #f97316);
 }
