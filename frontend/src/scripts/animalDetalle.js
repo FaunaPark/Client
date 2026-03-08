@@ -28,4 +28,65 @@ document.addEventListener("DOMContentLoaded", async () => {
   btnVolver.addEventListener("click", () => {
     window.location.href = "./animales.html";
   });
+
+  // Función para obtener el ID del animal desde la URL
+  function obtenerIdDesdeURL() {
+    const urlParams = new URLSearchParams(window.location.search);
+    return urlParams.get("id");
+  }
+
+  // Función para cargar los datos del animal
+  async function cargarAnimal() {
+    try {
+      const animalIdParam = obtenerIdDesdeURL();
+
+      // Si no hay ID en la URL, redirigir a la página de animales
+      if (!animalIdParam) {
+        Swal.fire({
+          icon: "error",
+          title: "Error",
+          text: "No se especificó un animal válido",
+          confirmButtonColor: "#15803d",
+        }).then(() => {
+          window.location.href = "./animales.html";
+        });
+        return;
+      }
+
+      // Hacer fetch del animal específico
+      const urlAnimal = `http://localhost:8080/animales/${animalIdParam}`;
+      const responseAnimal = await fetch(urlAnimal);
+
+      if (!responseAnimal.ok) {
+        throw new Error("Animal no encontrado");
+      }
+
+      const animal = await responseAnimal.json();
+
+      // Hacer fetch de los hábitats para obtener el nombre del hábitat
+      const urlHabitats = "http://localhost:8080/habitats";
+      const responseHabitats = await fetch(urlHabitats);
+      const habitats = await responseHabitats.json();
+
+      // Buscar el hábitat del animal
+      const habitat = habitats.find((h) => h.id === animal.habitat_id);
+      const habitatNombre = habitat ? habitat.nombre : "Sin hábitat asignado";
+
+      // Mostrar los datos del animal
+      mostrarDatosAnimal(animal, habitatNombre);
+    } catch (error) {
+      console.error("Error al cargar el animal:", error);
+      Swal.fire({
+        icon: "error",
+        title: "Error",
+        text: "No se pudo cargar la información del animal",
+        confirmButtonColor: "#15803d",
+      }).then(() => {
+        window.location.href = "./animales.html";
+      });
+    }
+  }
+
+  // Cargar el animal al iniciar la página
+  await cargarAnimal();
 });
