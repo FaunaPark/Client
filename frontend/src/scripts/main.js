@@ -2,10 +2,6 @@
 document.addEventListener("DOMContentLoaded", async () => {
   console.log("¡JS conectado correctamente!");
 
-  // Detecta en qué página estamos según la clase del body
-  // Esto evita errores al intentar ejecutar código de una página en otra
-  const bodyClass = document.body.className;
-
   //Traer datos de la API y psarlos a json
   const urlHabitats = "http://localhost:8080/habitats";
   const resultHabitats = await fetch(urlHabitats);
@@ -16,7 +12,6 @@ document.addEventListener("DOMContentLoaded", async () => {
   const dataAnimales = await resultAnimales.json();
 
   // CÓDIGO PARA LA PÁGINA INDEX (página principal)
-  if (bodyClass.includes("index")) {
     // Obtener referencias a las imágenes del carrusel
     const leftImg = document.getElementById("leftImage");
     const rightImg = document.getElementById("rightImage");
@@ -76,5 +71,4 @@ document.addEventListener("DOMContentLoaded", async () => {
     rightImg.addEventListener("click", () => {
       window.location.href = "./animales.html";
     });
-  }
 });
