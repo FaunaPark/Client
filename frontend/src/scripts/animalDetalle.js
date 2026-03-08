@@ -87,6 +87,50 @@ document.addEventListener("DOMContentLoaded", async () => {
     }
   }
 
+  // Función para mostrar los datos del animal en la página
+  function mostrarDatosAnimal(animal, habitatNombre) {
+    // Título de la página
+    animalTitulo.textContent = animal.especie;
+
+    // Imagen
+    animalImagen.src = animal.imagen_url;
+    animalImagen.alt = animal.especie;
+
+    // Categoría
+    animalCategoria.textContent = animal.categoria;
+
+    // Nombre
+    animalNombre.textContent = animal.nombre;
+
+    // ID
+    animalId.textContent = `#${animal.id}`;
+
+    // Especie
+    animalEspecie.textContent = animal.especie;
+
+    // Edad
+    animalEdad.textContent = `${animal.edad} ${animal.edad === 1 ? "año" : "años"}`;
+
+    // Estado de salud con estilo
+    const estadoSalud = animal.estado_salud;
+    const esAtencion = estadoSalud.toLowerCase().includes("atención");
+    animalEstado.textContent = estadoSalud;
+    animalEstado.className = esAtencion
+      ? "text-xl font-bold text-red-400"
+      : "text-xl font-bold text-green-400";
+
+    // Hábitat
+    animalHabitat.textContent = habitatNombre;
+
+    // Descripción
+    animalDescripcion.textContent =
+      animal.descripcion || "Sin descripción disponible";
+
+    // Ocultar spinner y mostrar contenido
+    loadingSpinner.classList.add("hidden");
+    animalDetalle.classList.remove("hidden");
+  }
+
   // Cargar el animal al iniciar la página
   await cargarAnimal();
 });
