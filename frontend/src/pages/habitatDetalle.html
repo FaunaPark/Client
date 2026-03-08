@@ -30,7 +30,35 @@
     </div>
 
     <div class="main px-10 py-6">
-        <!-- Contenido principal aquí -->
+        <!-- Banner de información del hábitat -->
+        <div id="habitatInfo" class="mb-6">
+            <div class="bg-gradient-to-r from-green-800 to-orange-500 rounded-xl shadow-lg text-white" style="height: 180px;">
+                <div class="flex flex-row gap-6 items-center h-full px-6">
+                    <div class="flex-shrink-0" style="width: 180px; height: 180px;">
+                        <img id="habitatImagen" src="" alt="Imagen del hábitat"
+                            class="w-full h-full object-cover rounded-xl shadow-md">
+                    </div>
+                    <div class="flex-1 flex justify-between items-center gap-6 min-w-0">
+                        <div class="flex-1 min-w-0">
+                            <h1 id="habitatNombre" class="text-5xl font-serif mb-3">Cargando...</h1>
+                            <p id="habitatDescripcion" class="text-base leading-relaxed opacity-90">
+                                Descripción del hábitat...
+                            </p>
+                        </div>
+                        <div class="flex flex-col gap-3 flex-shrink-0">
+                            <span id="habitatClima"
+                                class="px-4 py-2 bg-white/20 backdrop-blur-sm rounded-lg text-base font-semibold whitespace-nowrap text-center">
+                                <i class="fa-solid fa-cloud-sun"></i> Clima
+                            </span>
+                            <span id="habitatNumAnimales"
+                                class="px-4 py-2 bg-white/20 backdrop-blur-sm rounded-lg text-base font-semibold whitespace-nowrap text-center">
+                                <i class="fa-solid fa-paw"></i> 0 animales
+                            </span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
     </div>
 
     <div class="footer mt-16">
