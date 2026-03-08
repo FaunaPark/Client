@@ -43,6 +43,54 @@ document.addEventListener("DOMContentLoaded", async () => {
     });
   });
 
+  // Función para confirmar y eliminar animal
+  async function confirmarYEliminarAnimal(animal) {
+    const result = await Swal.fire({
+      title: "¿Estás seguro?",
+      text: `¿Quieres eliminar a ${animal.nombre}?`,
+      icon: "warning",
+      showCancelButton: true,
+      confirmButtonColor: "#d33",
+      cancelButtonColor: "#3085d6",
+      confirmButtonText: "Sí, eliminar",
+      cancelButtonText: "Cancelar",
+    });
+
+    if (result.isConfirmed) {
+      try {
+        const response = await fetch(`http://localhost:8080/animales/${animal.id}`, {
+          method: "DELETE",
+        });
+
+        if (response.ok) {
+          Swal.fire({
+            icon: "success",
+            title: "Eliminado",
+            text: "El animal ha sido eliminado correctamente",
+            timer: 2000,
+            showConfirmButton: false,
+          });
+          modoEliminacionActivo = false;
+          bannerEliminacion.classList.add("hidden");
+          document.querySelectorAll(".tarjeta-giratoria").forEach((card) => {
+            card.classList.remove("modo-eliminacion");
+          });
+          // Recargar la página para actualizar los datos
+          location.reload();
+        } else {
+          throw new Error("Error al eliminar");
+        }
+      } catch (error) {
+        console.error("Error:", error);
+        Swal.fire({
+          icon: "error",
+          title: "Error",
+          text: "Hubo un problema al eliminar el animal",
+        });
+      }
+    }
+  }
+
   // Botones de navegación
   logo.addEventListener("click", () => {
     window.location.href = "./index.html";
@@ -167,6 +215,18 @@ document.addEventListener("DOMContentLoaded", async () => {
                 </div>
             `;
         animalList.appendChild(card);
+
+        // Agregar listener para click en modo eliminación o navegación
+        card.addEventListener("click", (e) => {
+          if (modoEliminacionActivo) {
+            e.preventDefault();
+            e.stopPropagation();
+            confirmarYEliminarAnimal(animal);
+          } else {
+            // Si no está en modo eliminación, navegar a detalle del animal
+            window.location.href = `./animalDetalle.html?id=${animal.id}`;
+          }
+        });
       });
     }
 
