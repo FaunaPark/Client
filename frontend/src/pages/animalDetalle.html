@@ -30,7 +30,86 @@
     </div>
 
     <div class="main px-10 py-6">
-        <!-- Contenido principal aquí -->
+        <!-- Spinner de carga -->
+        <div id="loadingSpinner" class="loading-spinner">
+            <div class="spinner"></div>
+            <p class="loading-text">Cargando detalles del animal...</p>
+        </div>
+
+        <!-- Contenedor de detalles del animal (inicialmente oculto) -->
+        <div id="animalDetalle" class="hidden">
+            <h1 id="animalTitulo" class="text-7xl text-center font-serif mt-6 text-gray-100 mb-8"></h1>
+
+            <!-- Contenedor principal con imagen y detalles -->
+            <div class="max-w-6xl mx-auto bg-white/10 backdrop-blur-lg rounded-3xl shadow-2xl overflow-hidden">
+                <div class="grid grid-cols-1 lg:grid-cols-2 gap-0">
+                    <!-- Imagen del animal -->
+                    <div class="relative h-96 lg:h-auto">
+                        <img id="animalImagen" src="" alt="Animal"
+                            class="w-full h-full object-cover">
+                        <div class="absolute top-4 right-4">
+                            <span id="animalCategoria"
+                                class="px-4 py-2 rounded-full bg-gradient-to-r from-green-800 to-orange-500 text-white font-semibold shadow-lg text-lg"></span>
+                        </div>
+                    </div>
+
+                    <!-- Detalles del animal -->
+                    <div class="p-8 lg:p-12">
+                        <h2 class="text-4xl font-bold text-gray-100 mb-6" id="animalNombre"></h2>
+
+                        <div class="space-y-4">
+                            <!-- ID -->
+                            <div class="flex items-center justify-between p-4 bg-white/5 rounded-xl">
+                                <span class="text-xl text-gray-300 font-semibold">
+                                    <i class="fa-solid fa-hashtag mr-2"></i> ID
+                                </span>
+                                <span id="animalId" class="text-xl text-gray-100 font-bold"></span>
+                            </div>
+
+                            <!-- Especie -->
+                            <div class="flex items-center justify-between p-4 bg-white/5 rounded-xl">
+                                <span class="text-xl text-gray-300 font-semibold">
+                                    <i class="fa-solid fa-paw mr-2"></i> Especie
+                                </span>
+                                <span id="animalEspecie" class="text-xl text-gray-100 font-bold"></span>
+                            </div>
+
+                            <!-- Edad -->
+                            <div class="flex items-center justify-between p-4 bg-white/5 rounded-xl">
+                                <span class="text-xl text-gray-300 font-semibold">
+                                    <i class="fa-solid fa-cake-candles mr-2"></i> Edad
+                                </span>
+                                <span id="animalEdad" class="text-xl text-gray-100 font-bold"></span>
+                            </div>
+
+                            <!-- Estado de salud -->
+                            <div class="flex items-center justify-between p-4 bg-white/5 rounded-xl">
+                                <span class="text-xl text-gray-300 font-semibold">
+                                    <i class="fa-solid fa-heart-pulse mr-2"></i> Estado de Salud
+                                </span>
+                                <span id="animalEstado" class="text-xl font-bold"></span>
+                            </div>
+
+                            <!-- Hábitat -->
+                            <div class="flex items-center justify-between p-4 bg-white/5 rounded-xl">
+                                <span class="text-xl text-gray-300 font-semibold">
+                                    <i class="fa-solid fa-earth-americas mr-2"></i> Hábitat
+                                </span>
+                                <span id="animalHabitat" class="text-xl text-gray-100 font-bold"></span>
+                            </div>
+                        </div>
+
+                        <!-- Descripción -->
+                        <div class="mt-8 p-6 bg-white/5 rounded-xl">
+                            <h3 class="text-2xl font-bold text-gray-100 mb-4">
+                                <i class="fa-solid fa-info-circle mr-2"></i> Descripción
+                            </h3>
+                            <p id="animalDescripcion" class="text-lg text-gray-300 leading-relaxed"></p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
     </div>
 
     <!-- Footer -->
