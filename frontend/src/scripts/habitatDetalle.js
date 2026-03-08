@@ -18,6 +18,31 @@ document.addEventListener("DOMContentLoaded", async () => {
   const loadingSpinner = document.getElementById("loadingSpinner");
   const mensajeSinAnimales = document.getElementById("mensajeSinAnimales");
 
+  // Elementos para el modo ELIMINAR
+  const btnEliminar = document.getElementById("btnEliminar");
+  const bannerEliminacion = document.getElementById("bannerEliminacion");
+  const btnCancelarModoEliminacion = document.getElementById("btnCancelarModoEliminacion");
+
+  let modoEliminacionActivo = false;
+
+  // Activar modo eliminación
+  btnEliminar.addEventListener("click", () => {
+    modoEliminacionActivo = true;
+    bannerEliminacion.classList.remove("hidden");
+    document.querySelectorAll(".tarjeta-giratoria").forEach((card) => {
+      card.classList.add("modo-eliminacion");
+    });
+  });
+
+  // Cancelar modo eliminación
+  btnCancelarModoEliminacion.addEventListener("click", () => {
+    modoEliminacionActivo = false;
+    bannerEliminacion.classList.add("hidden");
+    document.querySelectorAll(".tarjeta-giratoria").forEach((card) => {
+      card.classList.remove("modo-eliminacion");
+    });
+  });
+
   // Botones de navegación
   logo.addEventListener("click", () => {
     window.location.href = "./index.html";
