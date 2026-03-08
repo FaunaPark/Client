@@ -37,4 +37,60 @@ document.addEventListener("DOMContentLoaded", async () => {
   function ocultarLoading() {
     loadingSpinner.classList.add("hidden");
   }
+
+  try {
+    // Obtener información del hábitat y sus animales en una sola llamada
+    const urlHabitatAnimales = `http://localhost:8080/habitats/${habitatId}/animales`;
+    const response = await fetch(urlHabitatAnimales);
+
+    if (!response.ok) {
+      throw new Error("Hábitat no encontrado");
+    }
+
+    const data = await response.json();
+
+    // Extraer la información del hábitat y los animales
+    const habitat = {
+      id: data.id,
+      nombre: data.nombre,
+      descripcion: data.descripcion,
+      clima: data.clima,
+      imagen_url: data.imagen_url
+    };
+
+    const animalesDelHabitat = data.animales || [];
+
+    // Mostrar información del hábitat
+    function mostrarInfoHabitat() {
+      habitatImagen.src = habitat.imagen_url;
+      habitatImagen.alt = habitat.nombre;
+      habitatNombre.textContent = habitat.nombre;
+      habitatClima.innerHTML = `<i class="fa-solid fa-cloud-sun"></i> ${habitat.clima}`;
+
+      const numAnimales = animalesDelHabitat.length;
+      habitatNumAnimales.innerHTML = `<i class="fa-solid fa-paw"></i> ${numAnimales} ${numAnimales === 1 ? "animal" : "animales"}`;
+
+      habitatDescripcion.textContent = habitat.descripcion;
+    }
+
+    // Ejecutar las funciones para mostrar la información
+    mostrarInfoHabitat();
+    mostrarLoading();
+
+    setTimeout(() => {
+      ocultarLoading();
+    }, 500);
+  } catch (error) {
+    console.error("Error:", error);
+    // Si hay error, mostrar mensaje y redirigir
+    Swal.fire({
+      icon: "error",
+      title: "Hábitat no encontrado",
+      text: "El hábitat que buscas no existe o hubo un error al cargar los datos.",
+      timer: 3000,
+      showConfirmButton: false,
+    }).then(() => {
+      window.location.href = "./habitats.html";
+    });
+  }
 });
