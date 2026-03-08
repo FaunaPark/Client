@@ -59,6 +59,32 @@
                 </div>
             </div>
         </div>
+
+        <!-- Animales del hábitat -->
+        <div>
+            <!-- Título de animales -->
+            <div class="flex justify-between items-center mb-6">
+                <h2 class="text-5xl font-serif text-gray-100">
+                    <i class="fa-solid fa-paw"></i> Animales del Hábitat
+                </h2>
+            </div>
+
+            <!-- Spinner de carga -->
+            <div id="loadingSpinner" class="loading-spinner hidden">
+                <div class="spinner"></div>
+                <p class="loading-text">Cargando animales...</p>
+            </div>
+
+            <!-- Mensaje si no hay animales -->
+            <div id="mensajeSinAnimales" class="hidden text-center py-12">
+                <i class="fa-solid fa-inbox text-6xl text-gray-400 mb-4"></i>
+                <p class="text-2xl text-gray-300">No hay animales en este hábitat todavía</p>
+            </div>
+
+            <!-- Lista de animales -->
+            <div id="animalList" class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-6">
+            </div>
+        </div>
     </div>
 
     <div class="footer mt-16">
