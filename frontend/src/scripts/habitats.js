@@ -342,6 +342,9 @@ document.addEventListener("DOMContentLoaded", async () => {
           formularioEditar.classList.remove("hidden");
         } else if (modoEliminacionActivo) {
           confirmarYEliminarHabitat(habitat);
+        } else {
+          // Navegar a la página de detalle del hábitat
+          window.location.href = `habitatDetalle.html?id=${habitat.id}`;
         }
       });
 
