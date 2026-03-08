@@ -357,7 +357,7 @@ document.addEventListener("DOMContentLoaded", async () => {
                         <div class="tarjeta-contenido">
                             <div>
                                 <div class="tarjeta-titulo">${habitat.nombre}</div>
-                                <div class="tarjeta-subtitulo">🐾 ${numAnimales} ${numAnimales === 1 ? "animal" : "animales"}</div>
+                                <div class="tarjeta-subtitulo"><i class="fa-solid fa-paw mr-2"></i> ${numAnimales} ${numAnimales === 1 ? "animal" : "animales"}</div>
                             </div>
                             <span class="tarjeta-categoria">${habitat.clima}</span>
                         </div>
@@ -368,15 +368,15 @@ document.addEventListener("DOMContentLoaded", async () => {
                             <span class="tarjeta-categoria">${habitat.clima}</span>
                         </div>
                         <div class="tarjeta-detalle">
-                            <span class="tarjeta-detalle-etiqueta">🆔 ID</span>
+                            <span class="tarjeta-detalle-etiqueta"><i class="fa-solid fa-hashtag mr-2"></i> ID</span>
                             <span class="tarjeta-detalle-valor">#${habitat.id}</span>
                         </div>
                         <div class="tarjeta-detalle">
-                            <span class="tarjeta-detalle-etiqueta">🌡️ Clima</span>
+                            <span class="tarjeta-detalle-etiqueta"><i class="fa-solid fa-temperature-high"></i> Clima</span>
                             <span class="tarjeta-detalle-valor">${habitat.clima}</span>
                         </div>
                         <div class="tarjeta-detalle">
-                            <span class="tarjeta-detalle-etiqueta">📝 Descripción</span>
+                            <span class="tarjeta-detalle-etiqueta"><i class="fa-solid fa-circle-info"></i> Descripción</span>
                             <span class="tarjeta-detalle-valor">${habitat.descripcion}</span>
                         </div>
                     </div>
