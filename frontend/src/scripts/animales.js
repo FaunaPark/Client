@@ -405,7 +405,7 @@ document.addEventListener("DOMContentLoaded", async () => {
           confirmarYEliminarAnimal(animal);
         } else {
           // Si no ir a la página de detalle del animal
-          window.location.href = "animalDetalle.html?id=${animal.id}";
+          window.location.href = `animalDetalle.html?id=${animal.id}`;
         }
       });
 
