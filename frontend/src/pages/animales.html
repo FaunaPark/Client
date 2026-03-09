@@ -16,41 +16,41 @@
 <body class="animales">
     <div class="header">
         <div class="left">
-            <img id="logo" class=" h-36 hover:scale-105 active:scale-95 transition-all duration-300 "
+            <img id="logo" class="h-20 md:h-28 lg:h-36 hover:scale-105 active:scale-95 transition-all duration-300"
                 src="../../assets/logoHorizontal.png">
             <span
-                class="text-7xl  font-serif bg-clip-text text-transparent bg-gradient-to-r from-emerald-400 via-green-500 to-orange-400">Fauna
+                class="text-3xl sm:text-4xl md:text-5xl lg:text-7xl font-serif bg-clip-text text-transparent bg-gradient-to-r from-emerald-400 via-green-500 to-orange-400">Fauna
                 Park</span>
         </div>
         <div class="right">
             <button id="btnAñadir"
-                class="px-6 py-4 rounded-xl bg-gradient-to-br from-emerald-600 to-green-700 text-white font-semibold shadow-lg hover:scale-105 hover:shadow-2xl active:scale-95 transition-all duration-300 border border-emerald-400/30">
-                <i class="fa-solid fa-plus"></i> Añadir</button>
+                class="px-3 py-2 sm:px-4 sm:py-3 md:px-6 md:py-4 rounded-lg md:rounded-xl bg-gradient-to-br from-emerald-600 to-green-700 text-white text-sm md:text-base font-semibold shadow-lg hover:scale-105 hover:shadow-2xl active:scale-95 transition-all duration-300 border border-emerald-400/30">
+                <i class="fa-solid fa-plus"></i> <span class="hidden sm:inline">Añadir</span></button>
             <button id="btnEditar"
-                class="px-6 py-4 rounded-xl bg-gradient-to-br from-amber-500 to-orange-600 text-white font-semibold shadow-lg hover:scale-105 hover:shadow-2xl active:scale-95 transition-all duration-300 border border-amber-300/30">
-                <i class="fa-solid fa-pen-to-square"></i> Editar</button>
+                class="px-3 py-2 sm:px-4 sm:py-3 md:px-6 md:py-4 rounded-lg md:rounded-xl bg-gradient-to-br from-amber-500 to-orange-600 text-white text-sm md:text-base font-semibold shadow-lg hover:scale-105 hover:shadow-2xl active:scale-95 transition-all duration-300 border border-amber-300/30">
+                <i class="fa-solid fa-pen-to-square"></i> <span class="hidden sm:inline">Editar</span></button>
             <button id="btnEliminar"
-                class="px-6 py-4 rounded-xl bg-gradient-to-br from-red-600 to-red-700 text-white font-semibold shadow-lg hover:scale-105 hover:shadow-2xl active:scale-95 transition-all duration-300 border border-red-400/30">
-                <i class="fa-solid fa-trash-can"></i> Eliminar</button>
+                class="px-3 py-2 sm:px-4 sm:py-3 md:px-6 md:py-4 rounded-lg md:rounded-xl bg-gradient-to-br from-red-600 to-red-700 text-white text-sm md:text-base font-semibold shadow-lg hover:scale-105 hover:shadow-2xl active:scale-95 transition-all duration-300 border border-red-400/30">
+                <i class="fa-solid fa-trash-can"></i> <span class="hidden sm:inline">Eliminar</span></button>
         </div>
     </div>
 
-    <div class="main px-10 py-6">
-        <h1 class="text-7xl text-center font-serif mt-6 bg-clip-text text-transparent bg-gradient-to-r from-white via-emerald-100 to-orange-100">ANIMALES DEL PARQUE</h1><BR>
+    <div class="main px-4 sm:px-6 md:px-10 py-4 md:py-6">
+        <h1 class="text-3xl sm:text-4xl md:text-5xl lg:text-7xl text-center font-serif mt-4 md:mt-6 bg-clip-text text-transparent bg-gradient-to-r from-white via-emerald-100 to-orange-100">ANIMALES DEL PARQUE</h1><BR>
 
         <!-- Banner modo edición -->
         <div id="bannerEdicion" class="banner-edicion hidden">
-            <p class="text-xl font-semibold"><i class="fa-solid fa-pen-to-square"></i> Modo Edición Activado - Haz clic
+            <p class="text-base sm:text-lg md:text-xl font-semibold"><i class="fa-solid fa-pen-to-square"></i> <span class="hidden sm:inline">Modo Edición Activado -</span> Haz clic
                 en un animal para editarlo</p>
-            <button id="btnCancelarModoEdicion" class="btn-cancelar-modo">Cancelar Modo Edición</button>
+            <button id="btnCancelarModoEdicion" class="btn-cancelar-modo text-sm md:text-base">Cancelar<span class="hidden sm:inline"> Modo Edición</span></button>
         </div>
 
         <!-- Banner modo eliminación -->
         <div id="bannerEliminacion" class="banner-edicion hidden"
             style="background: linear-gradient(to right, #dc2626, #f97316);">
-            <p class="text-xl font-semibold"><i class="fa-solid fa-trash-can"></i> Modo Eliminación Activado - Haz clic
+            <p class="text-base sm:text-lg md:text-xl font-semibold"><i class="fa-solid fa-trash-can"></i> <span class="hidden sm:inline">Modo Eliminación Activado -</span> Haz clic
                 en un animal para eliminarlo</p>
-            <button id="btnCancelarModoEliminacion" class="btn-cancelar-modo">Cancelar Modo Eliminación</button>
+            <button id="btnCancelarModoEliminacion" class="btn-cancelar-modo text-sm md:text-base">Cancelar<span class="hidden sm:inline"> Modo Eliminación</span></button>
         </div>
 
         <div class="mb-6 flex justify-center">
@@ -70,7 +70,7 @@
         </div>
 
         <!-- Grid para las tarjetas de los animales-->
-        <div id="animalList" class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6 mt-6">
+        <div id="animalList" class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-6 mt-6">
         </div>
 
     </div>
