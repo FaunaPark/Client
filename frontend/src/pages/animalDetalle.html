@@ -19,12 +19,15 @@
             <img id="logo" class="h-36 hover:scale-105 active:scale-95 transition-all duration-300"
                 src="../../assets/logoHorizontal.png">
             <span
-                class="text-7xl font-serif bg-clip-text text-transparent bg-gradient-to-r from-green-800 to-orange-500">Fauna
+                class="text-7xl font-serif bg-clip-text text-transparent bg-gradient-to-r from-emerald-400 via-green-500 to-orange-400">Fauna
                 Park</span>
         </div>
         <div class="right">
+            <button id="btnIrHabitat"
+                class="px-6 py-4 rounded-xl bg-gradient-to-br from-emerald-600 to-green-700 text-white font-semibold shadow-lg hover:scale-105 hover:shadow-2xl active:scale-95 transition-all duration-300 border border-emerald-400/30">
+                <i class="fa-solid fa-mountain"></i> Ver Hábitat</button>
             <button id="btnVolver"
-                class="px-6 py-4 rounded-xl bg-gradient-to-r from-green-800 to-orange-500 text-white font-semibold shadow-lg hover:scale-105 hover:shadow-xl active:scale-95 transition-all duration-300">
+                class="px-6 py-4 rounded-xl bg-gradient-to-br from-orange-500 to-orange-600 text-white font-semibold shadow-lg hover:scale-105 hover:shadow-2xl active:scale-95 transition-all duration-300 border border-orange-300/30">
                 <i class="fa-solid fa-arrow-left"></i> Volver a Animales</button>
         </div>
     </div>
@@ -38,7 +41,7 @@
 
         <!-- Contenedor de detalles del animal (inicialmente oculto) -->
         <div id="animalDetalle" class="hidden">
-            <h1 id="animalTitulo" class="text-7xl text-center font-serif mt-6 text-gray-100 mb-8"></h1>
+            <h1 id="animalTitulo" class="text-7xl text-center font-serif mt-6 mb-8 bg-clip-text text-transparent bg-gradient-to-r from-white via-emerald-100 to-orange-100"></h1>
 
             <!-- Contenedor principal con imagen y detalles -->
             <div class="max-w-6xl mx-auto bg-white/10 backdrop-blur-lg rounded-3xl shadow-2xl overflow-hidden">
@@ -49,7 +52,7 @@
                             class="w-full h-full object-cover">
                         <div class="absolute top-4 right-4">
                             <span id="animalCategoria"
-                                class="px-4 py-2 rounded-full bg-gradient-to-r from-green-800 to-orange-500 text-white font-semibold shadow-lg text-lg"></span>
+                                class="px-4 py-2 rounded-full bg-gradient-to-br from-emerald-600 to-orange-500 text-white font-semibold shadow-lg text-lg border-2 border-white/30"></span>
                         </div>
                     </div>
 
@@ -126,27 +129,23 @@
                     <div>
                         <h4 class="text-sm font-semibold uppercase tracking-widest text-orange-300 mb-4">Navegación</h4>
                         <ul class="space-y-2 text-base">
-                            <li><a href="./index.html" class="hover:text-orange-300 transition-colors flex items-center gap-2"><i
+                            <li><a href="index.html" class="hover:text-orange-300 transition-colors flex items-center gap-2"><i
                                         class="fa-solid fa-home w-4"></i> Inicio</a></li>
-                            <li><a href="./habitats.html" class="hover:text-orange-300 transition-colors flex items-center gap-2"><i
+                            <li><a href="habitats.html" class="hover:text-orange-300 transition-colors flex items-center gap-2"><i
                                         class="fa-solid fa-mountain w-4"></i> Hábitats</a></li>
-                            <li><a href="./animales.html" class="hover:text-orange-300 transition-colors flex items-center gap-2"><i
+                            <li><a href="animales.html" class="hover:text-orange-300 transition-colors flex items-center gap-2"><i
                                         class="fa-solid fa-paw w-4"></i> Animales</a></li>
-                            <li><a href="#" class="hover:text-orange-300 transition-colors flex items-center gap-2"><i
-                                        class="fa-solid fa-calendar w-4"></i> Visitas</a></li>
                         </ul>
                     </div>
 
                     <div>
                         <h4 class="text-sm font-semibold uppercase tracking-widest text-orange-300 mb-4">Contacto</h4>
                         <ul class="space-y-2 text-base">
-                            <li class="flex items-center gap-2"><i class="fa-solid fa-location-dot w-4"></i> Av.
-                                Naturaleza,
-                                123</li>
-                            <li class="flex items-center gap-2"><i class="fa-solid fa-phone w-4"></i> +34 123 456 789
+                            <li class="flex items-center gap-2"><i class="fa-solid fa-location-dot w-4"></i> <a href="https://www.google.com/maps/search/?api=1&query=C.+de+Violeta+Parra+9+50015+Zaragoza" target="_blank" class="hover:text-orange-300 transition-colors">Av. Naturaleza, 123</a></li>
+                            <li class="flex items-center gap-2"><i class="fa-solid fa-phone w-4"></i> <a href="tel:+34123456789" class="hover:text-orange-300 transition-colors">+34 123 456 789</a>
                             </li>
                             <li class="flex items-center gap-2"><i class="fa-solid fa-envelope w-4"></i>
-                                info@faunapark.es
+                                <a href="mailto:info@faunapark.es" class="hover:text-orange-300 transition-colors">info@faunapark.es</a>
                             </li>
                             <li class="flex items-center gap-2"><i class="fa-solid fa-clock w-4"></i> Lun-Dom: 9:00 –
                                 20:00
@@ -157,27 +156,25 @@
                     <div>
                         <h4 class="text-sm font-semibold uppercase tracking-widest text-orange-300 mb-4">Síguenos</h4>
                         <div class="flex gap-3">
-                            <a href="#"
+                            <a href="https://www.facebook.com/faunapark" target="_blank"
                                 class="w-10 h-10 rounded-lg bg-green-800 flex items-center justify-center hover:bg-orange-500 hover:text-white transition-all duration-200">
                                 <i class="fa-brands fa-facebook-f"></i>
                             </a>
-                            <a href="#"
+                            <a href="https://www.instagram.com/faunapark" target="_blank"
                                 class="w-10 h-10 rounded-lg bg-green-800 flex items-center justify-center hover:bg-orange-500 hover:text-white transition-all duration-200">
                                 <i class="fa-brands fa-instagram"></i>
                             </a>
-                            <a href="#"
+                            <a href="https://twitter.com/faunapark" target="_blank"
                                 class="w-10 h-10 rounded-lg bg-green-800 flex items-center justify-center hover:bg-orange-500 hover:text-white transition-all duration-200">
-                                <i class="fa-brands fa-twitter"></i>
+                                <i class="fa-brands fa-x-twitter"></i>
                             </a>
-                            <a href="#"
+                            <a href="https://www.youtube.com/@faunapark" target="_blank"
                                 class="w-10 h-10 rounded-lg bg-green-800 flex items-center justify-center hover:bg-orange-500 hover:text-white transition-all duration-200">
                                 <i class="fa-brands fa-youtube"></i>
                             </a>
                         </div>
                     </div>
-
                 </div>
-
                 <div
                     class="mt-10 pt-6 border-t border-green-800 flex flex-col md:flex-row justify-between items-center gap-3 text-sm text-white">
                     <span>© 2026 Fauna Park · Todos los derechos reservados</span>

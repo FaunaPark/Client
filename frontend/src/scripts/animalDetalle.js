@@ -5,6 +5,7 @@ document.addEventListener("DOMContentLoaded", async () => {
   // Elementos del DOM
   const logo = document.getElementById("logo");
   const btnVolver = document.getElementById("btnVolver");
+  const btnIrHabitat = document.getElementById("btnIrHabitat");
   const loadingSpinner = document.getElementById("loadingSpinner");
   const animalDetalle = document.getElementById("animalDetalle");
 
@@ -20,6 +21,9 @@ document.addEventListener("DOMContentLoaded", async () => {
   const animalHabitat = document.getElementById("animalHabitat");
   const animalDescripcion = document.getElementById("animalDescripcion");
 
+  // Variable para guardar el habitat_id del animal
+  let habitatIdActual = null;
+
   // Event listeners para navegación
   logo.addEventListener("click", () => {
     window.location.href = "./index.html";
@@ -27,6 +31,10 @@ document.addEventListener("DOMContentLoaded", async () => {
 
   btnVolver.addEventListener("click", () => {
     window.location.href = "./animales.html";
+  });
+
+  btnIrHabitat.addEventListener("click", () => {
+      window.location.href = `./habitatDetalle.html?id=${habitatIdActual}`;
   });
 
   // Función para obtener el ID del animal desde la URL
@@ -71,6 +79,9 @@ document.addEventListener("DOMContentLoaded", async () => {
       // Buscar el hábitat del animal
       const habitat = habitats.find((h) => h.id === animal.habitat_id);
       const habitatNombre = habitat ? habitat.nombre : "Sin hábitat asignado";
+
+      // Guardar el habitat_id para el botón
+      habitatIdActual = animal.habitat_id;
 
       // Mostrar los datos del animal
       mostrarDatosAnimal(animal, habitatNombre);

@@ -63,20 +63,22 @@ document.addEventListener("DOMContentLoaded", async () => {
         });
 
         if (response.ok) {
-          Swal.fire({
-            icon: "success",
-            title: "Eliminado",
-            text: "El animal ha sido eliminado correctamente",
-            timer: 2000,
-            showConfirmButton: false,
-          });
           modoEliminacionActivo = false;
           bannerEliminacion.classList.add("hidden");
           document.querySelectorAll(".tarjeta-giratoria").forEach((card) => {
             card.classList.remove("modo-eliminacion");
           });
-          // Recargar la página para actualizar los datos
-          location.reload();
+          
+          Swal.fire({
+            icon: "success",
+            title: "¡Eliminado!",
+            text: "Animal eliminado correctamente",
+            timer: 3000,
+            showConfirmButton: false,
+          }).then(() => {
+            // Recargar la página para actualizar los datos después de mostrar el mensaje
+            location.reload();
+          });
         } else {
           throw new Error("Error al eliminar");
         }
@@ -172,43 +174,43 @@ document.addEventListener("DOMContentLoaded", async () => {
                 <div class="tarjeta-interna">
                     <div class="tarjeta-frente">
                         <div class="tarjeta-contenedor-imagen">
-                            <img src="${animal.imagen_url}" class="tarjeta-imagen" alt="${animal.nombre}">
+                            <img src="${animal.imagen_url}" class="tarjeta-imagen">
                         </div>
                         <div class="tarjeta-contenido">
                             <div>
                                 <div class="tarjeta-titulo">${animal.especie}</div>
-                                <div class="tarjeta-subtitulo">🐾 ${animal.nombre}</div>
+                                <div class="tarjeta-subtitulo">${animal.nombre}</div>
                             </div>
                             <span class="tarjeta-categoria">${animal.categoria}</span>
                         </div>
                     </div>
                     <div class="tarjeta-reverso">
                         <div class="tarjeta-reverso-cabecera">
-                            <h3 class="tarjeta-reverso-titulo">${animal.especie}</h3>
+                            <h3 class="tarjeta-reverso-titulo"><i class="fa-solid fa-paw mr-2"></i>${animal.especie}</h3>
                             <span class="tarjeta-categoria">${animal.categoria}</span>
                         </div>
                         <div class="tarjeta-detalle">
-                            <span class="tarjeta-detalle-etiqueta">🆔​ ID</span>
+                            <span class="tarjeta-detalle-etiqueta"><i class="fa-solid fa-hashtag mr-2"></i> ID</span>
                             <span class="tarjeta-detalle-valor">#${animal.id}</span>
                         </div>
                         <div class="tarjeta-detalle">
-                            <span class="tarjeta-detalle-etiqueta">🐾 Nombre</span>
+                            <span class="tarjeta-detalle-etiqueta"><i class="fa-solid fa-address-card"></i> Nombre</span>
                             <span class="tarjeta-detalle-valor">${animal.nombre}</span>
                         </div>
                         <div class="tarjeta-detalle">
-                            <span class="tarjeta-detalle-etiqueta">🎂 Edad</span>
+                            <span class="tarjeta-detalle-etiqueta"><i class="fa-solid fa-cake-candles mr-2"></i> Edad</span>
                             <span class="tarjeta-detalle-valor">${animal.edad} años</span>
                         </div>
                         <div class="tarjeta-detalle">
-                            <span class="tarjeta-detalle-etiqueta">💚 Estado</span>
+                            <span class="tarjeta-detalle-etiqueta"><i class="fa-solid fa-heart-pulse mr-2"></i> Estado</span>
                             <span class="tarjeta-detalle-valor"><span class="tarjeta-estado ${claseEstado}">${animal.estado_salud}</span></span>
                         </div>
                         <div class="tarjeta-detalle">
-                            <span class="tarjeta-detalle-etiqueta">🌍 Hábitat</span>
+                            <span class="tarjeta-detalle-etiqueta"><i class="fa-solid fa-earth-americas mr-2"></i> Hábitat</span>
                             <span class="tarjeta-detalle-valor">${habitat.nombre}</span>
                         </div>
                         <div class="tarjeta-detalle">
-                            <span class="tarjeta-detalle-etiqueta">📝 Descripción</span>
+                            <span class="tarjeta-detalle-etiqueta"><i class="fa-solid fa-circle-info"></i> Descripción</span>
                             <span class="tarjeta-detalle-valor">${animal.descripcion}</span>
                         </div>
                     </div>
