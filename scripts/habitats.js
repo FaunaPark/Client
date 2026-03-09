@@ -1,55 +1,51 @@
-//Espera a que se cargue todo el HTML antes de ejecutar el código
+// esperar a que cargue antes de ejecutar
 document.addEventListener("DOMContentLoaded", async () => {
   console.log("¡JS de hábitats conectado correctamente!");
 
-  //Traer datos de la API de hábitats y animales
-  const urlHabitats = "http://localhost:8080/habitats";
+  // ===== TRAER DATOS DESDE LA API =====
+  const urlHabitats = `${API_BASE_URL}/habitats`;
   const resultHabitats = await fetch(urlHabitats);
   const dataHabitats = await resultHabitats.json();
 
-  const urlAnimales = "http://localhost:8080/animales";
+  const urlAnimales = `${API_BASE_URL}/animales`;
   const resultAnimales = await fetch(urlAnimales);
   const dataAnimales = await resultAnimales.json();
 
+  // ===== REFERENCIAS DOM =====
   const inicio = document.getElementById("logo");
   const habitatList = document.getElementById("habitatList");
   const loadingSpinner = document.getElementById("loadingSpinner");
 
-  // Elementos del formulario para AÑADIR hábitat
+  // formulario añadir
   const btnAñadir = document.getElementById("btnAñadir");
   const formularioAñadir = document.getElementById("formularioAñadir");
   const btnCerrarFormulario = document.getElementById("btnCerrarFormulario");
   const btnCancelar = document.getElementById("btnCancelar");
   const formAñadirHabitat = document.getElementById("formAñadirHabitat");
 
-  // Elementos del formulario para EDITAR hábitat
+  // formulario editar
   const btnEditar = document.getElementById("btnEditar");
   const formularioEditar = document.getElementById("formularioEditar");
-  const btnCerrarFormularioEditar = document.getElementById(
-    "btnCerrarFormularioEditar",
-  );
+  const btnCerrarFormularioEditar = document.getElementById("btnCerrarFormularioEditar");
   const btnCancelarEditar = document.getElementById("btnCancelarEditar");
   const formEditarHabitat = document.getElementById("formEditarHabitat");
   const bannerEdicion = document.getElementById("bannerEdicion");
-  const btnCancelarModoEdicion = document.getElementById(
-    "btnCancelarModoEdicion",
-  );
+  const btnCancelarModoEdicion = document.getElementById("btnCancelarModoEdicion");
 
-  // Elementos para el modo ELIMINAR
+  // modo eliminar
   const btnEliminar = document.getElementById("btnEliminar");
   const bannerEliminacion = document.getElementById("bannerEliminacion");
-  const btnCancelarModoEliminacion = document.getElementById(
-    "btnCancelarModoEliminacion",
-  );
+  const btnCancelarModoEliminacion = document.getElementById("btnCancelarModoEliminacion");
 
   let modoEdicionActivo = false;
   let modoEliminacionActivo = false;
 
+  // ===== NAVEGACION =====
   inicio.addEventListener("click", () => {
-    window.location.href = "./index.html";
+    window.location.href = "../index.html";
   });
 
-  // Funciones para controlar el spinner de carga
+  // ===== SPINNER DE CARGA =====
   function mostrarLoading() {
     loadingSpinner.classList.remove("hidden");
     habitatList.classList.add("hidden");
@@ -60,7 +56,7 @@ document.addEventListener("DOMContentLoaded", async () => {
     habitatList.classList.remove("hidden");
   }
 
-  // Mostrar/ocultar formulario al hacer clic en Añadir
+  // ===== FORMULARIO AÑADIR =====
   btnAñadir.addEventListener("click", () => {
     formularioAñadir.classList.remove("hidden");
   });
@@ -72,7 +68,6 @@ document.addEventListener("DOMContentLoaded", async () => {
   btnCerrarFormulario.addEventListener("click", cerrarFormulario);
   btnCancelar.addEventListener("click", cerrarFormulario);
 
-  // Añadir hábitat del formulario con POST
   formAñadirHabitat.addEventListener("submit", async (e) => {
     e.preventDefault();
 
@@ -84,7 +79,7 @@ document.addEventListener("DOMContentLoaded", async () => {
     };
 
     try {
-      const response = await fetch("http://localhost:8080/habitats", {
+      const response = await fetch(`${API_BASE_URL}/habitats`, {
         method: "POST",
         headers: {
           "Content-Type": "application/json",
@@ -93,7 +88,7 @@ document.addEventListener("DOMContentLoaded", async () => {
       });
 
       if (response.ok) {
-        const respuestaHabitats = await fetch("http://localhost:8080/habitats");
+        const respuestaHabitats = await fetch(`${API_BASE_URL}/habitats`);
         const dataActualizados = await respuestaHabitats.json();
 
         dataHabitats.length = 0;
@@ -127,7 +122,7 @@ document.addEventListener("DOMContentLoaded", async () => {
     }
   });
 
-  // Activar/desactivar modo edición
+  // ===== MODO EDICION =====
   btnEditar.addEventListener("click", () => {
     modoEdicionActivo = true;
     bannerEdicion.classList.remove("hidden");
@@ -144,7 +139,7 @@ document.addEventListener("DOMContentLoaded", async () => {
     });
   });
 
-  // Activar/desactivar modo eliminación
+  // ===== MODO ELIMINACION =====
   btnEliminar.addEventListener("click", () => {
     modoEliminacionActivo = true;
     bannerEliminacion.classList.remove("hidden");
@@ -161,7 +156,7 @@ document.addEventListener("DOMContentLoaded", async () => {
     });
   });
 
-  // Función que carga los datos de un hábitat en el formulario de edición
+  // ===== CARGAR DATOS EN FORMULARIO EDITAR =====
   function cargarDatosHabitatEditar(habitat) {
     document.getElementById("editar_id").value = habitat.id;
     document.getElementById("editar_nombre").value = habitat.nombre;
@@ -170,7 +165,6 @@ document.addEventListener("DOMContentLoaded", async () => {
     document.getElementById("editar_descripcion").value = habitat.descripcion;
   }
 
-  // Función para cerrar/ocultar el formulario de editar
   function cerrarFormularioEditar() {
     formularioEditar.classList.add("hidden");
   }
@@ -178,6 +172,7 @@ document.addEventListener("DOMContentLoaded", async () => {
   btnCerrarFormularioEditar.addEventListener("click", cerrarFormularioEditar);
   btnCancelarEditar.addEventListener("click", cerrarFormularioEditar);
 
+  // ===== ENVIAR FORMULARIO EDITAR =====
   formEditarHabitat.addEventListener("submit", async (e) => {
     e.preventDefault();
 
@@ -191,19 +186,16 @@ document.addEventListener("DOMContentLoaded", async () => {
     };
 
     try {
-      const response = await fetch(
-        `http://localhost:8080/habitats/${habitatId}`,
-        {
-          method: "PUT",
-          headers: {
-            "Content-Type": "application/json",
-          },
-          body: JSON.stringify(habitatActualizado),
+      const response = await fetch(`${API_BASE_URL}/habitats/${habitatId}`, {
+        method: "PUT",
+        headers: {
+          "Content-Type": "application/json",
         },
-      );
+        body: JSON.stringify(habitatActualizado),
+      });
 
       if (response.ok) {
-        const respuestaHabitats = await fetch("http://localhost:8080/habitats");
+        const respuestaHabitats = await fetch(`${API_BASE_URL}/habitats`);
         const dataActualizados = await respuestaHabitats.json();
 
         dataHabitats.length = 0;
@@ -242,7 +234,7 @@ document.addEventListener("DOMContentLoaded", async () => {
     }
   });
 
-  // Función para confirmar y eliminar un hábitat
+  // ===== ELIMINAR HABITAT =====
   async function confirmarYEliminarHabitat(habitat) {
     const result = await Swal.fire({
       icon: "warning",
@@ -260,15 +252,12 @@ document.addEventListener("DOMContentLoaded", async () => {
     }
 
     try {
-      const response = await fetch(
-        `http://localhost:8080/habitats/${habitat.id}`,
-        {
-          method: "DELETE",
-        },
-      );
+      const response = await fetch(`${API_BASE_URL}/habitats/${habitat.id}`, {
+        method: "DELETE",
+      });
 
       if (response.ok) {
-        const respuestaHabitats = await fetch("http://localhost:8080/habitats");
+        const respuestaHabitats = await fetch(`${API_BASE_URL}/habitats`);
         const dataActualizados = await respuestaHabitats.json();
 
         dataHabitats.length = 0;
@@ -290,7 +279,7 @@ document.addEventListener("DOMContentLoaded", async () => {
           showConfirmButton: false,
         });
       } else {
-        // Contar animales en el hábitat
+        // contar animales en el habitat
         const animalesEnHabitat = dataAnimales.filter(
           (a) => a.habitat_id === habitat.id,
         ).length;
@@ -315,12 +304,12 @@ document.addEventListener("DOMContentLoaded", async () => {
     }
   }
 
-  // Función que crea y muestra las tarjetas de hábitats
+  // ===== CREAR Y MOSTRAR TARJETAS =====
   function mostrarHabitats(habitatsParaMostrar) {
     habitatList.innerHTML = "";
 
     habitatsParaMostrar.forEach((habitat) => {
-      // Contar cuántos animales hay en este hábitat
+      // contar animales en este habitat
       const numAnimales = dataAnimales.filter(
         (a) => a.habitat_id === habitat.id,
       ).length;
@@ -336,6 +325,7 @@ document.addEventListener("DOMContentLoaded", async () => {
         card.classList.add("modo-eliminacion");
       }
 
+      // que hace cuando alguien le da click
       card.addEventListener("click", () => {
         if (modoEdicionActivo) {
           cargarDatosHabitatEditar(habitat);
@@ -343,11 +333,11 @@ document.addEventListener("DOMContentLoaded", async () => {
         } else if (modoEliminacionActivo) {
           confirmarYEliminarHabitat(habitat);
         } else {
-          // Navegar a la página de detalle del hábitat
           window.location.href = `habitatDetalle.html?id=${habitat.id}`;
         }
       });
 
+      // html de la tarjeta
       card.innerHTML = `
                 <div class="tarjeta-interna">
                     <div class="tarjeta-frente">
@@ -386,7 +376,7 @@ document.addEventListener("DOMContentLoaded", async () => {
     });
   }
 
-  // Mostrar spinner y luego los hábitats
+  // ===== CARGAR AL INICIO =====
   mostrarLoading();
   setTimeout(() => {
     mostrarHabitats(dataHabitats);

@@ -5,127 +5,91 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Fauna Park</title>
-    <link rel="stylesheet" href="../styles/output.css">
+    <script src="https://cdn.tailwindcss.com"></script>
     <link rel="stylesheet" href="../styles/styles.css">
-    <script src="../scripts/animales.js"></script>
-    <link rel="icon" href="../../assets/favicon.ico" type="image/png">
+    <script src="../scripts/config.js"></script>
+    <script src="../scripts/habitats.js"></script>
+    <link rel="icon" href="../assets/favicon.ico" type="image/png">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css">
     <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
 </head>
 
-<body class="animales">
+<body class="habitats">
     <div class="header">
         <div class="left">
-            <img id="logo" class=" h-36 hover:scale-105 active:scale-95 transition-all duration-300 "
-                src="../../assets/logoHorizontal.png">
+            <img id="logo" class="h-20 md:h-28 lg:h-36 hover:scale-105 active:scale-95 transition-all duration-300"
+                src="../assets/logoHorizontal.png">
             <span
-                class="text-7xl  font-serif bg-clip-text text-transparent bg-gradient-to-r from-emerald-400 via-green-500 to-orange-400">Fauna
+                class="text-3xl sm:text-4xl md:text-5xl lg:text-7xl font-serif bg-clip-text text-transparent bg-gradient-to-r from-emerald-400 via-green-500 to-orange-400">Fauna
                 Park</span>
         </div>
         <div class="right">
             <button id="btnAñadir"
-                class="px-6 py-4 rounded-xl bg-gradient-to-br from-emerald-600 to-green-700 text-white font-semibold shadow-lg hover:scale-105 hover:shadow-2xl active:scale-95 transition-all duration-300 border border-emerald-400/30">
-                <i class="fa-solid fa-plus"></i> Añadir</button>
+                class="px-3 py-2 sm:px-4 sm:py-3 md:px-6 md:py-4 rounded-lg md:rounded-xl bg-gradient-to-br from-emerald-600 to-green-700 text-white text-sm md:text-base font-semibold shadow-lg hover:scale-105 hover:shadow-2xl active:scale-95 transition-all duration-300 border border-emerald-400/30">
+                <i class="fa-solid fa-plus"></i> <span class="hidden sm:inline">Añadir</span></button>
             <button id="btnEditar"
-                class="px-6 py-4 rounded-xl bg-gradient-to-br from-amber-500 to-orange-600 text-white font-semibold shadow-lg hover:scale-105 hover:shadow-2xl active:scale-95 transition-all duration-300 border border-amber-300/30">
-                <i class="fa-solid fa-pen-to-square"></i> Editar</button>
+                class="px-3 py-2 sm:px-4 sm:py-3 md:px-6 md:py-4 rounded-lg md:rounded-xl bg-gradient-to-br from-amber-500 to-orange-600 text-white text-sm md:text-base font-semibold shadow-lg hover:scale-105 hover:shadow-2xl active:scale-95 transition-all duration-300 border border-amber-300/30">
+                <i class="fa-solid fa-pen-to-square"></i> <span class="hidden sm:inline">Editar</span></button>
             <button id="btnEliminar"
-                class="px-6 py-4 rounded-xl bg-gradient-to-br from-red-600 to-red-700 text-white font-semibold shadow-lg hover:scale-105 hover:shadow-2xl active:scale-95 transition-all duration-300 border border-red-400/30">
-                <i class="fa-solid fa-trash-can"></i> Eliminar</button>
+                class="px-3 py-2 sm:px-4 sm:py-3 md:px-6 md:py-4 rounded-lg md:rounded-xl bg-gradient-to-br from-red-600 to-red-700 text-white text-sm md:text-base font-semibold shadow-lg hover:scale-105 hover:shadow-2xl active:scale-95 transition-all duration-300 border border-red-400/30">
+                <i class="fa-solid fa-trash-can"></i> <span class="hidden sm:inline">Eliminar</span></button>
         </div>
     </div>
 
-    <div class="main px-10 py-6">
-        <h1 class="text-7xl text-center font-serif mt-6 bg-clip-text text-transparent bg-gradient-to-r from-white via-emerald-100 to-orange-100">ANIMALES DEL PARQUE</h1><BR>
+    <div class="main px-4 sm:px-6 md:px-10 py-4 md:py-6">
+        <h1 class="text-3xl sm:text-4xl md:text-5xl lg:text-7xl text-center font-serif mt-4 md:mt-6 bg-clip-text text-transparent bg-gradient-to-r from-white via-emerald-100 to-orange-100">HÁBITATS DEL PARQUE</h1><BR>
 
         <!-- Banner modo edición -->
         <div id="bannerEdicion" class="banner-edicion hidden">
-            <p class="text-xl font-semibold"><i class="fa-solid fa-pen-to-square"></i> Modo Edición Activado - Haz clic
-                en un animal para editarlo</p>
-            <button id="btnCancelarModoEdicion" class="btn-cancelar-modo">Cancelar Modo Edición</button>
+            <p class="text-base sm:text-lg md:text-xl font-semibold"><i class="fa-solid fa-pen-to-square"></i> <span class="hidden sm:inline">Modo Edición Activado -</span> Haz clic
+                en un hábitat para editarlo</p>
+            <button id="btnCancelarModoEdicion" class="btn-cancelar-modo text-sm md:text-base">Cancelar<span class="hidden sm:inline"> Modo Edición</span></button>
         </div>
 
         <!-- Banner modo eliminación -->
         <div id="bannerEliminacion" class="banner-edicion hidden"
             style="background: linear-gradient(to right, #dc2626, #f97316);">
-            <p class="text-xl font-semibold"><i class="fa-solid fa-trash-can"></i> Modo Eliminación Activado - Haz clic
-                en un animal para eliminarlo</p>
-            <button id="btnCancelarModoEliminacion" class="btn-cancelar-modo">Cancelar Modo Eliminación</button>
-        </div>
-
-        <div class="mb-6 flex justify-center">
-            <div class="relative w-full max-w-md">
-                <span class="absolute inset-y-0 left-3 flex items-center text-gray-400"><i
-                        class="fa-solid fa-magnifying-glass"></i></span>
-
-                <input type="text" id="searchAnimal" placeholder="Buscar animal por especie..."
-                    class="w-full pl-10 px-4 py-2 rounded-lg border border-gray-300 focus:outline-none">
-            </div>
+            <p class="text-base sm:text-lg md:text-xl font-semibold"><i class="fa-solid fa-trash-can"></i> <span class="hidden sm:inline">Modo Eliminación Activado -</span> Haz clic
+                en un hábitat para eliminarlo</p>
+            <button id="btnCancelarModoEliminacion" class="btn-cancelar-modo text-sm md:text-base">Cancelar<span class="hidden sm:inline"> Modo Eliminación</span></button>
         </div>
 
         <!-- Spinner de carga inicial -->
         <div id="loadingSpinner" class="loading-spinner hidden">
             <div class="spinner"></div>
-            <p class="loading-text">Cargando animales...</p>
+            <p class="loading-text">Cargando hábitats...</p>
         </div>
-
-        <!-- Grid para las tarjetas de los animales-->
-        <div id="animalList" class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6 mt-6">
+        
+        <!-- Grid para las tarjetas de los habitats-->
+        <div id="habitatList" class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-6 mt-6">
         </div>
 
     </div>
 
-    <!-- Formulario para añadir animal -->
+    <!-- Formulario para añadir hábitat -->
     <div id="formularioAñadir" class="formulario-overlay hidden">
         <div class="formulario-contenido">
             <div class="formulario-cabecera">
-                <h2 class="text-3xl font-bold text-gray-800">Añadir Nuevo Animal</h2>
+                <h2 class="text-3xl font-bold text-gray-800">Añadir Nuevo Hábitat</h2>
                 <button id="btnCerrarFormulario" class="text-gray-500 hover:text-gray-800 text-3xl"><i
                         class="fa-solid fa-xmark"></i></button>
             </div>
 
-            <form id="formAñadirAnimal" class="formulario-cuerpo">
+            <form id="formAñadirHabitat" class="formulario-cuerpo">
                 <div class="form-grupo">
                     <label for="nombre">Nombre</label>
                     <input type="text" id="nombre" name="nombre" required>
                 </div>
 
                 <div class="form-grupo">
-                    <label for="especie">Especie</label>
-                    <input type="text" id="especie" name="especie" required>
-                </div>
-
-                <div class="form-grupo">
-                    <label for="categoria">Categoría</label>
-                    <select id="categoria" name="categoria" required>
-                        <option value="">Selecciona una categoría</option>
-                        <option value="Mamífero">Mamífero</option>
-                        <option value="Ave">Ave</option>
-                        <option value="Reptil">Reptil</option>
-                        <option value="Anfibio">Anfibio</option>
-                        <option value="Pez">Pez</option>
-                    </select>
-                </div>
-
-                <div class="form-grupo">
-                    <label for="edad">Edad (años)</label>
-                    <input type="number" id="edad" name="edad" min="0" required>
-                </div>
-
-                <div class="form-grupo">
-                    <label for="estado_salud">Estado de Salud</label>
-                    <select id="estado_salud" name="estado_salud" required>
-                        <option value="">Selecciona un estado</option>
-                        <option value="Saludable">Saludable</option>
-                        <option value="Requiere atención">Requiere Atención</option>
-                    </select>
-                </div>
-
-                <div class="form-grupo">
-                    <label for="habitat_id">Hábitat</label>
-                    <select id="habitat_id" name="habitat_id" required>
-                        <option value="">Selecciona un hábitat</option>
-                        <!-- Se cargará dinámicamente desde la API -->
+                    <label for="clima">Clima</label>
+                    <select id="clima" name="clima" required>
+                        <option value="">Selecciona un clima</option>
+                        <option value="Tropical">Tropical</option>
+                        <option value="Árido">Árido</option>
+                        <option value="Templado">Templado</option>
+                        <option value="Frío">Frío</option>
+                        <option value="Acuático">Acuático</option>
                     </select>
                 </div>
 
@@ -142,22 +106,22 @@
 
                 <div class="formulario-pie">
                     <button type="button" id="btnCancelar" class="btn-secundario">Cancelar</button>
-                    <button type="submit" class="btn-primario">Guardar Animal</button>
+                    <button type="submit" class="btn-primario">Guardar Hábitat</button>
                 </div>
             </form>
         </div>
     </div>
 
-    <!-- Formulario para editar animal -->
+    <!-- Formulario para editar hábitat -->
     <div id="formularioEditar" class="formulario-overlay hidden">
         <div class="formulario-contenido">
             <div class="formulario-cabecera">
-                <h2 class="text-3xl font-bold text-gray-800">Editar Animal</h2>
+                <h2 class="text-3xl font-bold text-gray-800">Editar Hábitat</h2>
                 <button id="btnCerrarFormularioEditar" class="text-gray-500 hover:text-gray-800 text-3xl"><i
                         class="fa-solid fa-xmark"></i></button>
             </div>
 
-            <form id="formEditarAnimal" class="formulario-cuerpo">
+            <form id="formEditarHabitat" class="formulario-cuerpo">
                 <input type="hidden" id="editar_id">
 
                 <div class="form-grupo">
@@ -166,41 +130,14 @@
                 </div>
 
                 <div class="form-grupo">
-                    <label for="editar_especie">Especie</label>
-                    <input type="text" id="editar_especie" name="especie" required>
-                </div>
-
-                <div class="form-grupo">
-                    <label for="editar_categoria">Categoría</label>
-                    <select id="editar_categoria" name="categoria" required>
-                        <option value="">Selecciona una categoría</option>
-                        <option value="Mamífero">Mamífero</option>
-                        <option value="Ave">Ave</option>
-                        <option value="Reptil">Reptil</option>
-                        <option value="Anfibio">Anfibio</option>
-                        <option value="Pez">Pez</option>
-                    </select>
-                </div>
-
-                <div class="form-grupo">
-                    <label for="editar_edad">Edad (años)</label>
-                    <input type="number" id="editar_edad" name="edad" min="0" required>
-                </div>
-
-                <div class="form-grupo">
-                    <label for="editar_estado_salud">Estado de Salud</label>
-                    <select id="editar_estado_salud" name="estado_salud" required>
-                        <option value="">Selecciona un estado</option>
-                        <option value="Saludable">Saludable</option>
-                        <option value="Requiere atención">Requiere Atención</option>
-                    </select>
-                </div>
-
-                <div class="form-grupo">
-                    <label for="editar_habitat_id">Hábitat</label>
-                    <select id="editar_habitat_id" name="habitat_id" required>
-                        <option value="">Selecciona un hábitat</option>
-                        <!-- Se cargará dinámicamente desde la API -->
+                    <label for="editar_clima">Clima</label>
+                    <select id="editar_clima" name="clima" required>
+                        <option value="">Selecciona un clima</option>
+                        <option value="Tropical">Tropical</option>
+                        <option value="Árido">Árido</option>
+                        <option value="Templado">Templado</option>
+                        <option value="Frío">Frío</option>
+                        <option value="Acuático">Acuático</option>
                     </select>
                 </div>
 
@@ -217,7 +154,7 @@
 
                 <div class="formulario-pie">
                     <button type="button" id="btnCancelarEditar" class="btn-secundario">Cancelar</button>
-                    <button type="submit" class="btn-primario">Actualizar Animal</button>
+                    <button type="submit" class="btn-primario">Actualizar Hábitat</button>
                 </div>
             </form>
         </div>
@@ -236,7 +173,7 @@
                     <div>
                         <h4 class="text-sm font-semibold uppercase tracking-widest text-orange-300 mb-4">Navegación</h4>
                         <ul class="space-y-2 text-base">
-                            <li><a href="index.html" class="hover:text-orange-300 transition-colors flex items-center gap-2"><i
+                            <li><a href="../index.html" class="hover:text-orange-300 transition-colors flex items-center gap-2"><i
                                         class="fa-solid fa-home w-4"></i> Inicio</a></li>
                             <li><a href="habitats.html" class="hover:text-orange-300 transition-colors flex items-center gap-2"><i
                                         class="fa-solid fa-mountain w-4"></i> Hábitats</a></li>

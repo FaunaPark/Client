@@ -5,10 +5,11 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Detalle Animal - Fauna Park</title>
-    <link rel="stylesheet" href="../styles/output.css">
+    <script src="https://cdn.tailwindcss.com"></script>
     <link rel="stylesheet" href="../styles/styles.css">
+    <script src="../scripts/config.js"></script>
     <script src="../scripts/animalDetalle.js"></script>
-    <link rel="icon" href="../../assets/favicon.ico" type="image/png">
+    <link rel="icon" href="../assets/favicon.ico" type="image/png">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css">
     <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
 </head>
@@ -16,23 +17,23 @@
 <body class="animales">
     <div class="header">
         <div class="left">
-            <img id="logo" class="h-36 hover:scale-105 active:scale-95 transition-all duration-300"
-                src="../../assets/logoHorizontal.png">
+            <img id="logo" class="h-20 md:h-28 lg:h-36 hover:scale-105 active:scale-95 transition-all duration-300"
+                src="../assets/logoHorizontal.png">
             <span
-                class="text-7xl font-serif bg-clip-text text-transparent bg-gradient-to-r from-emerald-400 via-green-500 to-orange-400">Fauna
+                class="text-3xl sm:text-4xl md:text-5xl lg:text-7xl font-serif bg-clip-text text-transparent bg-gradient-to-r from-emerald-400 via-green-500 to-orange-400">Fauna
                 Park</span>
         </div>
         <div class="right">
             <button id="btnIrHabitat"
-                class="px-6 py-4 rounded-xl bg-gradient-to-br from-emerald-600 to-green-700 text-white font-semibold shadow-lg hover:scale-105 hover:shadow-2xl active:scale-95 transition-all duration-300 border border-emerald-400/30">
-                <i class="fa-solid fa-mountain"></i> Ver Hábitat</button>
+                class="px-3 py-2 sm:px-4 sm:py-3 md:px-6 md:py-4 rounded-lg md:rounded-xl bg-gradient-to-br from-emerald-600 to-green-700 text-white text-sm md:text-base font-semibold shadow-lg hover:scale-105 hover:shadow-2xl active:scale-95 transition-all duration-300 border border-emerald-400/30">
+                <i class="fa-solid fa-mountain"></i> <span class="hidden sm:inline">Ver Hábitat</span></button>
             <button id="btnVolver"
-                class="px-6 py-4 rounded-xl bg-gradient-to-br from-orange-500 to-orange-600 text-white font-semibold shadow-lg hover:scale-105 hover:shadow-2xl active:scale-95 transition-all duration-300 border border-orange-300/30">
-                <i class="fa-solid fa-arrow-left"></i> Volver a Animales</button>
+                class="px-3 py-2 sm:px-4 sm:py-3 md:px-6 md:py-4 rounded-lg md:rounded-xl bg-gradient-to-br from-orange-500 to-orange-600 text-white text-sm md:text-base font-semibold shadow-lg hover:scale-105 hover:shadow-2xl active:scale-95 transition-all duration-300 border border-orange-300/30">
+                <i class="fa-solid fa-arrow-left"></i> <span class="hidden sm:inline">Volver a Animales</span></button>
         </div>
     </div>
 
-    <div class="main px-10 py-6">
+    <div class="main px-4 sm:px-6 md:px-10 py-4 md:py-6">
         <!-- Spinner de carga -->
         <div id="loadingSpinner" class="loading-spinner">
             <div class="spinner"></div>
@@ -41,73 +42,73 @@
 
         <!-- Contenedor de detalles del animal (inicialmente oculto) -->
         <div id="animalDetalle" class="hidden">
-            <h1 id="animalTitulo" class="text-7xl text-center font-serif mt-6 mb-8 bg-clip-text text-transparent bg-gradient-to-r from-white via-emerald-100 to-orange-100"></h1>
+            <h1 id="animalTitulo" class="text-3xl sm:text-4xl md:text-5xl lg:text-7xl text-center font-serif mt-4 md:mt-6 mb-6 md:mb-8 px-4 bg-clip-text text-transparent bg-gradient-to-r from-white via-emerald-100 to-orange-100"></h1>
 
             <!-- Contenedor principal con imagen y detalles -->
             <div class="max-w-6xl mx-auto bg-white/10 backdrop-blur-lg rounded-3xl shadow-2xl overflow-hidden">
                 <div class="grid grid-cols-1 lg:grid-cols-2 gap-0">
                     <!-- Imagen del animal -->
-                    <div class="relative h-96 lg:h-auto">
+                    <div class="relative h-64 sm:h-80 md:h-96 lg:h-auto">
                         <img id="animalImagen" src="" alt="Animal"
                             class="w-full h-full object-cover">
                         <div class="absolute top-4 right-4">
                             <span id="animalCategoria"
-                                class="px-4 py-2 rounded-full bg-gradient-to-br from-emerald-600 to-orange-500 text-white font-semibold shadow-lg text-lg border-2 border-white/30"></span>
+                                class="px-3 py-1 sm:px-4 sm:py-2 rounded-full bg-gradient-to-br from-emerald-600 to-orange-500 text-white text-sm sm:text-base md:text-lg font-semibold shadow-lg border-2 border-white/30"></span>
                         </div>
                     </div>
 
                     <!-- Detalles del animal -->
-                    <div class="p-8 lg:p-12">
-                        <h2 class="text-4xl font-bold text-gray-100 mb-6" id="animalNombre"></h2>
+                    <div class="p-6 sm:p-8 lg:p-12">
+                        <h2 class="text-2xl sm:text-3xl md:text-4xl font-bold text-gray-100 mb-4 md:mb-6" id="animalNombre"></h2>
 
                         <div class="space-y-4">
                             <!-- ID -->
-                            <div class="flex items-center justify-between p-4 bg-white/5 rounded-xl">
-                                <span class="text-xl text-gray-300 font-semibold">
+                            <div class="flex items-center justify-between p-3 md:p-4 bg-white/5 rounded-xl">
+                                <span class="text-base sm:text-lg md:text-xl text-gray-300 font-semibold">
                                     <i class="fa-solid fa-hashtag mr-2"></i> ID
                                 </span>
-                                <span id="animalId" class="text-xl text-gray-100 font-bold"></span>
+                                <span id="animalId" class="text-base sm:text-lg md:text-xl text-gray-100 font-bold"></span>
                             </div>
 
                             <!-- Especie -->
-                            <div class="flex items-center justify-between p-4 bg-white/5 rounded-xl">
-                                <span class="text-xl text-gray-300 font-semibold">
+                            <div class="flex items-center justify-between p-3 md:p-4 bg-white/5 rounded-xl">
+                                <span class="text-base sm:text-lg md:text-xl text-gray-300 font-semibold">
                                     <i class="fa-solid fa-paw mr-2"></i> Especie
                                 </span>
-                                <span id="animalEspecie" class="text-xl text-gray-100 font-bold"></span>
+                                <span id="animalEspecie" class="text-base sm:text-lg md:text-xl text-gray-100 font-bold"></span>
                             </div>
 
                             <!-- Edad -->
-                            <div class="flex items-center justify-between p-4 bg-white/5 rounded-xl">
-                                <span class="text-xl text-gray-300 font-semibold">
+                            <div class="flex items-center justify-between p-3 md:p-4 bg-white/5 rounded-xl">
+                                <span class="text-base sm:text-lg md:text-xl text-gray-300 font-semibold">
                                     <i class="fa-solid fa-cake-candles mr-2"></i> Edad
                                 </span>
-                                <span id="animalEdad" class="text-xl text-gray-100 font-bold"></span>
+                                <span id="animalEdad" class="text-base sm:text-lg md:text-xl text-gray-100 font-bold"></span>
                             </div>
 
                             <!-- Estado de salud -->
-                            <div class="flex items-center justify-between p-4 bg-white/5 rounded-xl">
-                                <span class="text-xl text-gray-300 font-semibold">
+                            <div class="flex items-center justify-between p-3 md:p-4 bg-white/5 rounded-xl">
+                                <span class="text-base sm:text-lg md:text-xl text-gray-300 font-semibold">
                                     <i class="fa-solid fa-heart-pulse mr-2"></i> Estado de Salud
                                 </span>
-                                <span id="animalEstado" class="text-xl font-bold"></span>
+                                <span id="animalEstado" class="text-base sm:text-lg md:text-xl font-bold"></span>
                             </div>
 
                             <!-- Hábitat -->
-                            <div class="flex items-center justify-between p-4 bg-white/5 rounded-xl">
-                                <span class="text-xl text-gray-300 font-semibold">
+                            <div class="flex items-center justify-between p-3 md:p-4 bg-white/5 rounded-xl">
+                                <span class="text-base sm:text-lg md:text-xl text-gray-300 font-semibold">
                                     <i class="fa-solid fa-earth-americas mr-2"></i> Hábitat
                                 </span>
-                                <span id="animalHabitat" class="text-xl text-gray-100 font-bold"></span>
+                                <span id="animalHabitat" class="text-base sm:text-lg md:text-xl text-gray-100 font-bold"></span>
                             </div>
                         </div>
 
                         <!-- Descripción -->
-                        <div class="mt-8 p-6 bg-white/5 rounded-xl">
-                            <h3 class="text-2xl font-bold text-gray-100 mb-4">
+                        <div class="mt-6 md:mt-8 p-4 md:p-6 bg-white/5 rounded-xl">
+                            <h3 class="text-xl sm:text-2xl font-bold text-gray-100 mb-3 md:mb-4">
                                 <i class="fa-solid fa-info-circle mr-2"></i> Descripción
                             </h3>
-                            <p id="animalDescripcion" class="text-lg text-gray-300 leading-relaxed"></p>
+                            <p id="animalDescripcion" class="text-base sm:text-lg text-gray-300 leading-relaxed"></p>
                         </div>
                     </div>
                 </div>
@@ -129,7 +130,7 @@
                     <div>
                         <h4 class="text-sm font-semibold uppercase tracking-widest text-orange-300 mb-4">Navegación</h4>
                         <ul class="space-y-2 text-base">
-                            <li><a href="index.html" class="hover:text-orange-300 transition-colors flex items-center gap-2"><i
+                            <li><a href="../index.html" class="hover:text-orange-300 transition-colors flex items-center gap-2"><i
                                         class="fa-solid fa-home w-4"></i> Inicio</a></li>
                             <li><a href="habitats.html" class="hover:text-orange-300 transition-colors flex items-center gap-2"><i
                                         class="fa-solid fa-mountain w-4"></i> Hábitats</a></li>

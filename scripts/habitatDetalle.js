@@ -1,12 +1,12 @@
-//Espera a que se cargue todo el HTML antes de ejecutar el código
+// esperar a que cargue antes de ejecutar
 document.addEventListener("DOMContentLoaded", async () => {
   console.log("¡JS de detalle de hábitat conectado correctamente!");
 
-  // Obtener el ID del hábitat de la URL
+  // sacar el id del habitat desde la URL
   const urlParams = new URLSearchParams(window.location.search);
   const habitatId = parseInt(urlParams.get("id"));
 
-  // Elementos de la interfaz
+  // referencias DOM
   const logo = document.getElementById("logo");
   const btnVolverHabitats = document.getElementById("btnVolverHabitats");
   const habitatImagen = document.getElementById("habitatImagen");
@@ -18,14 +18,14 @@ document.addEventListener("DOMContentLoaded", async () => {
   const loadingSpinner = document.getElementById("loadingSpinner");
   const mensajeSinAnimales = document.getElementById("mensajeSinAnimales");
 
-  // Elementos para el modo ELIMINAR
+  // elementos para modo eliminar
   const btnEliminar = document.getElementById("btnEliminar");
   const bannerEliminacion = document.getElementById("bannerEliminacion");
   const btnCancelarModoEliminacion = document.getElementById("btnCancelarModoEliminacion");
 
   let modoEliminacionActivo = false;
 
-  // Activar modo eliminación
+  // modo eliminacion
   btnEliminar.addEventListener("click", () => {
     modoEliminacionActivo = true;
     bannerEliminacion.classList.remove("hidden");
@@ -34,7 +34,6 @@ document.addEventListener("DOMContentLoaded", async () => {
     });
   });
 
-  // Cancelar modo eliminación
   btnCancelarModoEliminacion.addEventListener("click", () => {
     modoEliminacionActivo = false;
     bannerEliminacion.classList.add("hidden");
@@ -43,7 +42,7 @@ document.addEventListener("DOMContentLoaded", async () => {
     });
   });
 
-  // Función para confirmar y eliminar animal
+  // confirmar antes de borrar
   async function confirmarYEliminarAnimal(animal) {
     const result = await Swal.fire({
       title: "¿Estás seguro?",
@@ -58,7 +57,7 @@ document.addEventListener("DOMContentLoaded", async () => {
 
     if (result.isConfirmed) {
       try {
-        const response = await fetch(`http://localhost:8080/animales/${animal.id}`, {
+        const response = await fetch(`${API_BASE_URL}/animales/${animal.id}`, {
           method: "DELETE",
         });
 
@@ -76,7 +75,6 @@ document.addEventListener("DOMContentLoaded", async () => {
             timer: 3000,
             showConfirmButton: false,
           }).then(() => {
-            // Recargar la página para actualizar los datos después de mostrar el mensaje
             location.reload();
           });
         } else {
@@ -93,7 +91,7 @@ document.addEventListener("DOMContentLoaded", async () => {
     }
   }
 
-  // Botones de navegación
+  // navegacion
   logo.addEventListener("click", () => {
     window.location.href = "./index.html";
   });
@@ -102,7 +100,7 @@ document.addEventListener("DOMContentLoaded", async () => {
     window.location.href = "./habitats.html";
   });
 
-  // Funciones para controlar el spinner de carga
+  // spinner
   function mostrarLoading() {
     loadingSpinner.classList.remove("hidden");
     animalList.classList.add("hidden");
@@ -114,8 +112,8 @@ document.addEventListener("DOMContentLoaded", async () => {
   }
 
   try {
-    // Obtener información del hábitat y sus animales en una sola llamada
-    const urlHabitatAnimales = `http://localhost:8080/habitats/${habitatId}/animales`;
+    // traer info del habitat y sus animales
+    const urlHabitatAnimales = `${API_BASE_URL}/habitats/${habitatId}/animales`;
     const response = await fetch(urlHabitatAnimales);
 
     if (!response.ok) {
@@ -124,7 +122,6 @@ document.addEventListener("DOMContentLoaded", async () => {
 
     const data = await response.json();
 
-    // Extraer la información del hábitat y los animales
     const habitat = {
       id: data.id,
       nombre: data.nombre,
@@ -135,7 +132,7 @@ document.addEventListener("DOMContentLoaded", async () => {
 
     const animalesDelHabitat = data.animales || [];
 
-    // Mostrar información del hábitat
+    // mostrar el habitat arriba
     function mostrarInfoHabitat() {
       habitatImagen.src = habitat.imagen_url;
       habitatImagen.alt = habitat.nombre;
@@ -148,19 +145,17 @@ document.addEventListener("DOMContentLoaded", async () => {
       habitatDescripcion.textContent = habitat.descripcion;
     }
 
-    // Función que crea y muestra las tarjetas de animales
+    // crear tarjetas de animales
     function mostrarAnimales() {
       animalList.innerHTML = "";
 
       if (animalesDelHabitat.length === 0) {
-        // Mostrar mensaje si no hay animales
         mensajeSinAnimales.classList.remove("hidden");
         return;
       }
 
       animalList.classList.remove("hidden");
 
-      // Recorrer cada animal y crear una tarjeta para él
       animalesDelHabitat.forEach((animal) => {
         const estadoSalud = animal.estado_salud;
         const esAtencion = estadoSalud.toLowerCase().includes("atención");
@@ -169,7 +164,6 @@ document.addEventListener("DOMContentLoaded", async () => {
         const card = document.createElement("div");
         card.className = "tarjeta-giratoria";
 
-        // Crear el HTML de la tarjeta con todos los datos del animal
         card.innerHTML = `
                 <div class="tarjeta-interna">
                     <div class="tarjeta-frente">
@@ -218,21 +212,20 @@ document.addEventListener("DOMContentLoaded", async () => {
             `;
         animalList.appendChild(card);
 
-        // Agregar listener para click en modo eliminación o navegación
+        // click en tarjeta
         card.addEventListener("click", (e) => {
           if (modoEliminacionActivo) {
             e.preventDefault();
             e.stopPropagation();
             confirmarYEliminarAnimal(animal);
           } else {
-            // Si no está en modo eliminación, navegar a detalle del animal
-            window.location.href = `./animalDetalle.html?id=${animal.id}`;
+            window.location.href = `animalDetalle.html?id=${animal.id}`;
           }
         });
       });
     }
 
-    // Ejecutar las funciones para mostrar la información
+    // ejecutar todo
     mostrarInfoHabitat();
     mostrarLoading();
 
@@ -242,7 +235,6 @@ document.addEventListener("DOMContentLoaded", async () => {
     }, 500);
   } catch (error) {
     console.error("Error:", error);
-    // Si hay error, mostrar mensaje y redirigir
     Swal.fire({
       icon: "error",
       title: "Hábitat no encontrado",
@@ -250,7 +242,7 @@ document.addEventListener("DOMContentLoaded", async () => {
       timer: 3000,
       showConfirmButton: false,
     }).then(() => {
-      window.location.href = "./habitats.html";
+      window.location.href = "habitats.html";
     });
   }
 });
