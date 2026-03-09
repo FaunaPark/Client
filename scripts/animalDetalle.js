@@ -24,7 +24,7 @@ document.addEventListener("DOMContentLoaded", async () => {
 
   // navegacion
   logo.addEventListener("click", () => {
-    window.location.href = "./index.html";
+    window.location.href = "../index.html";
   });
 
   btnVolver.addEventListener("click", () => {
@@ -39,6 +39,15 @@ document.addEventListener("DOMContentLoaded", async () => {
   function obtenerIdDesdeURL() {
     const urlParams = new URLSearchParams(window.location.search);
     return urlParams.get("id");
+  }
+
+  function cargarImagen(url, alt) {
+    return new Promise((resolve) => {
+      animalImagen.onload = () => resolve();
+      animalImagen.onerror = () => resolve();
+      animalImagen.alt = alt;
+      animalImagen.src = url;
+    });
   }
 
   // traer datos del animal desde la API
@@ -77,7 +86,7 @@ document.addEventListener("DOMContentLoaded", async () => {
 
       habitatIdActual = animal.habitat_id;
 
-      mostrarDatosAnimal(animal, habitatNombre);
+      await mostrarDatosAnimal(animal, habitatNombre);
     } catch (error) {
       console.error("Error al cargar el animal:", error);
       Swal.fire({
@@ -92,10 +101,9 @@ document.addEventListener("DOMContentLoaded", async () => {
   }
 
   // poner los datos en la pagina
-  function mostrarDatosAnimal(animal, habitatNombre) {
+  async function mostrarDatosAnimal(animal, habitatNombre) {
     animalTitulo.textContent = animal.especie;
-    animalImagen.src = animal.imagen_url;
-    animalImagen.alt = animal.especie;
+    await cargarImagen(animal.imagen_url, animal.especie);
     animalCategoria.textContent = animal.categoria;
     animalNombre.textContent = animal.nombre;
     animalId.textContent = `#${animal.id}`;
