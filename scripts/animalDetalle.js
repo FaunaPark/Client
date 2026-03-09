@@ -53,12 +53,12 @@ document.addEventListener("DOMContentLoaded", async () => {
           text: "No se especificó un animal válido",
           confirmButtonColor: "#15803d",
         }).then(() => {
-          window.location.href = "./animales.html";
+          window.location.href = "animales.html";
         });
         return;
       }
 
-      const urlAnimal = `http://localhost:8080/animales/${animalIdParam}`;
+      const urlAnimal = `${API_BASE_URL}/animales/${animalIdParam}`;
       const responseAnimal = await fetch(urlAnimal);
 
       if (!responseAnimal.ok) {
@@ -68,7 +68,7 @@ document.addEventListener("DOMContentLoaded", async () => {
       const animal = await responseAnimal.json();
 
       // traer habitats para saber el nombre
-      const urlHabitats = "http://localhost:8080/habitats";
+      const urlHabitats = `${API_BASE_URL}/habitats`;
       const responseHabitats = await fetch(urlHabitats);
       const habitats = await responseHabitats.json();
 
@@ -86,7 +86,7 @@ document.addEventListener("DOMContentLoaded", async () => {
         text: "No se pudo cargar la información del animal",
         confirmButtonColor: "#15803d",
       }).then(() => {
-        window.location.href = "./animales.html";
+        window.location.href = "animales.html";
       });
     }
   }

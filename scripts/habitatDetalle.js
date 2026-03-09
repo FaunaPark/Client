@@ -57,7 +57,7 @@ document.addEventListener("DOMContentLoaded", async () => {
 
     if (result.isConfirmed) {
       try {
-        const response = await fetch(`http://localhost:8080/animales/${animal.id}`, {
+        const response = await fetch(`${API_BASE_URL}/animales/${animal.id}`, {
           method: "DELETE",
         });
 
@@ -113,7 +113,7 @@ document.addEventListener("DOMContentLoaded", async () => {
 
   try {
     // traer info del habitat y sus animales
-    const urlHabitatAnimales = `http://localhost:8080/habitats/${habitatId}/animales`;
+    const urlHabitatAnimales = `${API_BASE_URL}/habitats/${habitatId}/animales`;
     const response = await fetch(urlHabitatAnimales);
 
     if (!response.ok) {
@@ -219,7 +219,7 @@ document.addEventListener("DOMContentLoaded", async () => {
             e.stopPropagation();
             confirmarYEliminarAnimal(animal);
           } else {
-            window.location.href = `./animalDetalle.html?id=${animal.id}`;
+            window.location.href = `animalDetalle.html?id=${animal.id}`;
           }
         });
       });
@@ -242,7 +242,7 @@ document.addEventListener("DOMContentLoaded", async () => {
       timer: 3000,
       showConfirmButton: false,
     }).then(() => {
-      window.location.href = "./habitats.html";
+      window.location.href = "habitats.html";
     });
   }
 });
