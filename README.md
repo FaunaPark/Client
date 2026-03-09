@@ -1,5 +1,4 @@
 # Fauna Park - Cliente Estático
-
 Aplicación web estática para la gestión de un parque de fauna.
 
 ## 📁 Estructura del Proyecto

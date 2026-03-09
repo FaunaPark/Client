@@ -133,7 +133,7 @@ document.addEventListener("DOMContentLoaded", async () => {
   try {
     mostrarLoading();
 
-    // traer info del habitat y sus animales
+    // Este endpoint devuelve el hábitat junto con su colección de animales.
     const urlHabitatAnimales = `${API_BASE_URL}/habitats/${habitatId}/animales`;
     const response = await fetch(urlHabitatAnimales);
 

@@ -53,6 +53,7 @@ document.addEventListener("DOMContentLoaded", async () => {
   // traer datos del animal desde la API
   async function cargarAnimal() {
     try {
+      // Si no llega id, redirigimos al listado para evitar vista rota.
       const animalIdParam = obtenerIdDesdeURL();
 
       if (!animalIdParam) {

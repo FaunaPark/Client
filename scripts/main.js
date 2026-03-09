@@ -6,6 +6,7 @@ document.addEventListener("DOMContentLoaded", async () => {
   console.log("¡JS conectado correctamente!");
 
   try {
+    // pedimos animales y hábitats por separado para poder cruzarlos en el carrusel
     // traer datos desde la API
     const urlHabitats = `${API_BASE_URL}/habitats`;
     const resultHabitats = await fetch(urlHabitats);
@@ -102,6 +103,7 @@ document.addEventListener("DOMContentLoaded", async () => {
       window.location.href = "pages/animales.html";
     });
   } finally {
+    // pase lo que pase, devolvemos visibilidad al documento
     document.documentElement.style.visibility = "visible";
   }
 });

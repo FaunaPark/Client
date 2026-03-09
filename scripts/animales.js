@@ -79,6 +79,7 @@ document.addEventListener("DOMContentLoaded", async () => {
   }
 
   async function renderizarAnimalesConLoading(animalesParaMostrar) {
+    // Evitamos parpadeos: mostramos spinner hasta que las imágenes estén listas.
     mostrarLoading();
     await precargarImagenes(animalesParaMostrar.map((a) => a.imagen_url));
     mostrarAnimales(animalesParaMostrar);

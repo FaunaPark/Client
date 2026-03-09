@@ -262,6 +262,7 @@ document.addEventListener("DOMContentLoaded", async () => {
 
   // ===== ELIMINAR HABITAT =====
   async function confirmarYEliminarHabitat(habitat) {
+    // Confirmación para evitar borrados accidentales desde el modo eliminación.
     const result = await Swal.fire({
       icon: "warning",
       title: "¿Estás seguro?",
