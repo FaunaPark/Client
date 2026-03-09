@@ -93,7 +93,7 @@ document.addEventListener("DOMContentLoaded", async () => {
 
   // navegacion
   logo.addEventListener("click", () => {
-    window.location.href = "./index.html";
+    window.location.href = "../index.html";
   });
 
   btnVolverHabitats.addEventListener("click", () => {
@@ -111,8 +111,29 @@ document.addEventListener("DOMContentLoaded", async () => {
     loadingSpinner.classList.add("hidden");
   }
 
+  function precargarImagenes(urls) {
+    return Promise.all(
+      urls.map(
+        (url) =>
+          new Promise((resolve) => {
+            if (!url) {
+              resolve();
+              return;
+            }
+
+            const img = new Image();
+            img.onload = () => resolve();
+            img.onerror = () => resolve();
+            img.src = url;
+          }),
+      ),
+    );
+  }
+
   try {
-    // traer info del habitat y sus animales
+    mostrarLoading();
+
+    // Este endpoint devuelve el hábitat junto con su colección de animales.
     const urlHabitatAnimales = `${API_BASE_URL}/habitats/${habitatId}/animales`;
     const response = await fetch(urlHabitatAnimales);
 
@@ -225,14 +246,15 @@ document.addEventListener("DOMContentLoaded", async () => {
       });
     }
 
+    await precargarImagenes([
+      habitat.imagen_url,
+      ...animalesDelHabitat.map((animal) => animal.imagen_url),
+    ]);
+
     // ejecutar todo
     mostrarInfoHabitat();
-    mostrarLoading();
-
-    setTimeout(() => {
-      mostrarAnimales();
-      ocultarLoading();
-    }, 500);
+    mostrarAnimales();
+    ocultarLoading();
   } catch (error) {
     console.error("Error:", error);
     Swal.fire({

@@ -22,9 +22,9 @@ body {
 /* Layout principal - index y animales */
 .index,
 .animales {
-  height: 100vh;
+  min-height: 100vh;
   display: grid;
-  grid-template-rows: 13vh 1fr 1fr;
+  grid-template-rows: auto 1fr auto;
 }
 
 @media (max-width: 768px) {

@@ -59,6 +59,33 @@ document.addEventListener("DOMContentLoaded", async () => {
     animalList.classList.remove("hidden");
   }
 
+  function precargarImagenes(urls) {
+    return Promise.all(
+      urls.map(
+        (url) =>
+          new Promise((resolve) => {
+            if (!url) {
+              resolve();
+              return;
+            }
+
+            const img = new Image();
+            img.onload = () => resolve();
+            img.onerror = () => resolve();
+            img.src = url;
+          }),
+      ),
+    );
+  }
+
+  async function renderizarAnimalesConLoading(animalesParaMostrar) {
+    // Evitamos parpadeos: mostramos spinner hasta que las imágenes estén listas.
+    mostrarLoading();
+    await precargarImagenes(animalesParaMostrar.map((a) => a.imagen_url));
+    mostrarAnimales(animalesParaMostrar);
+    ocultarLoading();
+  }
+
   // ===== LLENAR DESPLEGABLES DE HABITATS =====
   function cargarHabitats() {
     selectHabitat.innerHTML = '<option value="">Selecciona un hábitat</option>';
@@ -125,7 +152,7 @@ document.addEventListener("DOMContentLoaded", async () => {
         dataAnimales.length = 0;
         dataAnimales.push(...dataActualizados);
 
-        mostrarAnimales(dataAnimales);
+        await renderizarAnimalesConLoading(dataAnimales);
         cerrarFormulario();
         formAñadirAnimal.reset();
 
@@ -240,7 +267,7 @@ document.addEventListener("DOMContentLoaded", async () => {
         dataAnimales.length = 0;
         dataAnimales.push(...dataActualizados);
 
-        mostrarAnimales(dataAnimales);
+        await renderizarAnimalesConLoading(dataAnimales);
         cerrarFormularioEditar();
 
         modoEdicionActivo = false;
@@ -302,7 +329,7 @@ document.addEventListener("DOMContentLoaded", async () => {
         dataAnimales.length = 0;
         dataAnimales.push(...dataActualizados);
 
-        mostrarAnimales(dataAnimales);
+        await renderizarAnimalesConLoading(dataAnimales);
 
         modoEliminacionActivo = false;
         bannerEliminacion.classList.add("hidden");
@@ -419,17 +446,16 @@ document.addEventListener("DOMContentLoaded", async () => {
 
   // ===== CARGAR AL INICIO =====
   mostrarLoading();
-  setTimeout(() => {
-    mostrarAnimales(dataAnimales);
-    ocultarLoading();
-  }, 500);
+  await precargarImagenes(dataAnimales.map((a) => a.imagen_url));
+  mostrarAnimales(dataAnimales);
+  ocultarLoading();
 
   // ===== BUSCAR POR ESPECIE =====
-  searchInput.addEventListener("input", () => {
+  searchInput.addEventListener("input", async () => {
     const search = searchInput.value.toLowerCase();
     const filtrados = dataAnimales.filter((a) =>
       a.especie.toLowerCase().startsWith(search),
     );
-    mostrarAnimales(filtrados);
+    await renderizarAnimalesConLoading(filtrados);
   });
 });

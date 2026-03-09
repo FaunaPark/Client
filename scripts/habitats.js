@@ -56,6 +56,32 @@ document.addEventListener("DOMContentLoaded", async () => {
     habitatList.classList.remove("hidden");
   }
 
+  function precargarImagenes(urls) {
+    return Promise.all(
+      urls.map(
+        (url) =>
+          new Promise((resolve) => {
+            if (!url) {
+              resolve();
+              return;
+            }
+
+            const img = new Image();
+            img.onload = () => resolve();
+            img.onerror = () => resolve();
+            img.src = url;
+          }),
+      ),
+    );
+  }
+
+  async function renderizarHabitatsConLoading(habitatsParaMostrar) {
+    mostrarLoading();
+    await precargarImagenes(habitatsParaMostrar.map((h) => h.imagen_url));
+    mostrarHabitats(habitatsParaMostrar);
+    ocultarLoading();
+  }
+
   // ===== FORMULARIO AÑADIR =====
   btnAñadir.addEventListener("click", () => {
     formularioAñadir.classList.remove("hidden");
@@ -94,7 +120,7 @@ document.addEventListener("DOMContentLoaded", async () => {
         dataHabitats.length = 0;
         dataHabitats.push(...dataActualizados);
 
-        mostrarHabitats(dataHabitats);
+        await renderizarHabitatsConLoading(dataHabitats);
         cerrarFormulario();
         formAñadirHabitat.reset();
 
@@ -201,7 +227,7 @@ document.addEventListener("DOMContentLoaded", async () => {
         dataHabitats.length = 0;
         dataHabitats.push(...dataActualizados);
 
-        mostrarHabitats(dataHabitats);
+        await renderizarHabitatsConLoading(dataHabitats);
         cerrarFormularioEditar();
 
         modoEdicionActivo = false;
@@ -236,6 +262,7 @@ document.addEventListener("DOMContentLoaded", async () => {
 
   // ===== ELIMINAR HABITAT =====
   async function confirmarYEliminarHabitat(habitat) {
+    // Confirmación para evitar borrados accidentales desde el modo eliminación.
     const result = await Swal.fire({
       icon: "warning",
       title: "¿Estás seguro?",
@@ -263,7 +290,7 @@ document.addEventListener("DOMContentLoaded", async () => {
         dataHabitats.length = 0;
         dataHabitats.push(...dataActualizados);
 
-        mostrarHabitats(dataHabitats);
+        await renderizarHabitatsConLoading(dataHabitats);
 
         modoEliminacionActivo = false;
         bannerEliminacion.classList.add("hidden");
@@ -378,8 +405,7 @@ document.addEventListener("DOMContentLoaded", async () => {
 
   // ===== CARGAR AL INICIO =====
   mostrarLoading();
-  setTimeout(() => {
-    mostrarHabitats(dataHabitats);
-    ocultarLoading();
-  }, 500);
+  await precargarImagenes(dataHabitats.map((h) => h.imagen_url));
+  mostrarHabitats(dataHabitats);
+  ocultarLoading();
 });
