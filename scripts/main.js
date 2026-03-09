@@ -3,11 +3,11 @@ document.addEventListener("DOMContentLoaded", async () => {
   console.log("¡JS conectado correctamente!");
 
   // traer datos desde la API
-  const urlHabitats = "http://localhost:8080/habitats";
+  const urlHabitats = `${API_BASE_URL}/habitats`;
   const resultHabitats = await fetch(urlHabitats);
   const dataHabitats = await resultHabitats.json();
 
-  const urlAnimales = "http://localhost:8080/animales";
+  const urlAnimales = `${API_BASE_URL}/animales`;
   const resultAnimales = await fetch(urlAnimales);
   const dataAnimales = await resultAnimales.json();
 
@@ -56,19 +56,19 @@ document.addEventListener("DOMContentLoaded", async () => {
 
   // navegacion con botones
   btnHabitats.addEventListener("click", () => {
-    window.location.href = "./habitats.html";
+    window.location.href = "pages/habitats.html";
   });
 
   btnAnimales.addEventListener("click", () => {
-    window.location.href = "./animales.html";
+    window.location.href = "pages/animales.html";
   });
 
   // navegacion con clicks en imagenes
   leftImg.addEventListener("click", () => {
-    window.location.href = "./habitats.html";
+    window.location.href = "pages/habitats.html";
   });
 
   rightImg.addEventListener("click", () => {
-    window.location.href = "./animales.html";
+    window.location.href = "pages/animales.html";
   });
 });
