@@ -1,14 +1,43 @@
+/* 
+   Estilos personalizados Fauna Park
+   
+   Contenido:
+   - Estilos base
+   - Layout general
+   - Header y footer
+   - Tarjetas de animales/habitats
+   - Formularios
+   - Banners y botones
+   - Spinner
+*/
+
+
+/* Estilos base */
 body {
   background: linear-gradient(135deg, #1e3a2f 0%, #2c5446 25%, #3a6b5c 50%, #2c5446 75%, #1e3a2f 100%);
   font-family: Arial, sans-serif;
 }
 
-.index {
+
+/* Layout principal - index y animales */
+.index,
+.animales {
   height: 100vh;
   display: grid;
   grid-template-rows: 13vh 1fr 1fr;
 }
 
+@media (max-width: 768px) {
+  .index,
+  .animales {
+    grid-template-rows: auto 1fr auto;
+    min-height: 100vh;
+    height: auto;
+  }
+}
+
+
+/* Header */
 .header {
   display: flex;
   align-items: center;
@@ -16,32 +45,74 @@ body {
   justify-content: space-around;
   border-bottom: 2px solid rgba(251, 146, 60, 0.35);
   box-shadow: 0 4px 6px rgba(0, 0, 0, 0.3);
+  flex-wrap: wrap;
+  padding: 1rem 1rem;
+  gap: 1rem;
+  min-height: fit-content;
 }
 
 .header .left {
   display: flex;
   align-items: center;
+  gap: 0.75rem;
+  flex-wrap: wrap;
 }
 
 .header .right {
   display: flex;
   align-items: center;
-  gap: 15px;
+  gap: 0.5rem;
+  flex-wrap: wrap;
 }
 
+/* header responsive */
+@media (max-width: 640px) {
+  .header {
+    justify-content: center;
+    padding: 0.75rem;
+  }
+  
+  .header .left {
+    justify-content: center;
+    gap: 0.5rem;
+  }
+  
+  .header .right {
+    justify-content: center;
+    width: 100%;
+    gap: 0.5rem;
+  }
+}
+
+
+/* Contenido principal */
+.main {
+  padding-top: 3rem;
+}
+
+@media (max-width: 768px) {
+  .main {
+    padding-top: 2rem;
+  }
+}
+
+@media (max-width: 640px) {
+  .main {
+    padding-top: 1.5rem;
+  }
+}
+
+
+/* Footer */
 .footer {
   background: linear-gradient(135deg, rgba(22, 39, 33, 0.97) 0%, rgba(30, 58, 47, 0.95) 100%);
   border-top: 2px solid rgba(251, 146, 60, 0.35);
   box-shadow: 0 -4px 6px rgba(0, 0, 0, 0.3);
 }
 
-.animales {
-  height: 100vh;
-  display: grid;
-  grid-template-rows: 13vh 1fr 1fr;
-}
 
-/* Estilos para las tarjetas con efecto de giro */
+/* Tarjetas con efecto flip */
+
 .tarjeta-giratoria {
   perspective: 1000px;
   height: 420px;
@@ -60,7 +131,7 @@ body {
   transform: rotateY(180deg);
 }
 
-/* Caras de la tarjeta */
+/* cara frontal y trasera */
 .tarjeta-frente,
 .tarjeta-reverso {
   position: absolute;
@@ -85,7 +156,7 @@ body {
   overflow-y: auto;
 }
 
-/* Cara frontal */
+/* elementos de la tarjeta frontal */
 .tarjeta-contenedor-imagen {
   width: 100%;
   height: 240px;
@@ -131,7 +202,7 @@ body {
   box-shadow: 0 4px 12px rgba(249, 115, 22, 0.3);
 }
 
-/* Cara trasera */
+/* parte trasera de la tarjeta */
 .tarjeta-reverso-cabecera {
   text-align: center;
   margin-bottom: 1.5rem;
@@ -150,6 +221,8 @@ body {
   padding: 0.5rem 0;
   margin-bottom: 1rem;
   border-bottom: 1px solid rgba(255, 255, 255, 0.15);
+  flex-wrap: wrap;
+  gap: 0.5rem;
 }
 
 .tarjeta-detalle-etiqueta {
@@ -165,6 +238,7 @@ body {
   flex: 1;
 }
 
+/* estados de los animales */
 .tarjeta-estado {
   display: inline-block;
   padding: 0.3rem 0.8rem;
@@ -185,7 +259,113 @@ body {
   box-shadow: 0 2px 8px rgba(249, 115, 22, 0.4);
 }
 
-/* Estilos del formulario */
+/* modos edicion y eliminacion */
+.tarjeta-giratoria.modo-edicion {
+  outline: 3px solid #f59e0b;
+  outline-offset: 3px;
+  border-radius: 16px;
+}
+
+.tarjeta-giratoria.modo-edicion:hover {
+  outline-color: #f97316;
+  transform: scale(1.02);
+}
+
+.tarjeta-giratoria.modo-eliminacion {
+  outline: 3px solid #dc2626;
+  outline-offset: 3px;
+  border-radius: 16px;
+}
+
+.tarjeta-giratoria.modo-eliminacion:hover {
+  outline-color: #ef4444;
+  transform: scale(1.02);
+  cursor: pointer;
+}
+
+/* scrollbar custom */
+.tarjeta-reverso::-webkit-scrollbar {
+  width: 10px;
+}
+
+.tarjeta-reverso::-webkit-scrollbar-track {
+  background: rgba(255, 255, 255, 0.1);
+  border-radius: 10px;
+}
+
+.tarjeta-reverso::-webkit-scrollbar-thumb {
+  background: linear-gradient(135deg, #34d399, #22c55e, #fb923c);
+  border-radius: 10px;
+  border: 2px solid rgba(255, 255, 255, 0.1);
+}
+
+.tarjeta-reverso::-webkit-scrollbar-thumb:hover {
+  background: linear-gradient(135deg, #10b981, #16a34a, #f97316);
+}
+
+/* responsive tarjetas */
+@media (max-width: 768px) {
+  .tarjeta-giratoria {
+    height: 380px;
+  }
+  
+  .tarjeta-contenedor-imagen {
+    height: 200px;
+  }
+}
+
+@media (max-width: 640px) {
+  .tarjeta-giratoria {
+    height: 360px;
+  }
+  
+  .tarjeta-contenedor-imagen {
+    height: 180px;
+  }
+  
+  .tarjeta-contenido {
+    padding: 1rem;
+  }
+  
+  .tarjeta-titulo {
+    font-size: 1.2rem;
+  }
+  
+  .tarjeta-subtitulo {
+    font-size: 0.9rem;
+  }
+  
+  .tarjeta-reverso {
+    padding: 1.25rem;
+  }
+  
+  .tarjeta-reverso-titulo {
+    font-size: 1.3rem;
+  }
+  
+  .tarjeta-reverso-cabecera {
+    margin-bottom: 1rem;
+    padding-bottom: 0.75rem;
+  }
+  
+  .tarjeta-detalle {
+    padding: 0.4rem 0;
+    margin-bottom: 0.75rem;
+  }
+  
+  .tarjeta-detalle-etiqueta {
+    font-size: 0.85rem;
+    min-width: 120px;
+  }
+  
+  .tarjeta-detalle-valor {
+    font-size: 0.875rem;
+  }
+}
+
+
+/* Formularios */
+
 .formulario-overlay {
   position: fixed;
   top: 0;
@@ -213,6 +393,7 @@ body {
   box-shadow: 0 20px 50px rgba(0, 0, 0, 0.5);
 }
 
+/* partes del formulario */
 .formulario-cabecera {
   display: flex;
   justify-content: space-between;
@@ -232,7 +413,7 @@ body {
   margin-top: 2rem;
 }
 
-/* Estilos de los campos del formulario */
+/* inputs del form */
 .form-grupo {
   margin-bottom: 1.5rem;
 }
@@ -261,6 +442,89 @@ body {
   outline: none;
   border-color: #5b7942;
 }
+
+/* formularios responsive */
+@media (max-width: 640px) {
+  .formulario-contenido {
+    width: 95%;
+    max-height: 95vh;
+    border-radius: 12px;
+  }
+  
+  .formulario-cabecera {
+    padding: 1rem 1.25rem;
+  }
+  
+  .formulario-cabecera h2 {
+    font-size: 1.5rem;
+  }
+  
+  .formulario-cuerpo {
+    padding: 1.25rem;
+  }
+  
+  .formulario-pie {
+    flex-direction: column-reverse;
+    gap: 0.75rem;
+  }
+  
+  .formulario-pie button {
+    width: 100%;
+  }
+  
+  .form-grupo {
+    margin-bottom: 1.25rem;
+  }
+  
+  .form-grupo label {
+    font-size: 0.9rem;
+  }
+  
+  .form-grupo input,
+  .form-grupo select,
+  .form-grupo textarea {
+    padding: 0.625rem;
+    font-size: 0.9rem;
+  }
+}
+
+
+/* Banners de edicion/eliminacion */
+
+.banner-edicion {
+  background: linear-gradient(135deg, #f59e0b, #f97316, #fb923c);
+  color: white;
+  padding: 1rem 2rem;
+  border-radius: 12px;
+  margin-bottom: 1.5rem;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  box-shadow: 0 6px 16px rgba(245, 158, 11, 0.4);
+  border: 2px solid rgba(255, 255, 255, 0.2);
+  gap: 1rem;
+  flex-wrap: wrap;
+}
+
+.banner-edicion.hidden {
+  display: none;
+}
+
+/* banners responsive */
+@media (max-width: 640px) {
+  .banner-edicion {
+    padding: 0.75rem 1rem;
+    flex-direction: column;
+    text-align: center;
+  }
+  
+  .banner-edicion p {
+    margin-bottom: 0.5rem;
+  }
+}
+
+
+/* Botones */
 
 .btn-primario {
   padding: 0.75rem 1.5rem;
@@ -297,24 +561,6 @@ body {
   box-shadow: 0 6px 16px rgba(107, 114, 128, 0.5);
 }
 
-/* Banner modo edición */
-.banner-edicion {
-  background: linear-gradient(135deg, #f59e0b, #f97316, #fb923c);
-  color: white;
-  padding: 1rem 2rem;
-  border-radius: 12px;
-  margin-bottom: 1.5rem;
-  display: flex;
-  justify-content: space-between;
-  align-items: center;
-  box-shadow: 0 6px 16px rgba(245, 158, 11, 0.4);
-  border: 2px solid rgba(255, 255, 255, 0.2);
-}
-
-.banner-edicion.hidden {
-  display: none;
-}
-
 .btn-cancelar-modo {
   padding: 0.5rem 1rem;
   background: white;
@@ -325,6 +571,7 @@ body {
   cursor: pointer;
   transition: all 0.3s;
   box-shadow: 0 2px 8px rgba(0, 0, 0, 0.2);
+  white-space: nowrap;
 }
 
 .btn-cancelar-modo:hover {
@@ -332,32 +579,23 @@ body {
   box-shadow: 0 4px 12px rgba(0, 0, 0, 0.3);
 }
 
-/* Tarjetas en modo edición */
-.tarjeta-giratoria.modo-edicion {
-  outline: 3px solid #f59e0b;
-  outline-offset: 3px;
-  border-radius: 16px;
+/* botones responsive */
+@media (max-width: 640px) {
+  .btn-primario,
+  .btn-secundario {
+    padding: 0.625rem 1.25rem;
+    font-size: 0.9rem;
+  }
+  
+  .btn-cancelar-modo {
+    padding: 0.4rem 0.75rem;
+    font-size: 0.875rem;
+  }
 }
 
-.tarjeta-giratoria.modo-edicion:hover {
-  outline-color: #f97316;
-  transform: scale(1.02);
-}
-
-/* Tarjetas en modo eliminación */
-.tarjeta-giratoria.modo-eliminacion {
-  outline: 3px solid #dc2626;
-  outline-offset: 3px;
-  border-radius: 16px;
-}
-
-.tarjeta-giratoria.modo-eliminacion:hover {
-  outline-color: #ef4444;
-  transform: scale(1.02);
-  cursor: pointer;
-}
 
 /* Spinner de carga */
+
 .loading-spinner {
   display: flex;
   flex-direction: column;
@@ -382,6 +620,33 @@ body {
   box-shadow: 0 0 20px rgba(249, 115, 22, 0.3);
 }
 
+.loading-text {
+  color: #ffffff;
+  font-size: 1.125rem;
+  font-weight: 500;
+}
+
+/* spinner responsive */
+@media (max-width: 640px) {
+  .loading-spinner {
+    padding: 40px 15px;
+    gap: 15px;
+  }
+  
+  .spinner {
+    width: 48px;
+    height: 48px;
+    border-width: 5px;
+  }
+  
+  .loading-text {
+    font-size: 1rem;
+  }
+}
+
+
+/* Animaciones */
+
 @keyframes spin {
   0% {
     transform: rotate(0deg);
@@ -389,30 +654,4 @@ body {
   100% {
     transform: rotate(360deg);
   }
-}
-
-.loading-text {
-  color: #ffffff;
-  font-size: 1.125rem;
-  font-weight: 500;
-}
-
-/* Scrollbar personalizado para tarjetas */
-.tarjeta-reverso::-webkit-scrollbar {
-  width: 10px;
-}
-
-.tarjeta-reverso::-webkit-scrollbar-track {
-  background: rgba(255, 255, 255, 0.1);
-  border-radius: 10px;
-}
-
-.tarjeta-reverso::-webkit-scrollbar-thumb {
-  background: linear-gradient(135deg, #34d399, #22c55e, #fb923c);
-  border-radius: 10px;
-  border: 2px solid rgba(255, 255, 255, 0.1);
-}
-
-.tarjeta-reverso::-webkit-scrollbar-thumb:hover {
-  background: linear-gradient(135deg, #10b981, #16a34a, #f97316);
 }

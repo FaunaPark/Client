@@ -1,15 +1,14 @@
-// Espera a que se cargue todo el HTML antes de ejecutar el código
+// esperar a que cargue antes de ejecutar
 document.addEventListener("DOMContentLoaded", async () => {
   console.log("¡JS de detalle de animal conectado correctamente!");
 
-  // Elementos del DOM
+  // referencias DOM
   const logo = document.getElementById("logo");
   const btnVolver = document.getElementById("btnVolver");
   const btnIrHabitat = document.getElementById("btnIrHabitat");
   const loadingSpinner = document.getElementById("loadingSpinner");
   const animalDetalle = document.getElementById("animalDetalle");
-
-  // Elementos donde se mostrarán los datos del animal
+  
   const animalTitulo = document.getElementById("animalTitulo");
   const animalImagen = document.getElementById("animalImagen");
   const animalCategoria = document.getElementById("animalCategoria");
@@ -21,10 +20,9 @@ document.addEventListener("DOMContentLoaded", async () => {
   const animalHabitat = document.getElementById("animalHabitat");
   const animalDescripcion = document.getElementById("animalDescripcion");
 
-  // Variable para guardar el habitat_id del animal
   let habitatIdActual = null;
 
-  // Event listeners para navegación
+  // navegacion
   logo.addEventListener("click", () => {
     window.location.href = "./index.html";
   });
@@ -34,21 +32,20 @@ document.addEventListener("DOMContentLoaded", async () => {
   });
 
   btnIrHabitat.addEventListener("click", () => {
-      window.location.href = `./habitatDetalle.html?id=${habitatIdActual}`;
+    window.location.href = `./habitatDetalle.html?id=${habitatIdActual}`;
   });
 
-  // Función para obtener el ID del animal desde la URL
+  // obtener id desde la URL
   function obtenerIdDesdeURL() {
     const urlParams = new URLSearchParams(window.location.search);
     return urlParams.get("id");
   }
 
-  // Función para cargar los datos del animal
+  // traer datos del animal desde la API
   async function cargarAnimal() {
     try {
       const animalIdParam = obtenerIdDesdeURL();
 
-      // Si no hay ID en la URL, redirigir a la página de animales
       if (!animalIdParam) {
         Swal.fire({
           icon: "error",
@@ -61,7 +58,6 @@ document.addEventListener("DOMContentLoaded", async () => {
         return;
       }
 
-      // Hacer fetch del animal específico
       const urlAnimal = `http://localhost:8080/animales/${animalIdParam}`;
       const responseAnimal = await fetch(urlAnimal);
 
@@ -71,19 +67,16 @@ document.addEventListener("DOMContentLoaded", async () => {
 
       const animal = await responseAnimal.json();
 
-      // Hacer fetch de los hábitats para obtener el nombre del hábitat
+      // traer habitats para saber el nombre
       const urlHabitats = "http://localhost:8080/habitats";
       const responseHabitats = await fetch(urlHabitats);
       const habitats = await responseHabitats.json();
 
-      // Buscar el hábitat del animal
       const habitat = habitats.find((h) => h.id === animal.habitat_id);
       const habitatNombre = habitat ? habitat.nombre : "Sin hábitat asignado";
 
-      // Guardar el habitat_id para el botón
       habitatIdActual = animal.habitat_id;
 
-      // Mostrar los datos del animal
       mostrarDatosAnimal(animal, habitatNombre);
     } catch (error) {
       console.error("Error al cargar el animal:", error);
@@ -98,31 +91,18 @@ document.addEventListener("DOMContentLoaded", async () => {
     }
   }
 
-  // Función para mostrar los datos del animal en la página
+  // poner los datos en la pagina
   function mostrarDatosAnimal(animal, habitatNombre) {
-    // Título de la página
     animalTitulo.textContent = animal.especie;
-
-    // Imagen
     animalImagen.src = animal.imagen_url;
     animalImagen.alt = animal.especie;
-
-    // Categoría
     animalCategoria.textContent = animal.categoria;
-
-    // Nombre
     animalNombre.textContent = animal.nombre;
-
-    // ID
     animalId.textContent = `#${animal.id}`;
-
-    // Especie
     animalEspecie.textContent = animal.especie;
-
-    // Edad
     animalEdad.textContent = `${animal.edad} ${animal.edad === 1 ? "año" : "años"}`;
 
-    // Estado de salud con estilo
+    // color segun estado
     const estadoSalud = animal.estado_salud;
     const esAtencion = estadoSalud.toLowerCase().includes("atención");
     animalEstado.textContent = estadoSalud;
@@ -130,18 +110,14 @@ document.addEventListener("DOMContentLoaded", async () => {
       ? "text-xl font-bold text-red-400"
       : "text-xl font-bold text-green-400";
 
-    // Hábitat
     animalHabitat.textContent = habitatNombre;
-
-    // Descripción
     animalDescripcion.textContent =
       animal.descripcion || "Sin descripción disponible";
 
-    // Ocultar spinner y mostrar contenido
+    // ocultar spinner y mostrar todo
     loadingSpinner.classList.add("hidden");
     animalDetalle.classList.remove("hidden");
   }
 
-  // Cargar el animal al iniciar la página
   await cargarAnimal();
 });
