@@ -1,0 +1,128 @@
+<!DOCTYPE html>
+<html lang="es">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Fauna Park</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link rel="stylesheet" href="styles/styles.css">
+    <script src="scripts/config.js"></script>
+    <script src="scripts/main.js"></script>
+    <link rel="icon" href="assets/favicon.ico" type="image/png">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css">
+
+</head>
+
+<body class="index">
+    <!-- Cabecera -->
+    <div class="header">
+        <div class="left">
+            <img class="h-20 md:h-28 lg:h-36" src="assets/logoHorizontal.png">
+            <span
+                class="text-3xl sm:text-4xl md:text-5xl lg:text-7xl font-serif bg-clip-text text-transparent bg-gradient-to-r from-emerald-400 via-green-500 to-orange-400">Fauna
+                Park</span>
+        </div>
+        <div class="right">
+            <button id="btnHabitats"
+                class="px-3 py-2 sm:px-4 sm:py-3 md:px-6 md:py-4 rounded-lg md:rounded-xl bg-gradient-to-br from-emerald-600 to-green-700 text-white text-sm md:text-base font-semibold shadow-lg hover:scale-105 hover:shadow-2xl active:scale-95 transition-all duration-300 border border-emerald-400/30">
+                <i class="fa-solid fa-mountain"></i> <span class="hidden sm:inline">Hábitats</span></button>
+            <button id="btnAnimales"
+                class="px-3 py-2 sm:px-4 sm:py-3 md:px-6 md:py-4 rounded-lg md:rounded-xl bg-gradient-to-br from-orange-500 to-orange-600 text-white text-sm md:text-base font-semibold shadow-lg hover:scale-105 hover:shadow-2xl active:scale-95 transition-all duration-300 border border-orange-300/30">
+                <i class="fa-solid fa-paw"></i> <span class="hidden sm:inline">Animales</span></button>
+        </div>
+    </div>
+
+    <!-- Carrusel -->
+    <div class="main">
+        <h1 class="text-3xl sm:text-4xl md:text-5xl lg:text-7xl text-center font-serif mt-4 md:mt-6 px-4 bg-clip-text text-transparent bg-gradient-to-r from-white via-emerald-100 to-orange-100">GESTION DEL PARQUE</h1>
+
+        <div class="grid grid-cols-1 md:grid-cols-2 mt-6 md:mt-11 mx-4 md:mx-10 gap-4 md:gap-8">
+            <div class="aspect-[5/3] md:aspect-[5/3]">
+                <img id="leftImage" src=""
+                    class="w-full h-full object-cover filter grayscale hover:grayscale-0 transition-all duration-700 hover:scale-105 rounded-lg">
+            </div>
+            <div class="aspect-[5/3] md:aspect-[5/3]">
+                <img id="rightImage" src=""
+                    class="w-full h-full object-cover filter grayscale hover:grayscale-0 transition-all duration-700 hover:scale-105 rounded-lg">
+            </div>
+        </div>
+    </div>
+
+    <!-- Footer -->
+    <div class="footer mt-16">
+        <footer class="text-white">
+            <div class="max-w-6xl mx-auto px-8 py-10">
+                <div class="grid grid-cols-1 md:grid-cols-4 gap-8">
+
+                    <div>
+                        <h4 class="text-sm font-semibold uppercase tracking-widest text-orange-300 mb-4">Fauna Park</h4>
+                        Espacio dedicado a la conservación y cuidado de animales salvajes.
+                    </div>
+
+                    <div>
+                        <h4 class="text-sm font-semibold uppercase tracking-widest text-orange-300 mb-4">Navegación</h4>
+                        <ul class="space-y-2 text-base">
+                            <li><a href="index.html" class="hover:text-orange-300 transition-colors flex items-center gap-2"><i
+                                        class="fa-solid fa-home w-4"></i> Inicio</a></li>
+                            <li><a href="pages/habitats.html" class="hover:text-orange-300 transition-colors flex items-center gap-2"><i
+                                        class="fa-solid fa-mountain w-4"></i> Hábitats</a></li>
+                            <li><a href="pages/animales.html" class="hover:text-orange-300 transition-colors flex items-center gap-2"><i
+                                        class="fa-solid fa-paw w-4"></i> Animales</a></li>
+                        </ul>
+                    </div>
+
+                    <div>
+                        <h4 class="text-sm font-semibold uppercase tracking-widest text-orange-300 mb-4">Contacto</h4>
+                        <ul class="space-y-2 text-base">
+                            <li class="flex items-center gap-2"><i class="fa-solid fa-location-dot w-4"></i> <a href="https://www.google.com/maps/search/?api=1&query=C.+de+Violeta+Parra+9+50015+Zaragoza" target="_blank" class="hover:text-orange-300 transition-colors">Av. Naturaleza, 123</a></li>
+                            <li class="flex items-center gap-2"><i class="fa-solid fa-phone w-4"></i> <a href="tel:+34123456789" class="hover:text-orange-300 transition-colors">+34 123 456 789</a>
+                            </li>
+                            <li class="flex items-center gap-2"><i class="fa-solid fa-envelope w-4"></i>
+                                <a href="mailto:info@faunapark.es" class="hover:text-orange-300 transition-colors">info@faunapark.es</a>
+                            </li>
+                            <li class="flex items-center gap-2"><i class="fa-solid fa-clock w-4"></i> Lun-Dom: 9:00 –
+                                20:00
+                            </li>
+                        </ul>
+                    </div>
+
+                    <div>
+                        <h4 class="text-sm font-semibold uppercase tracking-widest text-orange-300 mb-4">Síguenos</h4>
+                        <div class="flex gap-3">
+                            <a href="https://www.facebook.com/faunapark" target="_blank"
+                                class="w-10 h-10 rounded-lg bg-green-800 flex items-center justify-center hover:bg-orange-500 hover:text-white transition-all duration-200">
+                                <i class="fa-brands fa-facebook-f"></i>
+                            </a>
+                            <a href="https://www.instagram.com/faunapark" target="_blank"
+                                class="w-10 h-10 rounded-lg bg-green-800 flex items-center justify-center hover:bg-orange-500 hover:text-white transition-all duration-200">
+                                <i class="fa-brands fa-instagram"></i>
+                            </a>
+                            <a href="https://twitter.com/faunapark" target="_blank"
+                                class="w-10 h-10 rounded-lg bg-green-800 flex items-center justify-center hover:bg-orange-500 hover:text-white transition-all duration-200">
+                                <i class="fa-brands fa-x-twitter"></i>
+                            </a>
+                            <a href="https://www.youtube.com/@faunapark" target="_blank"
+                                class="w-10 h-10 rounded-lg bg-green-800 flex items-center justify-center hover:bg-orange-500 hover:text-white transition-all duration-200">
+                                <i class="fa-brands fa-youtube"></i>
+                            </a>
+                        </div>
+                    </div>
+
+                </div>
+
+                <div
+                    class="mt-10 pt-6 border-t border-green-800 flex flex-col md:flex-row justify-between items-center gap-3 text-sm text-white">
+                    <span>© 2026 Fauna Park · Todos los derechos reservados</span>
+                    <div class="flex gap-5">
+                        <a href="#" class="hover:text-orange-300 transition-colors">Privacidad</a>
+                        <a href="#" class="hover:text-orange-300 transition-colors">Cookies</a>
+                        <a href="#" class="hover:text-orange-300 transition-colors">Aviso legal</a>
+                    </div>
+                </div>
+            </div>
+        </footer>
+    </div>
+</body>
+
+</html>
